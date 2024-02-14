@@ -31,6 +31,9 @@ class User extends Authenticatable
         ->withPivot('status')
         ->withTimestamps();
     }
+    public function likes() {
+        return $this->hasMany(Like::class);
+    }
 
     /**
      * The attributes that are mass assignable.
