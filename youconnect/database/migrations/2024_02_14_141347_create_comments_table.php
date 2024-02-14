@@ -11,15 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('comments', function (Blueprint $table) {
             $table->id();
-            $table->string('username');
-            $table->string('email')->unique();
+            $table->foreignId('post_id')->constrained('posts', 'id');
+            $table->foreignId('user_id')->constrained('users', 'id');
+            $table->text('content');
             $table->timestamps();
-            $table->text('bio');
-            $table->string('avatar');
-            $table->timestamp('email_verified_at')->nullable();
-            $table->rememberToken();
         });
     }
 
@@ -28,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('comments');
     }
 };
