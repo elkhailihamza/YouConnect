@@ -14,4 +14,7 @@ class Friendship extends Model
         ->withPivot('status')
         ->withTimestamps();
     }
+    public function status() {
+        return $this->belongsTo(Status::class);
+    }
 }
