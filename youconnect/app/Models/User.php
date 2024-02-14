@@ -13,9 +13,10 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    public function messages()
-    {
-        return $this->hasMany(Message::class);
+    public function messages() {
+        return $this->belongsToMany(Message::class, 'sender_id', 'receiver_id')
+        ->withPivot('content')
+        ->withTimestamps();
     }
     public function comments()
     {

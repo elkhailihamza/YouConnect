@@ -9,6 +9,8 @@ class Message extends Model
 {
     use HasFactory;
     public function users() {
-        return $this->belongsTo(User::class);
+        return $this->belongsToMany(User::class, 'sender_id', 'receiver_id')
+        ->withPivot('content')
+        ->withTimestamps();
     }
 }
