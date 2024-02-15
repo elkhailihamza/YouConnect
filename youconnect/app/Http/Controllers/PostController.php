@@ -4,10 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Composer;
 use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
+    public function index()
+    {
+        $posts = Post::all();
+        return view('main.index', compact('posts'));
+    }
+    public function view(Post $post)
+    {
+        return view('main.view', compact('post'));
+    }
     public function create()
     {
         return view('main.create');

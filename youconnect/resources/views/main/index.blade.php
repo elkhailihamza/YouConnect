@@ -143,27 +143,25 @@
 
     <div id="publication" class="  w-1/2 max-h-screen overflow-y-auto overflow-hidden dark:text-white">
         <div class="space-y-4">
-            <div class="border rounded">
-                <img src="https://via.placeholder.com/600x400" alt="Post" class="w-full h-auto rounded-t">
-                <div class="p-4">
-                    <h2 class="font-bold text-lg">Titre de la publication 1</h2>
-                    <p>Description de la publication 1...</p>
+            @if (isset($posts) && $posts->isNotEmpty())
+            @foreach ($posts as $post)
+            <a href="{{ route('main.posts.view', ['post' => $post]) }}">
+                <div class="border rounded">
+                    <div class="w-full flex items-center justify-center bg-white dark:bg-gray-800">
+                        <img src="{{ asset('storage/'.$post->cover) }}" alt="Post" class="w-96 h-auto rounded-t">
+                    </div>
+                    <div class="p-4 border-t-2">
+                        <h2 class="font-bold text-lg">{{ $post->title }}</h2>
+                        <p>{{ $post->content }}</p>
+                    </div>
                 </div>
+            </a>
+            @endforeach
+            @else
+            <div>
+                <h1>No posts available at the time!</h1>
             </div>
-            <div class="border rounded">
-                <img src="https://via.placeholder.com/600x400" alt="Post" class="w-full h-auto rounded-t">
-                <div class="p-4">
-                    <h2 class="font-bold text-lg">Titre de la publication 2</h2>
-                    <p>Description de la publication 2...</p>
-                </div>
-            </div>
-            <div class="border rounded">
-                <img src="https://via.placeholder.com/600x400" alt="Post" class="w-full h-auto rounded-t">
-                <div class="p-4">
-                    <h2 class="font-bold text-lg">Titre de la publication 3</h2>
-                    <p>Description de la publication 3...</p>
-                </div>
-            </div>
+            @endif
         </div>
     </div>
 
@@ -180,7 +178,6 @@
             <ul>
                 <li>
                     <div class="flex items-center mb-2">
-                        <img src="https://via.placeholder.com/50" alt="User" class="w-8 h-8 rounded-full mr-2">
                         <span>Nom de l'utilisateur 1</span>
                     </div>
                 </li>
