@@ -4,23 +4,34 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
     public function create()
     {
-        return view('main.view');
+        return view('main.create');
     }
     public function store(Request $request)
     {
         $data = $request->validate([
             'title' => 'required',
+            'user_id' => 'required',
             'content' => 'required',
             'cover' => 'nullable|mimes:jpeg,png,jpg,gif|file|max:2048',
         ]);
 
+        $data['user_id'] = Auth::user();
+
+        if ($request->hasFile('cover')) {
+            $imagePath = $request->file('cover')->store('uploads', 'public');
+            $data['cover'] = $imagePath;
+        }
+
+
+        $data['user_id'] = Auth::user()->id;
         Post::create($data);
-        return redirect(route('main.post'))->withSuccess('Successfully made post!');
+        return redirect(route('main.posts'))->withSuccess('Successfully made post!');
     }
     public function edit(Post $post)
     {

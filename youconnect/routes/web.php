@@ -23,14 +23,17 @@ Route::get('/', function () {
 Route::get('/explore', function () {
     return view('explore');
 })->name('explore');
-Route::controller(PostController::class)->group(function() {
-    Route::get('/post/create', 'create')->name('main.post.create');
+Route::middleware(['auth'])->group(function () {
+    Route::controller(PostController::class)->group(function () {
+        Route::get('/posts/create', 'create')->name('main.posts');
+        Route::post('/posts/create/store', 'store')->name('main.posts.store');
+    });
 });
 
-Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
-
-Route::post('/register', [AuthController::class, 'register']);
-
-Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
-
-Route::post('/login', [AuthController::class, 'login']);
+Route::controller(AuthController::class)->group(function () {
+    Route::get('/register', 'showRegister')->name('register');
+    Route::post('/register', 'register');
+    Route::get('/login', 'showLogin')->name('login');
+    Route::post('/login', 'login');
+    Route::post('/logout', 'logout')->middleware(['auth'])->name('logout');
+});
