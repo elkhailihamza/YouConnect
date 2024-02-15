@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('posts', function (Blueprint $table) {
-            $table->string('title')->before('content');
-            $table->string('cover')->after('content');
+            $table->string('title')->after('user_id');
+            $table->string('cover')->after('content')->nullable();
         });
     }
 
