@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -16,12 +17,15 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('index');
-})->name('index');
+    return view('main.index');
+})->name('main.index');
 
-Route::get('/explore', function () {
-    return view('explore');
-})->name('explore');
+Route::controller(PostController::class)->group(function() {
+    Route::get('/explore', 'index')->name('main.explore');
+    Route::get('/explore/{post}/view', 'view')->name('main.explore.post');
+});
+
+Route::post('/register', [AuthController::class, 'index']);
 
 Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
 
