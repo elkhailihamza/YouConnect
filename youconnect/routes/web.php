@@ -30,10 +30,10 @@ Route::middleware(['auth'])->group(function () {
     });
 });
 
-Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
-
-Route::post('/register', [AuthController::class, 'register']);
-
-Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
-
-Route::post('/login', [AuthController::class, 'login']);
+Route::controller(AuthController::class)->group(function () {
+    Route::get('/register', 'showRegister')->name('register');
+    Route::post('/register', 'register');
+    Route::get('/login', 'showLogin')->name('login');
+    Route::post('/login', 'login');
+    Route::post('/logout', 'logout')->middleware(['auth'])->name('logout');
+});
