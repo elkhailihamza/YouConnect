@@ -23,8 +23,11 @@ Route::get('/', function () {
 Route::get('/explore', function () {
     return view('explore');
 })->name('explore');
-Route::controller(PostController::class)->group(function() {
-    Route::get('/post/create', 'create')->name('main.post.create');
+Route::middleware(['auth'])->group(function () {
+    Route::controller(PostController::class)->group(function () {
+        Route::get('/posts/create', 'create')->name('main.posts');
+        Route::post('/posts/create/store', 'store')->name('main.posts.store');
+    });
 });
 
 Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
