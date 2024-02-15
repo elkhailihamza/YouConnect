@@ -18,32 +18,40 @@
     }
 
     @media (max-width: 767px) {
-    #left-sidebar {
-        display: none;
-    }
-
+        #left-sidebar,
     #right-sidebar {
         display: none;
+        width: 100%;
+        
     }
+
+    #left-sidebar.open,
+    #right-sidebar.open {
+        display: block;
+    }
+        
+
+    
     #publication{
         width: 100%;
     }
+    .hidden{
+        display: none;
+    }
+
+    
+    
+    
 }
   </style>
   
 @section('content')
     <div class="container mx-auto py-4 flex  " style="height: 88vh;">
-        <button id="toggle-left-sidebar" class="fixed left-0  p-4 bg-green-900 text-white md:hidden">
-            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-            </svg>
-        </button>
         
         
-        <div id="left-sidebar" class="w-1/4 mr-4" style="z-index: -999;">
-            <aside id="logo-sidebar"
-        class="fixed top-0 left-0 z-40 w-80 h-screen pt-20 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700"
-        aria-label="Sidebar">
+        {{--left-sidebar--}}
+        <div id="left-sidebar" class=" w-1/4 mr-4 hidden md:block" style="z-index: -999;">
+            
         <div class="h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-gray-800">
             <ul class="space-y-2 font-medium">
                 <li>
@@ -137,9 +145,10 @@
                 </li>
             </ul>
         </div>
-    </aside>
+    
         </div>
-        
+                {{--Content a centre de page : les publication --}}
+
         <div id="publication" class="  w-1/2 max-h-screen overflow-y-auto overflow-hidden dark:text-white">
             <div class="space-y-4">
                 <div class="border rounded">
@@ -163,17 +172,44 @@
                         <p>Description de la publication 3...</p>
                     </div>
                 </div>
+                <div class="border rounded">
+                    <img src="https://via.placeholder.com/600x400" alt="Post" class="w-full h-auto rounded-t">
+                    <div class="p-4">
+                        <h2 class="font-bold text-lg">Titre de la publication 3</h2>
+                        <p>Description de la publication 3...</p>
+                    </div>
+                </div>
+                <div class="border rounded">
+                    <img src="https://via.placeholder.com/600x400" alt="Post" class="w-full h-auto rounded-t">
+                    <div class="p-4">
+                        <h2 class="font-bold text-lg">Titre de la publication 3</h2>
+                        <p>Description de la publication 3...</p>
+                    </div>
+                </div>
+                <div class="border rounded">
+                    <img src="https://via.placeholder.com/600x400" alt="Post" class="w-full h-auto rounded-t">
+                    <div class="p-4">
+                        <h2 class="font-bold text-lg">Titre de la publication 3</h2>
+                        <p>Description de la publication 3...</p>
+                    </div>
+                </div>
+                <div class="border rounded">
+                    <img src="https://via.placeholder.com/600x400" alt="Post" class="w-full h-auto rounded-t">
+                    <div class="p-4">
+                        <h2 class="font-bold text-lg">Titre de la publication 3</h2>
+                        <p>Description de la publication 3...</p>
+                    </div>
+                </div>
             </div>
         </div>
 
        
         
-        <button id="toggle-right-sidebar" class="fixed right-0  p-4 bg-gray-900 text-white md:hidden">
-            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-            </svg>
-        </button>
-        <div id="right-sidebar" class="w-1/4 ml-4 dark:text-white dark:bg-gray-800">
+        
+        
+        {{--right-sidebar--}}
+
+        <div id="right-sidebar" class="w-1/4 ml-4 hidden md:block overflow-y-scroll dark:text-white dark:bg-gray-800">
             <div class="border rounded p-4 mb-4">
                 <h2 class="font-bold mb-2">Utilisateurs à suivre</h2>
                 <ul>
@@ -195,21 +231,148 @@
                             <span>Nom de l'utilisateur 3</span>
                         </div>
                     </li>
+                    <li>
+                        <div class="flex items-center mb-2">
+                            <img src="https://via.placeholder.com/50" alt="User" class="w-8 h-8 rounded-full mr-2">
+                            <span>Nom de l'utilisateur 3</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="flex items-center mb-2">
+                            <img src="https://via.placeholder.com/50" alt="User" class="w-8 h-8 rounded-full mr-2">
+                            <span>Nom de l'utilisateur 3</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="flex items-center mb-2">
+                            <img src="https://via.placeholder.com/50" alt="User" class="w-8 h-8 rounded-full mr-2">
+                            <span>Nom de l'utilisateur 3</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="flex items-center mb-2">
+                            <img src="https://via.placeholder.com/50" alt="User" class="w-8 h-8 rounded-full mr-2">
+                            <span>Nom de l'utilisateur 3</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="flex items-center mb-2">
+                            <img src="https://via.placeholder.com/50" alt="User" class="w-8 h-8 rounded-full mr-2">
+                            <span>Nom de l'utilisateur 3</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="flex items-center mb-2">
+                            <img src="https://via.placeholder.com/50" alt="User" class="w-8 h-8 rounded-full mr-2">
+                            <span>Nom de l'utilisateur 3</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="flex items-center mb-2">
+                            <img src="https://via.placeholder.com/50" alt="User" class="w-8 h-8 rounded-full mr-2">
+                            <span>Nom de l'utilisateur 3</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="flex items-center mb-2">
+                            <img src="https://via.placeholder.com/50" alt="User" class="w-8 h-8 rounded-full mr-2">
+                            <span>Nom de l'utilisateur 3</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="flex items-center mb-2">
+                            <img src="https://via.placeholder.com/50" alt="User" class="w-8 h-8 rounded-full mr-2">
+                            <span>Nom de l'utilisateur 3</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="flex items-center mb-2">
+                            <img src="https://via.placeholder.com/50" alt="User" class="w-8 h-8 rounded-full mr-2">
+                            <span>Nom de l'utilisateur 3</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="flex items-center mb-2">
+                            <img src="https://via.placeholder.com/50" alt="User" class="w-8 h-8 rounded-full mr-2">
+                            <span>Nom de l'utilisateur 3</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="flex items-center mb-2">
+                            <img src="https://via.placeholder.com/50" alt="User" class="w-8 h-8 rounded-full mr-2">
+                            <span>Nom de l'utilisateur 3</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="flex items-center mb-2">
+                            <img src="https://via.placeholder.com/50" alt="User" class="w-8 h-8 rounded-full mr-2">
+                            <span>Nom de l'utilisateur 3</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="flex items-center mb-2">
+                            <img src="https://via.placeholder.com/50" alt="User" class="w-8 h-8 rounded-full mr-2">
+                            <span>Nom de l'utilisateur 3</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="flex items-center mb-2">
+                            <img src="https://via.placeholder.com/50" alt="User" class="w-8 h-8 rounded-full mr-2">
+                            <span>Nom de l'utilisateur 3</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="flex items-center mb-2">
+                            <img src="https://via.placeholder.com/50" alt="User" class="w-8 h-8 rounded-full mr-2">
+                            <span>Nom de l'utilisateur 3</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="flex items-center mb-2">
+                            <img src="https://via.placeholder.com/50" alt="User" class="w-8 h-8 rounded-full mr-2">
+                            <span>Nom de l'utilisateur 3</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="flex items-center mb-2">
+                            <img src="https://via.placeholder.com/50" alt="User" class="w-8 h-8 rounded-full mr-2">
+                            <span>Nom de l'utilisateur 3</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="flex items-center mb-2">
+                            <img src="https://via.placeholder.com/50" alt="User" class="w-8 h-8 rounded-full mr-2">
+                            <span>Nom de l'utilisateur 3</span>
+                        </div>
+                    </li>
                 </ul>
             </div>
         </div>
+        
     </div>
-@endsection
-
-
-@section('scripts')
     <script>
-        document.getElementById('toggle-left-sidebar').addEventListener('click', function() {
-            document.getElementById('left-sidebar').classList.toggle('hidden');
-        });
+        const leftSidebar = document.getElementById('left-sidebar');
+        const rightSidebar = document.getElementById('right-sidebar');
+        const toggleLeftSidebar = document.getElementById('toggle-left-sidebar');
+        const toggleRightSidebar = document.getElementById('toggle-right-sidebar');
+        const toggllepublication = document.getElementById('publication');
+    
+        toggleLeftSidebar.addEventListener('click', () => {
+            leftSidebar.classList.toggle('open');
+            toggllepublication.classList.toggle('hidden');
+            
 
-        document.getElementById('toggle-right-sidebar').addEventListener('click', function() {
-            document.getElementById('right-sidebar').classList.toggle('hidden');
+        });
+    
+        toggleRightSidebar.addEventListener('click', () => {
+            
+            rightSidebar.classList.toggle('open');
+            toggllepublication.classList.toggle('hidden');
+             
+           
         });
     </script>
+    
 @endsection
+
+
