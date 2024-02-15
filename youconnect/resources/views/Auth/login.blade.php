@@ -2,6 +2,7 @@
 
 @section('content')
 
+
 <div class="container mx-auto mt-5">
     <div class="max-w-lg mx-auto my-10 bg-white dark:bg-gray-800 p-5 rounded-lg shadow-md mt-24">
         
