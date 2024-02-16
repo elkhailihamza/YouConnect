@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 
@@ -16,18 +17,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('main.index');
-})->name('index');
+Route::get('/',[HomeController::class, 'index'])->name('index');
+Route::get('/home',[HomeController::class, 'index'])->name('index');
 
 Route::get('/explore', function () {
     return view('explore');
 })->name('explore');
-
 Route::middleware(['auth'])->group(function () {
     Route::controller(PostController::class)->group(function () {
-        Route::get('/', 'index')->name('index');
-        Route::get('/posts/{post}/view', 'view')->name('main.posts.view');
         Route::get('/posts/create', 'create')->name('main.posts');
         Route::post('/posts/create/store', 'store')->name('main.posts.store');
     });
