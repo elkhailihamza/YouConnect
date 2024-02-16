@@ -11,8 +11,7 @@ class PostController extends Controller
 {
     public function index()
     {
-        $posts = Post::all();
-        return view('main.index', compact('posts'));
+        return view('index', compact('posts'));
     }
     public function view(Post $post)
     {
@@ -41,7 +40,7 @@ class PostController extends Controller
 
         $data['user_id'] = Auth::user()->id;
         Post::create($data);
-        return redirect(route('main.posts'))->withSuccess('Successfully made post!');
+        return redirect(route('index'))->withSuccess('Successfully made post!');
     }
     public function edit(Post $post)
     {
