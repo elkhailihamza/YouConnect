@@ -88,12 +88,11 @@
                 </ul>
             </div>
         </div>
-        <button id="toggle-right-sidebar" class="fixed right-0 p-4  bg-gray-900 text-white md:hidden">
+        <button id="toggle-right-sidebar" class="fixed right-0 p-4   text-white md:hidden">
             <i class="fa-solid fa-user-group"></i>
         </button>
-        <button id="toggle-left-sidebar" class="fixed left-0 p-4 bg-gray-900 text-white md:hidden">
-            <i class="fa-solid fa-right-from-bracket"></i>
-        </button>
+        <button id="toggle-left-sidebar" class="fixed left-0 p-5  text-white md:hidden">
+            <i class="fa-solid fa-gears"></i>        </button>
     </nav>
     <div style="height: 65px;"></div>
     @yield('content')

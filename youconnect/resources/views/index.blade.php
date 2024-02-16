@@ -4,7 +4,7 @@
 
 <style>
     ::-webkit-scrollbar {
-      width: 2px;
+    display: none;  
     }
   
     ::-webkit-scrollbar-thumb {
@@ -13,7 +13,7 @@
     }
   
     ::-webkit-scrollbar-track {
-      background-color: #e5cf0c;
+      background-color: #959595;
       border-radius: 4px;
     }
 
@@ -28,21 +28,24 @@
     #left-sidebar.open,
     #right-sidebar.open {
         display: block;
+        margin-top: 30px; 
+        margin-right: 10px;
+    }
+    #left-sidebar.close,
+    #right-sidebar.close {
+        display: none;
     }
         
 
     
     #publication{
         width: 100%;
+        margin-top: 30px;
     }
     .hidden{
         display: none;
     }
-
-    
-    
-    
-}
+       }
   </style>
   
 @section('content')
@@ -149,7 +152,8 @@
         </div>
                 {{--Content a centre de page : les publication --}}
 
-        <div id="publication" class="  w-1/2 max-h-screen overflow-y-auto overflow-hidden dark:text-white">
+        <div id="publication" class="  w-1/2 max-h-screen overflow-y-auto overflow-hidden dark:text-white ">
+            
             <div class="space-y-4">
                 <div class="border rounded">
                     <img src="https://via.placeholder.com/600x400" alt="Post" class="w-full h-auto rounded-t">
@@ -213,139 +217,24 @@
             <div class="border rounded p-4 mb-4">
                 <h2 class="font-bold mb-2">Utilisateurs à suivre</h2>
                 <ul>
-                    <li>
-                        <div class="flex items-center mb-2">
+                    @foreach ($users as $user)
+                    <li class="mb-2 flex justify-between items-center">
+                        <div class="flex items-center">
                             <img src="https://via.placeholder.com/50" alt="User" class="w-8 h-8 rounded-full mr-2">
-                            <span>Nom de l'utilisateur 1</span>
+                            <span class="dark:text-white">{{ $user->username }}</span>
                         </div>
+                        <div><button class="bg-red-500 hover:bg-red-700 text-white font-bold px-2  rounded-full">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold p-1 rounded-full">
+                            <i class="fa-solid fa-user-plus"></i>
+                        </button></div>
+                        
                     </li>
-                    <li>
-                        <div class="flex items-center mb-2">
-                            <img src="https://via.placeholder.com/50" alt="User" class="w-8 h-8 rounded-full mr-2">
-                            <span>Nom de l'utilisateur 2</span>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="flex items-center mb-2">
-                            <img src="https://via.placeholder.com/50" alt="User" class="w-8 h-8 rounded-full mr-2">
-                            <span>Nom de l'utilisateur 3</span>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="flex items-center mb-2">
-                            <img src="https://via.placeholder.com/50" alt="User" class="w-8 h-8 rounded-full mr-2">
-                            <span>Nom de l'utilisateur 3</span>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="flex items-center mb-2">
-                            <img src="https://via.placeholder.com/50" alt="User" class="w-8 h-8 rounded-full mr-2">
-                            <span>Nom de l'utilisateur 3</span>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="flex items-center mb-2">
-                            <img src="https://via.placeholder.com/50" alt="User" class="w-8 h-8 rounded-full mr-2">
-                            <span>Nom de l'utilisateur 3</span>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="flex items-center mb-2">
-                            <img src="https://via.placeholder.com/50" alt="User" class="w-8 h-8 rounded-full mr-2">
-                            <span>Nom de l'utilisateur 3</span>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="flex items-center mb-2">
-                            <img src="https://via.placeholder.com/50" alt="User" class="w-8 h-8 rounded-full mr-2">
-                            <span>Nom de l'utilisateur 3</span>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="flex items-center mb-2">
-                            <img src="https://via.placeholder.com/50" alt="User" class="w-8 h-8 rounded-full mr-2">
-                            <span>Nom de l'utilisateur 3</span>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="flex items-center mb-2">
-                            <img src="https://via.placeholder.com/50" alt="User" class="w-8 h-8 rounded-full mr-2">
-                            <span>Nom de l'utilisateur 3</span>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="flex items-center mb-2">
-                            <img src="https://via.placeholder.com/50" alt="User" class="w-8 h-8 rounded-full mr-2">
-                            <span>Nom de l'utilisateur 3</span>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="flex items-center mb-2">
-                            <img src="https://via.placeholder.com/50" alt="User" class="w-8 h-8 rounded-full mr-2">
-                            <span>Nom de l'utilisateur 3</span>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="flex items-center mb-2">
-                            <img src="https://via.placeholder.com/50" alt="User" class="w-8 h-8 rounded-full mr-2">
-                            <span>Nom de l'utilisateur 3</span>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="flex items-center mb-2">
-                            <img src="https://via.placeholder.com/50" alt="User" class="w-8 h-8 rounded-full mr-2">
-                            <span>Nom de l'utilisateur 3</span>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="flex items-center mb-2">
-                            <img src="https://via.placeholder.com/50" alt="User" class="w-8 h-8 rounded-full mr-2">
-                            <span>Nom de l'utilisateur 3</span>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="flex items-center mb-2">
-                            <img src="https://via.placeholder.com/50" alt="User" class="w-8 h-8 rounded-full mr-2">
-                            <span>Nom de l'utilisateur 3</span>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="flex items-center mb-2">
-                            <img src="https://via.placeholder.com/50" alt="User" class="w-8 h-8 rounded-full mr-2">
-                            <span>Nom de l'utilisateur 3</span>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="flex items-center mb-2">
-                            <img src="https://via.placeholder.com/50" alt="User" class="w-8 h-8 rounded-full mr-2">
-                            <span>Nom de l'utilisateur 3</span>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="flex items-center mb-2">
-                            <img src="https://via.placeholder.com/50" alt="User" class="w-8 h-8 rounded-full mr-2">
-                            <span>Nom de l'utilisateur 3</span>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="flex items-center mb-2">
-                            <img src="https://via.placeholder.com/50" alt="User" class="w-8 h-8 rounded-full mr-2">
-                            <span>Nom de l'utilisateur 3</span>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="flex items-center mb-2">
-                            <img src="https://via.placeholder.com/50" alt="User" class="w-8 h-8 rounded-full mr-2">
-                            <span>Nom de l'utilisateur 3</span>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="flex items-center mb-2">
-                            <img src="https://via.placeholder.com/50" alt="User" class="w-8 h-8 rounded-full mr-2">
-                            <span>Nom de l'utilisateur 3</span>
-                        </div>
-                    </li>
+                    @endforeach
                 </ul>
+                
+                
             </div>
         </div>
         
@@ -360,6 +249,12 @@
         toggleLeftSidebar.addEventListener('click', () => {
             leftSidebar.classList.toggle('open');
             toggllepublication.classList.toggle('hidden');
+
+            if (rightSidebar.classList.contains('open')) {
+            rightSidebar.classList.remove('open');
+            publication.classList.add('hidden');
+        }
+            
             
 
         });
@@ -368,7 +263,13 @@
             
             rightSidebar.classList.toggle('open');
             toggllepublication.classList.toggle('hidden');
-             
+
+
+            if (leftSidebar.classList.contains('open')) {
+            leftSidebar.classList.remove('open');
+            publication.classList.add('hidden');
+        }
+                         
            
         });
     </script>
