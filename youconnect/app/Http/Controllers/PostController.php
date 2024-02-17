@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Composer;
 use Illuminate\Support\Facades\Auth;
@@ -17,31 +18,30 @@ class PostController extends Controller
     {
         return view('main.view', compact('post'));
     }
-    public function create()
+    public function createPost()
     {
         return view('main.create');
     }
+
     public function store(Request $request)
     {
         $data = $request->validate([
             'title' => 'required',
-            'user_id' => 'required',
             'content' => 'required',
             'cover' => 'nullable|mimes:jpeg,png,jpg,gif|file|max:2048',
         ]);
 
-        $data['user_id'] = Auth::user();
+        $data['user_id'] = Auth::user()->id;
 
         if ($request->hasFile('cover')) {
             $imagePath = $request->file('cover')->store('uploads', 'public');
             $data['cover'] = $imagePath;
         }
 
-
-        $data['user_id'] = Auth::user()->id;
         Post::create($data);
         return redirect(route('index'))->withSuccess('Successfully made post!');
     }
+
     public function edit(Post $post)
     {
         return view('main.post.edit', ['post' => $post]);
@@ -54,25 +54,21 @@ class PostController extends Controller
             'cover' => 'nullable|mimes:jpeg,png,jpg,gif|file|max:2048',
         ]);
 
-        if ($request->hasFile('book_cover')) {
+        if ($request->hasFile('cover')) {
             if ($post->cover && file_exists(storage_path('app/public/' . $post->cover))) {
                 unlink(storage_path('app/public/' . $post->cover));
             }
-            $imagePath = $request->file('book_cover')->store('uploads', 'public');
+            $imagePath = $request->file('cover')->store('uploads', 'public');
             $data['cover'] = $imagePath;
         }
 
         $post->update($data);
-        return redirect(route('main.post'))->withSuccess('Successfully updated post!');
+        return redirect(route('main.posts'))->withSuccess('Successfully updated post!');
     }
+
     public function destroy(Post $post)
     {
-        $found = Post::find($post);
-        if (!$found) {
-            return redirect(route('main.post'))->withErrors('Post was not found!');
-        }
-
         $post->delete();
-        return redirect(route('main.post'))->withErrors('Deleted successfully!');
+        return redirect(route('main.posts'))->withSuccess('Deleted successfully!');
     }
 }

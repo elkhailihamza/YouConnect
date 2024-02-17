@@ -99,11 +99,11 @@
                 </ul>
             </div>
         </div>
-        <button id="toggle-right-sidebar" class="fixed right-0 p-4 text-white hidden-min-900">
+        <button id="toggle-right-sidebar" class="fixed right-0 top-16 p-4 text-white md:hidden">
             <i class="fa-solid fa-user-group"></i>
         </button>
-        <button id="toggle-left-sidebar" class="fixed left-0 p-5  text-white hidden-min-900">
-            <i class="fa-solid fa-gears"></i> </button>
+        <button id="toggle-left-sidebar" class="fixed left-0 top-16 p-5   text-white md:hidden">
+            <i class="fa-solid fa-message"></i>        </button>
     </nav>
     <div class="container-xl flex justify-between">
         <div class="fixed inset-0 mt-[70px] w-60">
