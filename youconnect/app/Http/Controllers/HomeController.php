@@ -14,6 +14,6 @@ class HomeController extends Controller
         $user_id = Auth::id();
         $users = User::inRandomOrder()->paginate(10)->whereNotIn('id', [$user_id]);
         $posts = Post::all();
-        return view('index', compact(['users', 'posts']));
+        return view('main.index', compact(['users', 'posts']));
     }
 }
