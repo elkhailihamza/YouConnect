@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\LikeController;
 use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 
@@ -23,11 +24,13 @@ Route::get('/home',[HomeController::class, 'index'])->name('index');
 Route::get('/explore', function () {
     return view('explore');
 })->name('explore');
+
 Route::middleware(['auth'])->group(function () {
     Route::controller(PostController::class)->group(function () {
         Route::get('/posts/create', 'createPost')->name('main.posts');
         Route::post('/posts/create/store', 'store')->name('main.posts.store');
     });
+    Route::post('/posts/{post}/like', [LikeController::class, 'store'])->name('post.like');
 });
 
 Route::controller(AuthController::class)->group(function () {

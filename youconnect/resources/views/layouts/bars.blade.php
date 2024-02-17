@@ -3,9 +3,8 @@
     <div class="fixed inset-0 mt-[70px] w-60">
         {{--left-sidebar--}}
         <div id="left-sidebar"
-            class="w-72 h-full left-0 mr-4 hidden md:block border-r-2 border-gray-600 dark:border-white"
-            style="border-right-width: 1px;">
-            <div class="h-full px-3 py-2 pb-4 overflow-y-auto bg-white dark:bg-gray-800">
+            class=" w-60 h-full left-0 mr-4 hidden md:block border-gray-600 dark:border-white">
+            <div class="h-full px-3 py-2 pb-4 overflow-y-auto bg-white dark:bg-[#18191A]">
                 <ul class="space-y-2 font-medium">
                     <div class="text-center w-full p-1">
                         <h1 class="text-gray-800 dark:text-white">Conversations</h1>
@@ -24,8 +23,7 @@
     </div>
     {{--right-sidebar--}}
     <div id="right-sidebar"
-        class="fixed justify-self-end h-full right-0 mt-[65px] hidden md:block overflow-y-scroll dark:text-white dark:bg-gray-800 border-gray-600 dark:border-white"
-        style="border-left-width: 1px;">
+        class="fixed justify-self-end h-full right-0 mt-[65px] hidden md:block overflow-y-scroll dark:text-white dark:bg-[#18191A]">
         <div class="rounded w-60 p-4 mb-4 text-center">
             <h2 class="font-bold mb-2">Utilisateurs à suivre</h2>
             <ul>

@@ -16,7 +16,7 @@
     </script>
 </head>
 
-<body class="bg-blue-30 dark:bg-gray-900" style="height: 100vh;">
+<body class="bg-blue-30 dark:bg-[#18191A]" style="height: 100vh;">
     @include('layouts.nav')
     @include('layouts.bars')
     <div class="container-xl flex justify-center">
