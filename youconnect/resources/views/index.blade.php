@@ -28,8 +28,7 @@
         #left-sidebar.open,
         #right-sidebar.open {
             display: block;
-            margin-top: 30px;
-            margin-right: 10px;
+            border-left: none;
         }
 
         #left-sidebar.close,
