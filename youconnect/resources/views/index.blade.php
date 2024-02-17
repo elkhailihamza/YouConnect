@@ -122,14 +122,15 @@
 <div id="right-sidebar"
     class="fixed justify-self-end h-full right-0 mt-[65px] hidden md:block overflow-y-scroll dark:text-white dark:bg-gray-800 border-gray-600 dark:border-white"
     style="border-left-width: 1px;">
-    <div class="rounded w-60 p-4 mb-4 text-center">
+    <div class="rounded w-72 p-4 mb-4 text-center">
         <h2 class="font-bold mb-2">Utilisateurs à suivre</h2>
         <ul>
             @foreach ($users as $user)
-            <li class="mb-2 flex justify-between items-center">
-                <div class="flex items-center">
+            <li class="mb-2 flex justify-between">
+                <div class="flex self-start justify-self-start">
                     <img src="https://via.placeholder.com/50" alt="User" class="w-8 h-8 rounded-full mr-2">
-                    <span class="dark:text-white">{{ $user->username }}</span>
+                    <div class="overflow-hidden overflow-ellipsis w-32"><span class="dark:text-white truncate">{{
+                            $user->username }}</span></div>
                 </div>
                 <div><button class="bg-red-500 hover:bg-red-700 text-white font-bold px-2  rounded-full">
                         <i class="fa-solid fa-xmark"></i>
