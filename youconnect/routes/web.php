@@ -17,8 +17,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+<<<<<<< HEAD
 Route::get('/',[PostController::class, 'index'])->name('index');
 Route::get('/home',[PostController::class, 'index'])->name('index');
+=======
+Route::get('/',[HomeController::class, 'index'])->name('index');
+Route::get('/home',[HomeController::class, 'index'])->name('index');
+>>>>>>> 15b1eece574a8e40042e8a9a8835076cb268c66f
 
 Route::get('/explore', function () {
     return view('explore');

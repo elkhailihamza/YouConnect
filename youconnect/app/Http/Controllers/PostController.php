@@ -5,10 +5,19 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Composer;
 use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
+    public function index()
+    {
+        return view('index', compact('posts'));
+    }
+    public function view(Post $post)
+    {
+        return view('main.view', compact('post'));
+    }
     public function createPost()
     {
         return view('main.create');
@@ -30,22 +39,13 @@ class PostController extends Controller
         }
 
         Post::create($data);
-        return redirect(route('main.posts'))->withSuccess('Successfully made post!');
+        return redirect(route('index'))->withSuccess('Successfully made post!');
     }
 
     public function edit(Post $post)
     {
         return view('main.post.edit', ['post' => $post]);
     }
-
-    public function index()
-    {
-        $posts = Post::all();
-        $users = User::inRandomOrder()->get();
-
-        return view('main.index', compact('posts','users'));
-    }
-
     public function update(Request $request, Post $post)
     {
         $data = $request->validate([
