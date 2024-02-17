@@ -17,6 +17,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/',[PostController::class, 'index'])->name('index');
+Route::get('/home',[PostController::class, 'index'])->name('index');
+Route::get('/', function () {
+    return view('main.index');
+})->name('index');
 Route::get('/',[HomeController::class, 'index'])->name('index');
 Route::get('/home',[HomeController::class, 'index'])->name('index');
 
@@ -25,7 +30,7 @@ Route::get('/explore', function () {
 })->name('explore');
 Route::middleware(['auth'])->group(function () {
     Route::controller(PostController::class)->group(function () {
-        Route::get('/posts/create', 'create')->name('main.posts');
+        Route::get('/posts/create', 'createPost')->name('main.posts');
         Route::post('/posts/create/store', 'store')->name('main.posts.store');
     });
 });

@@ -11,5 +11,5 @@ class HomeController extends Controller
     {
         $users = User::inRandomOrder()->get();
 
-        return view('index', compact('users'));
+        return view('main.index', compact('users'));
     }}
