@@ -46,7 +46,7 @@
 @section('content')
 
 {{--Content a centre de page : les publication --}}
-<div class="mt-28 max-h-screencontainer-xl overflow-y-auto dark:text-white">
+<div id="publication" class="mt-28 max-h-screencontainer-xl overflow-y-auto dark:text-white">
     <div class="space-y-4">
         @if (isset($posts) && $posts->isNotEmpty())
         @foreach ($posts as $post)

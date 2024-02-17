@@ -8,6 +8,13 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @vite('resources/css/app.css')
+    <style>
+        @media (min-width: 900px) {
+            .hidden-min-900 {
+                display: none;
+            }
+        }
+    </style>
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -15,7 +22,7 @@
     </script>
 </head>
 
-<body class="  bg-blue-30 dark:bg-gray-900" style="height: 100vh;">
+<body class="bg-blue-30 dark:bg-gray-900" style="height: 100vh;">
     <nav
         class="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
         <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
@@ -92,16 +99,17 @@
                 </ul>
             </div>
         </div>
-        <button id="toggle-right-sidebar" class="fixed right-0 p-4   text-white md:hidden">
+        <button id="toggle-right-sidebar" class="fixed right-0 p-4 text-white hidden-min-900">
             <i class="fa-solid fa-user-group"></i>
         </button>
-        <button id="toggle-left-sidebar" class="fixed left-0 p-5  text-white md:hidden">
+        <button id="toggle-left-sidebar" class="fixed left-0 p-5  text-white hidden-min-900">
             <i class="fa-solid fa-gears"></i> </button>
     </nav>
     <div class="container-xl flex justify-center">
         <div class="fixed inset-0 mt-[70px] w-60">
             {{--left-sidebar--}}
-            <div id="left-sidebar" class="w-60 h-full left-0 mr-4 hidden md:block border-r-2 border-gray-600 dark:border-white"
+            <div id="left-sidebar"
+                class="w-60 h-full left-0 mr-4 hidden md:block border-r-2 border-gray-600 dark:border-white"
                 style="border-right-width: 1px;">
                 <div class="h-full px-3 py-2 pb-4 overflow-y-auto bg-white dark:bg-gray-800">
                     <ul class="space-y-2 font-medium">
