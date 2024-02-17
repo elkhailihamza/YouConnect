@@ -32,6 +32,8 @@
         display: block;
         margin-top: 30px; 
         margin-right: 10px;
+       
+        transition: transform 0.3s;
     }
     #left-sidebar.close,
     #right-sidebar.close {
@@ -157,20 +159,19 @@
                 </li>
             </ul>
         </div>
-    
-        </div>
+</div>
                 {{--Content a centre de page : les publication --}}
 
-                <div id="publication" class="w-1/2 h-full max-h-screen border-none overflow-y-auto overflow-hidden dark:text-white ">
+                <div id="publication" class="w-1/2 h-full max-h-screen overflow-y-auto overflow-hidden dark:text-white ">
                     <div class="space-y-4">
                         @if (isset($posts) && $posts->isNotEmpty())
                             @foreach ($posts as $post)
                                 <a data-modal-target="default-modal-{{$post->id}}" data-modal-toggle="default-modal">
-                                    <div class="border rounded">
+                                    <div class="border-0 rounded">
                                         <div class="w-full flex items-center justify-center bg-white dark:bg-gray-800">
                                             <img src="{{ asset('storage/'.$post->cover) }}" alt="Post" class="w-96 h-auto rounded-t">
                                         </div>
-                                        <div class="p-4 border-t-2">
+                                        <div class="p-4 border-0">
                                             <h2 class="font-bold text-lg">{{ $post->title }}</h2>
                                             <p>{{ $post->content }}</p>
                                         </div>
@@ -247,7 +248,7 @@
         {{--right-sidebar--}}
 
         <div id="right-sidebar" class="w-1/4 ml-4 hidden md:block overflow-y-scroll dark:text-white dark:bg-gray-800 ">
-            <div class="border rounded p-4 mb-4">
+            <div class="border-0 rounded p-4 mb-4">
                 <h2 class="font-bold mb-2">Utilisateurs à suivre</h2>
                 <ul>
                     @foreach ($users as $user)
