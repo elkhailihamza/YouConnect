@@ -30,7 +30,9 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/posts/create', 'createPost')->name('main.posts');
         Route::post('/posts/create/store', 'store')->name('main.posts.store');
     });
-    Route::post('/posts/{post}/like', [LikeController::class, 'store'])->name('post.like');
+    Route::post('/posts/like', [LikeController::class, 'store'])->name('post.like');
+    Route::post('/posts/unlike', [LikeController::class, 'destroy'])->name('post.unlike');
+    Route::post('/posts/check-like/{post}', [LikeController::class, 'checkLike'])->name('post.check.like');
 });
 
 Route::controller(AuthController::class)->group(function () {
