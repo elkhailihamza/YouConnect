@@ -1,10 +1,6 @@
 import './bootstrap';
 
 
-tailwind.config = {
-    darkMode: 'class',
-}
-
 const leftSidebar = document.getElementById('left-sidebar');
 const rightSidebar = document.getElementById('right-sidebar');
 const toggleLeftSidebar = document.getElementById('toggle-left-sidebar');

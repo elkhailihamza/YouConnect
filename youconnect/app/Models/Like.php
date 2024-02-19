@@ -14,4 +14,9 @@ class Like extends Model
     public function likes() {
         return $this->hasMany(Like::class);
     }
+
+    protected $fillable = [
+        'post_id',
+        'user_id',
+    ];
 }

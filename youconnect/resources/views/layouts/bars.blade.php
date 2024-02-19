@@ -1,11 +1,10 @@
 @if(!in_array(Route::currentRouteName(), ['login', 'register', 'main.posts']))
-<div class="container-xl flex justify-between">
+<div class="container-xl flex justify-between no-scrollbar">
     <div class="fixed inset-0 mt-[70px] w-60">
         {{--left-sidebar--}}
         <div id="left-sidebar"
-            class="w-72 h-full left-0 mr-4 hidden md:block border-r-2 border-gray-600 dark:border-white"
-            style="border-right-width: 1px;">
-            <div class="h-full px-3 py-2 pb-4 overflow-y-auto bg-white dark:bg-gray-800">
+            class=" w-[275px] h-full left-0 mr-4 hidden md:block border-gray-600 dark:border-white">
+            <div class="h-full px-3 py-2 pb-4 overflow-y-auto dark:bg-[#18191A]">
                 <ul class="space-y-2 font-medium">
                     <div class="text-center w-full p-1">
                         <h1 class="text-gray-800 dark:text-white">Conversations</h1>
@@ -24,16 +23,15 @@
     </div>
     {{--right-sidebar--}}
     <div id="right-sidebar"
-        class="fixed justify-self-end h-full right-0 mt-[65px] hidden md:block overflow-y-scroll dark:text-white dark:bg-gray-800 border-gray-600 dark:border-white"
-        style="border-left-width: 1px;">
-        <div class="rounded w-60 p-4 mb-4 text-center">
+        class="fixed justify-self-end h-full right-0 mt-[65px] hidden md:block dark:text-white dark:bg-[#18191A]">
+        <div class="rounded w-[275px] p-4 mb-4 text-center">
             <h2 class="font-bold mb-2">Utilisateurs à suivre</h2>
             <ul>
                 @foreach ($users as $user)
                 <li
                     class="mb-2 flex justify-between items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                    <div class="flex self-start justify-self-start w-40">
-                        <img src="https://via.placeholder.com/50" alt="User" class="w-8 h-8 rounded-full mr-2">
+                    <div class="flex self-start justify-self-start w-[200px]">
+                        <img src="https://via.placeholder.com/50" alt="User" class="w-[35px] h-[35px] rounded-full mr-2">
                         <div class="overflow-hidden overflow-ellipsis"><span class="dark:text-white truncate">{{
                                 $user->username }}</span></div>
                     </div>
