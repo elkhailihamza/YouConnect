@@ -3,8 +3,8 @@
     <div class="fixed inset-0 mt-[70px] w-60">
         {{--left-sidebar--}}
         <div id="left-sidebar"
-            class="w-72 h-full left-0 mr-4 hidden md:block border-r-2 border-gray-600 dark:border-white"
-            style="border-right-width: 1px;">
+            class="w-72 h-full left-0 mr-4 hidden md:block   dark:border-white"
+            >
             <div class="h-full px-3 py-2 pb-4 overflow-y-auto bg-white dark:bg-gray-800">
                 <ul class="space-y-2 font-medium">
                     <div class="text-center w-full p-1">
@@ -15,9 +15,17 @@
                         <a href="#"
                             class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                             <img src="https://via.placeholder.com/50" alt="User" class="w-5 h-5 rounded-full mr-2">
-                            <span class="flex-1 ms-3 whitespace-nowrap">Conversation 3</span>
+                            <span class="flex-1 ms-3 whitespace-nowrap">Conversation 1</span>
                         </a>
                     </li>
+                    <li>
+                        <a href="#"
+                            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                            <img src="https://via.placeholder.com/50" alt="User" class="w-5 h-5 rounded-full mr-2">
+                            <span class="flex-1 ms-3 whitespace-nowrap">Conversation 2</span>
+                        </a>
+                    </li>
+                    
                 </ul>
             </div>
         </div>
@@ -25,18 +33,19 @@
     {{--right-sidebar--}}
     <div id="right-sidebar"
         class="fixed justify-self-end h-full right-0 mt-[65px] hidden md:block overflow-y-scroll dark:text-white dark:bg-gray-800 border-gray-600 dark:border-white"
-        style="border-left-width: 1px;">
-        <div class="rounded w-60 p-4 mb-4 text-center">
-            <h2 class="font-bold mb-2">Utilisateurs à suivre</h2>
+       >
+        <div class="rounded w-30 p-4 mb-4 text-center">
+            <h2 class="font-bold mb-2">Suggested for you</h2>
+            <hr>
             <ul>
                 @foreach ($users as $user)
-                <li
+                 <li
                     class="mb-2 flex justify-between items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                     <div class="flex self-start justify-self-start w-40">
                         <img src="https://via.placeholder.com/50" alt="User" class="w-8 h-8 rounded-full mr-2">
-                        <div class="overflow-hidden overflow-ellipsis"><span class="dark:text-white truncate">{{
-                                $user->username }}</span></div>
-                    </div>
+                        <a style="cursor: pointer;" href="http://127.0.0.1:8000/chatify/{{$user->id}}"><div class="overflow-hidden overflow-ellipsis"><span class="dark:text-white truncate">{{
+                                $user->name }}</span></div>
+                    </div></a>
                     <div class="relative inline-block text-left">
 
                         <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown"
