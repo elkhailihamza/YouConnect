@@ -10,15 +10,15 @@ document.addEventListener('DOMContentLoaded', function () {
                     if (response.data.hasLiked) {
                         likeButtonElement.classList.add('liked');
                     } else {
-                        // If the user hasn't liked the post, proceed with liking/unliking logic
                         if (likeButtonElement.classList.contains('liked')) {
                             // Unlike the post
                             axios.post('/posts/unlike', { post_id: post_id })
                                 .then(function (response) {
                                     if (response.data.status === 'unliked') {
                                         likeButtonElement.classList.remove('liked');
-                                        var likesCount = parseInt(likeButtonElement.querySelector('.likes-count').textContent);
-                                        likeButtonElement.querySelector('.likes-count').textContent = likesCount - 1;
+                                        var likesCountElement = likeButtonElement.querySelector('.likes-count');
+                                        var likesCount = parseInt(likesCountElement.textContent);
+                                        likesCountElement.textContent = likesCount - 1;
                                     } else {
                                         console.log('Error unliking post');
                                     }
@@ -32,8 +32,9 @@ document.addEventListener('DOMContentLoaded', function () {
                                 .then(function (response) {
                                     if (response.data.status === 'liked') {
                                         likeButtonElement.classList.add('liked');
-                                        var likesCount = parseInt(likeButtonElement.querySelector('.likes-count').textContent);
-                                        likeButtonElement.querySelector('.likes-count').textContent = likesCount + 1;
+                                        var likesCountElement = likeButtonElement.querySelector('.likes-count');
+                                        var likesCount = parseInt(likesCountElement.textContent);
+                                        likesCountElement.textContent = likesCount + 1;
                                     } else {
                                         console.log('Error liking post');
                                     }

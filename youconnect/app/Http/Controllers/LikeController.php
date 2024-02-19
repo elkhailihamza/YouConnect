@@ -40,6 +40,7 @@ class LikeController extends Controller
 
         return response()->json(['status' => 'error']);
     }
+
     public function checkLike(Post $post)
     {
         $user = auth()->user();
