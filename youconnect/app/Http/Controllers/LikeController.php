@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\Like;
@@ -11,16 +10,8 @@ class LikeController extends Controller
 {
     public function store(Request $request)
     {
-        $found = Like::where('user_id', auth()->user()->id)
-            ->where('post_id', $request->post_id)
-            ->first();
-
-        if ($found) {
-            return response()->json(['status' => 'liked', 'like' => $found]);
-        }
-
-        $like = Like::create([
-            'user_id' => auth()->user()->id,
+        $like = Like::firstOrCreate([
+            'user_id' => auth()->id(),
             'post_id' => $request->post_id,
         ]);
 
@@ -29,7 +20,7 @@ class LikeController extends Controller
 
     public function destroy(Request $request)
     {
-        $like = Like::where('user_id', auth()->user()->id)
+        $like = Like::where('user_id', auth()->id())
             ->where('post_id', $request->post_id)
             ->first();
 
@@ -43,12 +34,8 @@ class LikeController extends Controller
 
     public function checkLike(Post $post)
     {
-        $user = auth()->user();
-        $hasLiked = Like::where('user_id', $user->id)
-            ->where('post_id', $post->id)
-            ->exists();
+        $hasLiked = $post->likes()->where('user_id', auth()->id())->exists();
 
         return response()->json(['hasLiked' => $hasLiked]);
     }
-
 }
