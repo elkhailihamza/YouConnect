@@ -33,19 +33,18 @@ Route::get('/explore', function () {
 })->name('explore');
 
 Route::middleware(['auth'])->group(function () {
-    Route::controller(PostController::class)->group(function () {
-        Route::get('/posts/create', 'createPost')->name('main.posts');
-        Route::post('/posts/create/store', 'store')->name('main.posts.store');
-    });
-    Route::post('/posts/like', [LikeController::class, 'store'])->name('post.like');
-    Route::post('/posts/unlike', [LikeController::class, 'destroy'])->name('post.unlike');
-    Route::post('/posts/check-like/{post}', [LikeController::class, 'checkLike'])->name('post.check.like');
+    Route::get('/posts/create', [PostController::class, 'create'])->name('main.posts');
+    Route::post('/posts/create/store', [PostController::class, 'store'])->name('main.posts.store');
+    
+    Route::post('/posts/{id}/like', 'PostController@like')->name('posts.like');
+Route::delete('/posts/{id}/like', 'PostController@unlike')->name('posts.unlike');
+
 });
 
-Route::controller(AuthController::class)->group(function () {
-    Route::get('/register', 'showRegister')->name('register');
-    Route::post('/register', 'register');
-    Route::get('/login', 'showLogin')->name('login');
-    Route::post('/login', 'login');
-    Route::post('/logout', 'logout')->middleware(['auth'])->name('logout');
+Route::group(['prefix' => 'auth'], function () {
+    Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
+    Route::post('/register', [AuthController::class, 'register']);
+    Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+    Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/logout', [AuthController::class, 'logout'])->middleware(['auth'])->name('logout');
 });
