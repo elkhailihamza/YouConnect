@@ -10,12 +10,15 @@ class CommentController extends Controller
 {
     public function index(Post $post)
     {
-        $comments = Comment::select('users.username', 'comments.content', 'comments.created_at')
+        $comments = Comment::select('users.username', 'comments.post_id', 'comments.content', 'comments.created_at')
             ->join('users', 'comments.user_id', '=', 'users.id')
             ->where('post_id', $post->id)
             ->orderBy('comments.created_at', 'DESC')
-            ->paginate(7);
-        return response()->json(['comments' => $comments]);
+            ->paginate(10);
+        return response()->json([
+            'comments' => $comments,
+            'nextPageUrl' => $comments->nextPageUrl(),
+        ]);
     }
     public function store(Request $request, $postId)
     {

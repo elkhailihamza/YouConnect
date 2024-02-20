@@ -88,7 +88,8 @@
                     <div>
                         <a class="flex gap-2 hover:underline cursor-pointer" data-modal-target="comments-{{$post->id}}"
                             data-modal-toggle="comments-{{$post->id}}">
-                            <span class="comment-count" data-post-id="{{ $post->id }}">{{ $post->comments->count() }}</span>
+                            <span class="comment-count" data-post-id="{{ $post->id }}">{{ $post->comments->count()
+                                }}</span>
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                 stroke-linejoin="round" class="feather feather-message-square">
@@ -117,19 +118,20 @@
                             <div class="grid w-full">
                                 <div><span class="dark:text-white text-[15px] font-medium">{{ auth()->user()->username
                                         }}</span></div>
-                                <textarea rows="4" name="content"
-                                    class="comment-content block p-2.5 h-[200px] resize-none w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-white dark:border-gray-600 dark:placeholder-gray-400 dark:text-dark dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                <textarea name="content" minlength="1" maxlength="255" required
+                                    class="comment-content block p-2.5 h-[105px] resize-none w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-white dark:border-gray-600 dark:placeholder-gray-400 dark:text-dark dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     placeholder="Write your thoughts here..."></textarea>
                                 <div class="flex justify-end mt-2">
-                                    <button data-post-id="{{ $post->id }}"
-                                        class="submit-comment bg-blue-700 text-white p-2.5 rounded">Submit</button>
+                                    <button type="button" data-post-id="{{ $post->id }}"
+                                        class="submit-comment text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Submit</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <!-- Modal body -->
                     <div class="p-1 ms-5 mt-2 flex">
-                        <h2 class="text-xl"><span class="underline">Comments:</span> <span class="comment-count" data-post-id="{{ $post->id }}">{{ $post->comments->count() }}</span></h2>
+                        <h2 class="text-xl"><span class="underline">Comments:</span> <span class="comment-count"
+                                data-post-id="{{ $post->id }}">{{ $post->comments->count() }}</span></h2>
                     </div>
                     @if ($post->comments->count() == 0)
                     <div class="text-center p-3">
@@ -140,9 +142,7 @@
                         <button data-post-id="{{ $post->id }}"
                             class="load-comments bg-blue-700 text-white p-2.5 rounded">Load Comments</button>
                     </div>
-                    <div data-post-id="{{ $post->id }}" class="comments-container max-h-[200px] overflow-y-auto">
-
-                    </div>
+                    <div data-post-id="{{ $post->id }}" class="comments-container max-h-[350px] rounded overflow-y-auto"></div>
                     @endif
                 </div>
             </div>
