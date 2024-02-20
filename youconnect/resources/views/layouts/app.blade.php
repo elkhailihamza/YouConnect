@@ -13,7 +13,11 @@
 </head>
 <style>
 
-    
+.like-btn.liked {
+        color: blue; 
+    } 
+
+
     ::-webkit-scrollbar {
     display: none;  
     }
@@ -28,7 +32,7 @@
       border-radius: 4px;
     }
 
-    @media (max-width: 767px) {
+    @media (max-width: 600px) {
         #left-sidebar,
     #right-sidebar {
         display: none;

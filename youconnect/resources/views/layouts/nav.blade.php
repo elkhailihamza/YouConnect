@@ -73,9 +73,9 @@
             </ul>
         </div>
     </div>
-    <button id="toggle-right-sidebar" class="fixed right-0 top-16 p-4  text-dark md:hidden dark:text-white-700">
+    <button id="toggle-right-sidebar" class="fixed right-0 top-16 p-4  text-gray-700 md:hidden dark:text-white">
         <i class="fa-solid fa-user-group"></i>
     </button>
-    <button id="toggle-left-sidebar" class="fixed left-0 top-16 p-5   text-dark md:hidden  dark:text-white-700">
+    <button id="toggle-left-sidebar" class="fixed left-0 top-16 p-5   text-gray-700 md:hidden  dark:text-white">
         <i class="fa-solid fa-arrow-right"></i>     </button>
 </nav>

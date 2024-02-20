@@ -1,5 +1,5 @@
 @if(!in_array(Route::currentRouteName(), ['login', 'register', 'main.posts']))
-<div class="container-xl flex justify-between ">
+<div class=" shadow-md container-xl flex justify-between ">
     <div class="fixed inset-0 mt-[70px] w-60">
         {{--left-sidebar--}}
         <div id="left-sidebar"
@@ -32,7 +32,7 @@
     </div>
     {{--right-sidebar--}}
     <div id="right-sidebar"
-        class="fixed justify-self-end h-full right-0 mt-[65px] bg-white hidden md:block overflow-y-scroll dark:text-white dark:bg-gray-800 border-gray-600 dark:border-white"
+        class="shadow-md fixed justify-self-end h-full right-0 mt-[65px] bg-white hidden md:block overflow-y-scroll dark:text-white dark:bg-gray-800 border-gray-600 dark:border-white"
        >
         <div class="rounded w-30 p-4 mb-4 text-center dark:bg-[#242526]">
             <h2 class="font-bold mb-2">Suggested for you</h2>
@@ -42,8 +42,12 @@
                  <li
                     class="mb-2 flex justify-between items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group ">
                     <div class="flex self-start justify-self-start w-40">
-                        <img src="https://via.placeholder.com/50" alt="User" class="w-8 h-8 rounded-full mr-2">
-                        <a style="cursor: pointer;" href="http://127.0.0.1:8000/chatify/{{$user->id}}"><div class="overflow-hidden overflow-ellipsis"><span class="dark:text-white truncate">{{
+                        @if (!empty($user->avatar))
+    <img src="{{ asset('storage/' . $user->avatar) }}" alt="User" class="w-8 h-8 rounded-full mr-2">
+@else
+    <img src="https://via.placeholder.com/50" alt="User" class="w-8 h-8 rounded-full mr-2">  
+@endif
+                        <a style="cursor: pointer;" href="http://127.0.0.1:8000/chatify/{{$user->id}}"><div class="overflow-hidden overflow-ellipsis "><span class="dark:text-white truncate">{{
                                 $user->name }}</span></div>
                     </div></a>
                     <div class="relative inline-block text-left">

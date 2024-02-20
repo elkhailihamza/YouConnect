@@ -2,6 +2,11 @@
 
 
 @section('content')
+<style>
+    .like-btn.liked {
+        color: blue; /* Mettez ici la couleur que vous souhaitez pour un like */
+    }
+</style>
 
 {{--Content a centre de page : les publication --}}
 <div class="mt-28 "></div>
@@ -33,13 +38,15 @@
                     <div>
                         <div class="flex gap-2 hover:underline cursor-pointer">
                             <span class="likes-count">{{ $post->likes->count() }}</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                            
+                            <button class="like-btn" data-post-id="{{ $post->id }}"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                 stroke-linejoin="round" class="feather feather-heart">
                                 <path
                                     d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
                                 </path>
                             </svg>
+                        </button>
                             <span>Like</span>
                         </div>
                     </div>
@@ -115,5 +122,26 @@
     </div>
 </div>
 
+<script>
+    $(document).ready(function() {
+        $('.like-button').on('click', function() {
+            var postId = $(this).data('post-id');
+            var url = '/like';
+            $.ajax({
+                url: url,
+                method: 'POST',
+                data: { post_id: postId },
+                success: function(response) {
+                    if (response.status === 'liked') {
+                        $('#like-count-' + postId).text(response.like.post.likes.length);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error(xhr.responseText);
+                }
+            });
+        });
+    });
+</script>
 
 @endsection
