@@ -21,6 +21,12 @@ toggleRightSidebar.addEventListener('click', () => {
     if (leftSidebar.classList.contains('open')) {
         leftSidebar.classList.remove('open');
     }
-
-
 });
+
+function openModal(modalId) {
+    document.getElementById(modalId).classList.remove('hidden');
+}
+
+function closeModal(modalId) {
+    document.getElementById(modalId).classList.add('hidden');
+}

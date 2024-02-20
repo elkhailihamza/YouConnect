@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\PostController;
@@ -18,8 +19,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/',[HomeController::class, 'index'])->name('index');
-Route::get('/home',[HomeController::class, 'index'])->name('index');
+Route::get('/', [HomeController::class, 'index'])->name('index');
+Route::get('/home', [HomeController::class, 'index'])->name('index');
+
+Route::controller(CommentController::class)->group(function () {
+    Route::get('/posts/{post}/comments', 'index');
+    Route::get('/posts/{post}/comments/count', 'count');
+    Route::post('/posts/{post}/comments/store', 'store');
+});
 
 Route::get('/explore', function () {
     return view('explore');

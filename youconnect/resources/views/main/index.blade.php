@@ -38,8 +38,7 @@
                     <!-- Dropdown menu -->
                     <div id="post-{{$post->id.'-'.$post->user->username}}"
                         class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
-                        <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
-                            aria-labelledby="dropdown">
+                        <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdown">
                             <li>
                                 <a href="#"
                                     class="block flex gap-1 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"><svg
@@ -87,9 +86,9 @@
                         </div>
                     </div>
                     <div>
-                        <a class="flex gap-2 hover:underline cursor-pointer" data-modal-target="default-modal-{{$post}}"
-                            data-modal-toggle="default-modal-{{$post}}">
-                            <span>{{ $post->comments->count() }}</span>
+                        <a class="flex gap-2 hover:underline cursor-pointer" data-modal-target="comments-{{$post->id}}"
+                            data-modal-toggle="comments-{{$post->id}}">
+                            <span class="comment-count" data-post-id="{{ $post->id }}">{{ $post->comments->count() }}</span>
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                 stroke-linejoin="round" class="feather feather-message-square">
@@ -101,53 +100,54 @@
                 </div>
             </div>
         </div>
-
-        <div id="default-modal-{{$post}}" tabindex="-1" aria-hidden="true"
+        @endforeach
+        @foreach ($posts as $post)
+        @auth
+        <div id="comments-{{$post->id}}" tabindex="-1" aria-hidden="true"
             class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
             <div class="relative p-4 w-full max-w-2xl max-h-full">
                 <!-- Modal content -->
-                <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                <div class="relative w-full bg-white rounded-lg shadow dark:bg-gray-700">
                     <!-- Modal header -->
-                    <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
-                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                            Terms of Service
-                        </h3>
-                        <button type="button"
-                            class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                            data-modal-hide="default-modal-{{$post}}">
-                            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                viewBox="0 0 14 14">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                    stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
-                            </svg>
-                            <span class="sr-only">Close modal</span>
-                        </button>
+                    <div
+                        class="flex items-center w-full justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+                        <div class="flex w-full">
+                            <img src="https://via.placeholder.com/50" alt="User"
+                                class="w-[40px] h-[40px] rounded-full mr-2">
+                            <div class="grid w-full">
+                                <div><span class="dark:text-white text-[15px] font-medium">{{ auth()->user()->username
+                                        }}</span></div>
+                                <textarea rows="4" name="content"
+                                    class="comment-content block p-2.5 h-[200px] resize-none w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-white dark:border-gray-600 dark:placeholder-gray-400 dark:text-dark dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    placeholder="Write your thoughts here..."></textarea>
+                                <div class="flex justify-end mt-2">
+                                    <button data-post-id="{{ $post->id }}"
+                                        class="submit-comment bg-blue-700 text-white p-2.5 rounded">Submit</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <!-- Modal body -->
-                    <div class="p-4 md:p-5 space-y-4">
-                        <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                            With less than a month to go before the European Union enacts new consumer privacy laws for
-                            its citizens, companies around the world are updating their terms of service agreements to
-                            comply.
-                        </p>
-                        <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                            The European Union’s General Data Protection Regulation (G.D.P.R.) goes into effect on May
-                            25 and is meant to ensure a common set of data rights in the European Union. It requires
-                            organizations to notify users as soon as possible of high-risk data breaches that could
-                            personally affect them.
-                        </p>
+                    <div class="p-1 ms-5 mt-2 flex">
+                        <h2 class="text-xl"><span class="underline">Comments:</span> <span class="comment-count" data-post-id="{{ $post->id }}">{{ $post->comments->count() }}</span></h2>
                     </div>
-                    <!-- Modal footer -->
-                    <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
-                        <button data-modal-hide="default-modal-{{$post}}" type="button"
-                            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">I
-                            accept</button>
-                        <button data-modal-hide="default-modal-{{$post}}" type="button"
-                            class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Decline</button>
+                    @if ($post->comments->count() == 0)
+                    <div class="text-center p-3">
+                        <span>Be The first one to Comment!</span>
                     </div>
+                    @else
+                    <div class="p-4 md:px-5 flex justify-center">
+                        <button data-post-id="{{ $post->id }}"
+                            class="load-comments bg-blue-700 text-white p-2.5 rounded">Load Comments</button>
+                    </div>
+                    <div data-post-id="{{ $post->id }}" class="comments-container max-h-[200px] overflow-y-auto">
+
+                    </div>
+                    @endif
                 </div>
             </div>
         </div>
+        @endauth
         <div class="h-3"></div>
         @endforeach
         @else
