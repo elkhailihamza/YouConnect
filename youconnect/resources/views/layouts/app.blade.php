@@ -11,6 +11,60 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @vite('resources/css/app.css')
 </head>
+<style>
+
+    
+    ::-webkit-scrollbar {
+    display: none;  
+    }
+  
+    ::-webkit-scrollbar-thumb {
+      background-color: #ffffff;
+      border-radius: 4px;
+    }
+  
+    ::-webkit-scrollbar-track {
+      background-color: #959595;
+      border-radius: 4px;
+    }
+
+    @media (max-width: 767px) {
+        #left-sidebar,
+    #right-sidebar {
+        display: none;
+        width: 100%;
+        
+    }
+
+    #left-sidebar.open,
+    #right-sidebar.open {
+        display: block;
+       width: 408px; 
+        
+       
+        transition: transform 0.3s;
+    }
+    #left-sidebar.close,
+    #right-sidebar.close {
+        display: none;
+    }
+
+    .messages{
+        overflow-y: scroll;
+    }
+        
+
+    
+    #publication{
+        width: 100%;
+        margin-top: 110px;
+    }
+    .hidden{
+        display: none;
+    }
+       }
+       
+  </style>
 
 <body class="bg-blue-30 bg-[#F0F2F5] dark:bg-[#18191A]" style="height: 100vh;">
     @include('layouts.nav')
@@ -18,40 +72,7 @@
     <div class="container-xl flex justify-center">
         @yield('content')
     </div>
-    <script>
-        const leftSidebar = document.getElementById('left-sidebar');
-        const rightSidebar = document.getElementById('right-sidebar');
-        const toggleLeftSidebar = document.getElementById('toggle-left-sidebar');
-        const toggleRightSidebar = document.getElementById('toggle-right-sidebar');
-        const toggllepublication = document.getElementById('publication');
-    
-        toggleLeftSidebar.addEventListener('click', () => {
-            leftSidebar.classList.toggle('open');
-            toggllepublication.classList.toggle('hidden');
-
-            if (rightSidebar.classList.contains('open')) {
-            rightSidebar.classList.remove('open');
-            publication.classList.add('hidden');
-        }
-            
-            
-
-        });
-    
-        toggleRightSidebar.addEventListener('click', () => {
-            
-            rightSidebar.classList.toggle('open');
-            toggllepublication.classList.toggle('hidden');
-
-
-            if (leftSidebar.classList.contains('open')) {
-            leftSidebar.classList.remove('open');
-            publication.classList.add('hidden');
-        }
-                         
-           
-        });
-    </script>
+   
     @vite('resources/js/app.js')
     @vite('resources/js/like.js')
     @vite('resources/js/ThemeChange.js')

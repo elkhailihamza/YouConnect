@@ -5,11 +5,11 @@
 
 {{--Content a centre de page : les publication --}}
 <div class="mt-28 "></div>
-<div id="publication" class="mt-28 w-[682px] max-h-screen container-xl dark:text-white">
+<div id="publication" class="mt-28  max-h-screen container-xl dark:text-white">
     <div class="space-y-1">
         @if (isset($posts) && $posts->isNotEmpty())
         @foreach ($posts as $post)
-        <div class="rounded shadow-md w-[680px] bg-[#FFFFFF] dark:bg-[#242526]">
+        <div class="rounded shadow-md lg:w-[680px] bg-[#FFFFFF] dark:bg-[#242526]">
             <div class="p-4">
                 <div class="flex self-start justify-self-start w-40">
                     <img src="https://via.placeholder.com/50" alt="User" class="w-[40px] h-[40px] rounded-full mr-2">
@@ -114,5 +114,6 @@
         @endif
     </div>
 </div>
+
 
 @endsection
