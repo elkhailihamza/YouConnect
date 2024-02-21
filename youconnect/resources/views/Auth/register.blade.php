@@ -8,8 +8,8 @@
             @csrf
             @method('POST')
             <div class="mb-4">
-                <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Username</label>
-                <input type="text" id="name" placeholder="Username.." name="name" class="mt-1 p-2.5 block w-full rounded-md border border-blue-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-100 dark:bg-gray-700 dark:text-gray-100" required>
+                <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">name</label>
+                <input type="text" id="name" placeholder="name.." name="name" class="mt-1 p-2.5 block w-full rounded-md border border-blue-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-100 dark:bg-gray-700 dark:text-gray-100" required>
             </div>
             <div class="mb-4">
                 <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Email</label>
