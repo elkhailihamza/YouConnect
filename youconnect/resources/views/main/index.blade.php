@@ -2,11 +2,7 @@
 
 
 @section('content')
-<style>
-    .like-btn.liked {
-        color: blue; /* Mettez ici la couleur que vous souhaitez pour un like */
-    }
-</style>
+
 
 {{--Content a centre de page : les publication --}}
 <div class="mt-28 "></div>
@@ -15,19 +11,13 @@
         @if (isset($posts) && $posts->isNotEmpty())
         @foreach ($posts as $post)
         <div class="rounded shadow-md lg:w-[680px] bg-[#FFFFFF] dark:bg-[#242526]">
-            <div class="p-4 flex justify-between">
-                <div>
-                    <div class="flex self-start justify-self-start w-40">
-                        <img src="https://via.placeholder.com/50" alt="User"
-                            class="w-[40px] h-[40px] rounded-full mr-2">
-                        <div class="grid">
-                            <div><span class="dark:text-white text-[15px] font-medium">{{
-                                    $post->user->username }}</span></div>
-                            <span class="text-[13px] w-44 text-stone-500">{{ $post->created_at }}</span>
-                        </div>
-                    </div>
-                    <div class="flex justify-between ms-2 mt-1">
-                        <h2 class="text-[13px]">{{ $post->content }}</h2>
+            <div class="p-4">
+                <div class="flex self-start justify-self-start w-40">
+                    <img src="https://via.placeholder.com/50" alt="User" class="w-[40px] h-[40px] rounded-full mr-2">
+                    <div class="grid">
+                        <div><span class="dark:text-white text-[15px] font-medium">{{
+                                $post->user->name }}</span></div>
+                        <span class="text-[13px] w-44 text-stone-500">{{ $post->created_at }}</span>
                     </div>
                 </div>
                 <div>
@@ -72,31 +62,25 @@
             </div>
             @if ($post->cover != null)
             <div class="w-full border-t flex items-center justify-center bg-white dark:bg-[#242526]">
+               
                 <img src="{{ asset('storage/' . $post->cover) }}" alt="Post" class="w-96 h-auto">
+                
             </div>
             @endif
             <div class="h-16 dark:bg-[#242526] border-t rounded-b">
-                <div data-post-id="{{ $post->id }}" class="flex justify-around items-center w-full h-full likeButton">
-                    <div>
-                        <div class="flex gap-2 hover:underline cursor-pointer">
-                            <span class="likes-count">{{ $post->likes->count() }}</span>
-                            
-                            <button class="like-btn" data-post-id="{{ $post->id }}"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" class="feather feather-heart">
-                                <path
-                                    d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
-                                </path>
-                            </svg>
-                        </button>
-                            <span>Like</span>
+                    <div data-post-id="{{ $post->id }}" class="flex justify-around items-center w-full h-full likeButton">
+                        <div>
+                            <div class="flex gap-2  cursor-pointer">
+                                <span class="likes-count">{{ $post->likes->count() }}</span>
+                                {{--button de like--}}
+                                <button type="button" class="like-button btnlike" data-post-id="{{$post->id }}"><i class="fa-solid fa-heart fa-lg"></i></button>
+                            </div>
                         </div>
-                    </div>
+                    
                     <div>
-                        <a class="flex gap-2 hover:underline cursor-pointer" data-modal-target="comments-{{$post->id}}"
-                            data-modal-toggle="comments-{{$post->id}}">
-                            <span class="comment-count" data-post-id="{{ $post->id }}">{{ $post->comments->count()
-                                }}</span>
+                        <a class="flex gap-2  cursor-pointer" data-modal-target="default-modal-{{$post}}"
+                            data-modal-toggle="default-modal-{{$post}}">
+                            <span>{{ $post->comments->count() }}</span>
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                 stroke-linejoin="round" class="feather feather-message-square">
@@ -165,26 +149,39 @@
     </div>
 </div>
 
+
 <script>
-    $(document).ready(function() {
-        $('.like-button').on('click', function() {
-            var postId = $(this).data('post-id');
-            var url = '/like';
-            $.ajax({
-                url: url,
+    document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.btnlike').forEach(button => {
+        button.addEventListener('click', function () {
+            const postId = this.getAttribute('data-post-id');
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+            fetch('{{ route("like.toggle") }}', {
                 method: 'POST',
-                data: { post_id: postId },
-                success: function(response) {
-                    if (response.status === 'liked') {
-                        $('#like-count-' + postId).text(response.like.post.likes.length);
-                    }
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken
                 },
-                error: function(xhr, status, error) {
-                    console.error(xhr.responseText);
+                body: JSON.stringify({ post_id: postId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                const likeButton = document.querySelector(`.btnlike[data-post-id="${postId}"] i`);
+                const likesCount = document.querySelector(`.likeButton[data-post-id="${postId}"] .likes-count`);
+                if (data.liked) {
+                    likeButton.classList.add('text-red-500'); // Change la couleur du cœur en rouge
+                } else {
+                    likeButton.classList.remove('text-red-500'); // Retire la couleur rouge du cœur
                 }
-            });
+                likesCount.textContent = data.likesCount;
+            })
+            .catch(error => console.error('Error:', error));
         });
     });
+});
+
 </script>
+
 
 @endsection

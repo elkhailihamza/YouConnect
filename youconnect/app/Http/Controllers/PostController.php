@@ -1,12 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use App\Models\Post;
 use App\Models\User;
+use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Composer;
 use Illuminate\Support\Facades\Auth;
+
 
 class PostController extends Controller
 {
@@ -14,6 +14,17 @@ class PostController extends Controller
     {
         return view('index', compact('posts'));
     }
+
+
+    public function showUserPosts(User $user)
+    {
+        $posts = $user->posts()->orderByDesc('created_at')->get();
+        return view('profiles.Myposts', compact('posts', 'user'));
+    }
+    
+
+
+
     public function view(Post $post)
     {
         return view('main.view', compact('post','users'));

@@ -15,11 +15,9 @@
 </head>
 <style>
 
-.like-btn.liked {
-        color: blue; 
-    } 
-
-
+    .red{
+        color: red;
+    }
     ::-webkit-scrollbar {
     display: none;  
     }
@@ -34,7 +32,7 @@
       border-radius: 4px;
     }
 
-    @media (max-width: 600px) {
+    @media (max-width: 500px) {
         #left-sidebar,
     #right-sidebar {
         display: none;

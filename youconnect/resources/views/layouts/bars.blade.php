@@ -8,23 +8,24 @@
             <div class="h-full px-3 py-2 pb-4 overflow-y-auto bg-white dark:bg-[#242526]">
                 <ul class="space-y-2 font-medium">
                     <div class="text-center w-full p-1">
-                        <h1 class="text-gray-800 dark:text-white">Conversations</h1>
+                        <h1 class="text-gray-800 dark:text-white">actions</h1>
                     </div>
                     <hr>
+                    @auth 
                     <li>
-                        <a href="#"
-                            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                            <img src="https://via.placeholder.com/50" alt="User" class="w-5 h-5 rounded-full mr-2">
-                            <span class="flex-1 ms-3 whitespace-nowrap">Conversation 1</span>
-                        </a>
+                       
+                            <a  href="{{ route('profiles.profile', Auth::user()) }}"class="flex mx-1 items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                                <i class="fa-solid fa-user"></i><span class="mx-7">MY PROFILE</span>
+                            </a> 
+                                                  
                     </li>
                     <li>
-                        <a href="#"
-                            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                            <img src="https://via.placeholder.com/50" alt="User" class="w-5 h-5 rounded-full mr-2">
-                            <span class="flex-1 ms-3 whitespace-nowrap">Conversation 2</span>
-                        </a>
+
+                            <a  href="{{ route('profiles.Myposts', ['user' => Auth::user()]) }}"class="flex  items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                                <i class="fa-brands fa-medium"></i><span class="mx-7">MY POSTS</span>
+                            </a>                        
                     </li>
+                    @endauth 
                     
                 </ul>
             </div>

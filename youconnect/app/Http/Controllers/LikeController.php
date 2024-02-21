@@ -1,41 +1,38 @@
 <?php
+
 namespace App\Http\Controllers;
 
-use App\Models\Like;
-use App\Models\Post;
 use Illuminate\Http\Request;
+use App\models\Like;
+use App\Models\User;
+use Illuminate\Support\Composer;
 use Illuminate\Support\Facades\Auth;
 
 class LikeController extends Controller
 {
-    public function store(Request $request)
-    {
-        $like = Like::firstOrCreate([
-            'user_id' => auth()->id(),
-            'post_id' => $request->post_id,
+    public function toggleLike(Request $request)
+{
+    $postId = $request->input('post_id');
+    $userId = auth()->user()->id;
+
+    $like = Like::where('post_id', $postId)
+                ->where('user_id', $userId)
+                ->first();
+
+    if ($like) {
+        $like->delete();
+        $liked = false;
+    } else {
+        Like::create([
+            'user_id' => $userId,
+            'post_id' => $postId
         ]);
-
-        return response()->json(['status' => 'liked', 'like' => $like]);
+        $liked = true;
     }
 
-    public function destroy(Request $request)
-    {
-        $like = Like::where('user_id', auth()->id())
-            ->where('post_id', $request->post_id)
-            ->first();
+    $likesCount = Like::where('post_id', $postId)->count();
 
-        if ($like) {
-            $like->delete();
-            return response()->json(['status' => 'unliked']);
-        }
+    return response()->json(['liked' => $liked, 'likesCount' => $likesCount]);
+}
 
-        return response()->json(['status' => 'error']);
-    }
-
-    public function checkLike(Post $post)
-    {
-        $hasLiked = $post->likes()->where('user_id', auth()->id())->exists();
-
-        return response()->json(['hasLiked' => $hasLiked]);
-    }
 }
