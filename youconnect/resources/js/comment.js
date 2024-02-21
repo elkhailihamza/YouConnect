@@ -112,7 +112,7 @@ function generateCommentHtml(comment) {
             <div class="flex self-start justify-self-start w-40">
                 <img src="https://via.placeholder.com/50" alt="User" class="w-[40px] h-[40px] rounded-full mr-2">
                 <div class="grid">
-                    <div><span class="dark:text-white text-[15px] font-medium">${comment.username}</span></div>
+                    <div><span class="dark:text-white text-[15px] font-medium">${comment.name}</span></div>
                     <span class="text-[13px] w-44 text-stone-500">${formattedDate}</span>
                 </div>
             </div>
