@@ -34,27 +34,28 @@ Route::get('/explore', function () {
 })->name('explore');
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/profile/{user}', [ProfileController::class, 'show'])->name('profiles.profile');
-    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profiles.edit');
-    Route::put('/profile/{user}', [ProfileController::class, 'update'])->name('profiles.update');
-    Route::get('/posts/create', [PostController::class, 'createPost'])->name('main.posts');
-    Route::post('/posts/create/store', [PostController::class, 'store'])->name('main.posts.store');
-    Route::get('/user/{user}/posts', [PostController::class, 'showUserPosts'])->name('profiles.Myposts');
-
-    
-
-    Route::post('/like/toggle', [App\Http\Controllers\LikeController::class, 'toggleLike'])->name('like.toggle');
-
-Route::post('/posts/{post}/like', 'LikeController@store')->name('posts.like');
-Route::delete('/posts/{post}/like', 'LikeController@destroy')->name('posts.unlike');
-Route::get('/posts/{post}/check-like', 'LikeController@checkLike')->name('posts.check-like');
-
+    Route::controller(ProfileController::class)->group(function () {
+        Route::get('/profile/{user}', 'show')->name('profiles.profile');
+        Route::get('/profile/edit', 'edit')->name('profiles.edit');
+        Route::put('/profile/{user}', 'update')->name('profiles.update');
+        Route::get('/posts/create', 'createPost')->name('main.posts');
+        Route::post('/posts/create/store', 'store')->name('main.posts.store');
+        Route::get('/user/{user}/posts', 'showUserPosts')->name('profiles.Myposts');
+    });
+    Route::controller(LikeController::class)->group(function () {
+        Route::post('/like/toggle', 'toggleLike')->name('like.toggle');
+        Route::post('/posts/{post}/like', 'store')->name('posts.like');
+        Route::delete('/posts/{post}/like', 'destroy')->name('posts.unlike');
+        Route::get('/posts/{post}/check-like', 'checkLike')->name('posts.check-like');
+    });
 });
 
 Route::group(['prefix' => 'auth'], function () {
-    Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
-    Route::post('/register', [AuthController::class, 'register']);
-    Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
-    Route::post('/login', [AuthController::class, 'login']);
-    Route::post('/logout', [AuthController::class, 'logout'])->middleware(['auth'])->name('logout');
+    Route::controller(AuthController::class)->group(function () {
+        Route::get('/register', 'showRegister')->name('register');
+        Route::post('/register', 'register');
+        Route::get('/login', 'showLogin')->name('login');
+        Route::post('/login', 'login');
+        Route::post('/logout', 'logout')->middleware(['auth'])->name('logout');
+    });
 });

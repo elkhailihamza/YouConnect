@@ -68,9 +68,7 @@
             </div>
             @if ($post->cover != null)
             <div class="w-full border-t flex items-center justify-center bg-white dark:bg-[#242526]">
-
                 <img src="{{ asset('storage/' . $post->cover) }}" alt="Post" class="w-96 h-auto">
-
             </div>
             @endif
             <div class="h-16 dark:bg-[#242526] border-t rounded-b">
@@ -85,8 +83,8 @@
                     </div>
 
                     <div>
-                        <a class="flex gap-2  cursor-pointer" data-modal-target="default-modal-{{$post}}"
-                            data-modal-toggle="default-modal-{{$post}}">
+                        <a class="flex gap-2 load-comments cursor-pointer" data-post-id="{{ $post->id }}"
+                            data-modal-target="comments-{{$post->id}}" data-modal-toggle="comments-{{$post->id}}">
                             <span>{{ $post->comments->count() }}</span>
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -99,8 +97,6 @@
                 </div>
             </div>
         </div>
-        @endforeach
-        @foreach ($posts as $post)
         @auth
         <div id="comments-{{$post->id}}" tabindex="-1" aria-hidden="true"
             class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
@@ -136,10 +132,6 @@
                         <span>Be The first one to Comment!</span>
                     </div>
                     @else
-                    <div class="p-4 md:px-5 flex justify-center">
-                        <button data-post-id="{{ $post->id }}"
-                            class="load-comments bg-blue-700 text-white p-2.5 rounded">Load Comments</button>
-                    </div>
                     <div data-post-id="{{ $post->id }}"
                         class="comments-container max-h-[350px] rounded overflow-y-auto"></div>
                     @endif
@@ -156,40 +148,5 @@
         @endif
     </div>
 </div>
-
-
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        document.querySelectorAll('.btnlike').forEach(button => {
-            button.addEventListener('click', function () {
-                const postId = this.getAttribute('data-post-id');
-                const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-                fetch('{{ route("like.toggle") }}', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': csrfToken
-                    },
-                    body: JSON.stringify({ post_id: postId })
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        const likeButton = document.querySelector(`.btnlike[data-post-id="${postId}"] i`);
-                        const likesCount = document.querySelector(`.likeButton[data-post-id="${postId}"] .likes-count`);
-                        if (data.liked) {
-                            likeButton.classList.add('text-red-500'); // Change la couleur du cœur en rouge
-                        } else {
-                            likeButton.classList.remove('text-red-500'); // Retire la couleur rouge du cœur
-                        }
-                        likesCount.textContent = data.likesCount;
-                    })
-                    .catch(error => console.error('Error:', error));
-            });
-        });
-    });
-
-</script>
-
 
 @endsection

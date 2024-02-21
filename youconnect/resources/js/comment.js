@@ -8,46 +8,46 @@ let isLoading = false;
 var scrollTimer;
 
 
-$('.comments-container').scroll(function () {
-    if ($('.comments-container').scrollTop() == $(document).height() - $('.comments-container').height()) {
-        clearTimeout(scrollTimer);
-        var $this = $(this);
+// $('.comments-container').scroll(function () {
+//     if ($('.comments-container').scrollTop() == $(document).height() - $('.comments-container').height()) {
+//         clearTimeout(scrollTimer);
+//         var $this = $(this);
 
-        scrollTimer = setTimeout(function () {
-            // Check for scroll stop and trigger load
-            var scrollHeight = $this.prop('scrollHeight');
-            var scrollTop = $this.scrollTop();
-            var modalHeight = $this.outerHeight();
+//         scrollTimer = setTimeout(function () {
+//             // Check for scroll stop and trigger load
+//             var scrollHeight = $this.prop('scrollHeight');
+//             var scrollTop = $this.scrollTop();
+//             var modalHeight = $this.outerHeight();
 
-            if (scrollHeight - scrollTop <= modalHeight && !isLoading && nextPageUrl) {
-                isLoading = true;
+//             if (scrollHeight - scrollTop <= modalHeight && !isLoading && nextPageUrl) {
+//                 isLoading = true;
 
-                // Show loading indicator here if needed
+//                 // Show loading indicator here if needed
 
-                // Fetch next set of comments
-                fetch(nextPageUrl)
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log('Fetched data:', data);
+//                 // Fetch next set of comments
+//                 fetch(nextPageUrl)
+//                     .then(response => response.json())
+//                     .then(data => {
+//                         console.log('Fetched data:', data);
 
-                        // Append the comments
-                        appendComments(data.comments.data);
+//                         // Append the comments
+//                         appendComments(data.comments.data);
 
-                        // Update nextPageUrl with the correct key from the server response
-                        nextPageUrl = data.nextPageUrl;
+//                         // Update nextPageUrl with the correct key from the server response
+//                         nextPageUrl = data.nextPageUrl;
 
-                        isLoading = false;
-                        // Hide loading indicator here if needed
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        isLoading = false;
-                        // Handle error and hide loading indicator if needed
-                    });
-            }
-        }, 250);
-    }
-});
+//                         isLoading = false;
+//                         // Hide loading indicator here if needed
+//                     })
+//                     .catch(error => {
+//                         console.error('Error:', error);
+//                         isLoading = false;
+//                         // Handle error and hide loading indicator if needed
+//                     });
+//             }
+//         }, 250);
+//     }
+// });
 
 
 function submitComment() {
@@ -72,14 +72,12 @@ function submitComment() {
         },
         error: function (error) {
             console.error('Error:', error);
-            // Handle error if needed
         }
     });
 }
 
 function loadComments() {
     var postId = $(this).data('post-id');
-    $('.load-comments[data-post-id="' + postId + '"]').addClass('hidden');
 
     $.ajax({
         url: '/posts/' + postId + '/comments',
