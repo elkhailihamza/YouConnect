@@ -13,62 +13,6 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     @vite('resources/css/app.css')
 </head>
-<style>
-
-    .red{
-        color: red;
-    }
-    ::-webkit-scrollbar {
-    display: none;  
-    }
-  
-    ::-webkit-scrollbar-thumb {
-      background-color: #ffffff;
-      border-radius: 4px;
-    }
-  
-    ::-webkit-scrollbar-track {
-      background-color: #959595;
-      border-radius: 4px;
-    }
-
-    @media (max-width: 500px) {
-        #left-sidebar,
-    #right-sidebar {
-        display: none;
-        width: 100%;
-        
-    }
-
-    #left-sidebar.open,
-    #right-sidebar.open {
-        display: block;
-       width: 408px; 
-        
-       
-        transition: transform 0.3s;
-    }
-    #left-sidebar.close,
-    #right-sidebar.close {
-        display: none;
-    }
-
-    .messages{
-        overflow-y: scroll;
-    }
-        
-
-    
-    #publication{
-        width: 100%;
-        margin-top: 110px;
-    }
-    .hidden{
-        display: none;
-    }
-       }
-       
-  </style>
 
 <body class="bg-blue-30 bg-[#F0F2F5] dark:bg-[#18191A]" style="height: 100vh;">
     @include('layouts.nav')

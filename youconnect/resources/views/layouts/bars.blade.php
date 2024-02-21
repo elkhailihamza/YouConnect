@@ -31,7 +31,7 @@
     {{--right-sidebar--}}
     <div id="right-sidebar"
         class="shadow-md dark:bg-[#242526] fixed justify-self-end h-full right-0 mt-[65px] bg-white hidden md:block overflow-y-scroll dark:text-white border-gray-600 dark:border-white">
-        <div class="rounded w-30 p-4 mb-4 text-center dark:bg-[#242526]">
+        <div class="rounded lg:w-60 md:w-full p-4 mb-4 text-center dark:bg-[#242526]">
             <h2 class="font-bold mb-2">Suggested for you</h2>
             <hr>
             <ul>
