@@ -21,7 +21,7 @@
                     </div>
                 </div>
                 <div>
-                    <button id="dropdown" data-dropdown-toggle="post-{{$post->id.'-'.$post->user->username}}"
+                    <button id="dropdown" data-dropdown-toggle="post-{{$post->id.'-'.$post->user->name}}"
                         class="inline-flex w-full justify-center gap-x-1.5 rounded-md text-sm font-semibold text-gray-900"
                         type="button"><svg fill="#000000" class="dark:fill-white" xmlns="http://www.w3.org/2000/svg"
                             height="24" viewBox="0 -960 960 960" width="24">
@@ -31,7 +31,7 @@
                     </button>
 
                     <!-- Dropdown menu -->
-                    <div id="post-{{$post->id.'-'.$post->user->username}}"
+                    <div id="post-{{$post->id.'-'.$post->user->name}}"
                         class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
                         <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdown">
                             <li>
@@ -107,7 +107,7 @@
                             <img src="https://via.placeholder.com/50" alt="User"
                                 class="w-[40px] h-[40px] rounded-full mr-2">
                             <div class="grid w-full">
-                                <div><span class="dark:text-white text-[15px] font-medium">{{ auth()->user()->username
+                                <div><span class="dark:text-white text-[15px] font-medium">{{ auth()->user()->name
                                         }}</span></div>
                                 <textarea name="content" minlength="1" maxlength="255" required
                                     class="comment-content block p-2.5 h-[105px] resize-none w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-white dark:border-gray-600 dark:placeholder-gray-400 dark:text-dark dark:focus:ring-blue-500 dark:focus:border-blue-500"

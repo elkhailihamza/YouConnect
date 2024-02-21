@@ -53,7 +53,7 @@
                     </div></a>
                     <div class="relative inline-block text-left">
 
-                        <button id="dropdown" data-dropdown-toggle="user-{{$user->username.'-'.$user->id}}"
+                        <button id="dropdown" data-dropdown-toggle="user-{{$user->name.'-'.$user->id}}"
                             class="inline-flex w-full justify-center gap-x-1.5 rounded-md text-sm font-semibold text-gray-900"
                             type="button"><svg fill="#000000" class="dark:fill-white" xmlns="http://www.w3.org/2000/svg"
                                 height="24" viewBox="0 -960 960 960" width="24">
@@ -63,7 +63,7 @@
                         </button>
 
                         <!-- Dropdown menu -->
-                        <div id="user-{{$user->username.'-'.$user->id}}"
+                        <div id="user-{{$user->name.'-'.$user->id}}"
                             class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
                             <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
                                 aria-labelledby="dropdown">
