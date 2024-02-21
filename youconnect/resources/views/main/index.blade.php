@@ -12,12 +12,18 @@
         @foreach ($posts as $post)
         <div class="rounded shadow-md lg:w-[680px] bg-[#FFFFFF] dark:bg-[#242526]">
             <div class="p-4 flex justify-between">
-                <div class="flex self-start justify-self-start w-40">
-                    <img src="https://via.placeholder.com/50" alt="User" class="w-[40px] h-[40px] rounded-full mr-2">
-                    <div class="grid">
-                        <div><span class="dark:text-white text-[15px] font-medium">{{
-                                $post->user->name }}</span></div>
-                        <span class="text-[13px] w-44 text-stone-500">{{ $post->created_at }}</span>
+                <div>
+                    <div class="flex self-start justify-self-start w-40">
+                        <img src="https://via.placeholder.com/50" alt="User"
+                            class="w-[40px] h-[40px] rounded-full mr-2">
+                        <div class="grid">
+                            <div><span class="dark:text-white text-[15px] font-medium">{{
+                                    $post->user->name }}</span></div>
+                            <span class="text-[13px] w-44 text-stone-500">{{ $post->created_at }}</span>
+                        </div>
+                    </div>
+                    <div class="flex justify-between ms-3 mt-2">
+                        <h2 class="text-[13px]">{{ $post->content }}</h2>
                     </div>
                 </div>
                 <div>
@@ -62,21 +68,22 @@
             </div>
             @if ($post->cover != null)
             <div class="w-full border-t flex items-center justify-center bg-white dark:bg-[#242526]">
-               
+
                 <img src="{{ asset('storage/' . $post->cover) }}" alt="Post" class="w-96 h-auto">
-                
+
             </div>
             @endif
             <div class="h-16 dark:bg-[#242526] border-t rounded-b">
-                    <div data-post-id="{{ $post->id }}" class="flex justify-around items-center w-full h-full likeButton">
-                        <div>
-                            <div class="flex gap-2  cursor-pointer">
-                                <span class="likes-count">{{ $post->likes->count() }}</span>
-                                {{--button de like--}}
-                                <button type="button" class="like-button btnlike" data-post-id="{{$post->id }}"><i class="fa-solid fa-heart fa-lg"></i></button>
-                            </div>
+                <div data-post-id="{{ $post->id }}" class="flex justify-around items-center w-full h-full likeButton">
+                    <div>
+                        <div class="flex gap-2  cursor-pointer">
+                            <span class="likes-count">{{ $post->likes->count() }}</span>
+                            {{--button de like--}}
+                            <button type="button" class="like-button btnlike" data-post-id="{{$post->id }}"><i
+                                    class="fa-solid fa-heart fa-lg"></i></button>
                         </div>
-                    
+                    </div>
+
                     <div>
                         <a class="flex gap-2  cursor-pointer" data-modal-target="default-modal-{{$post}}"
                             data-modal-toggle="default-modal-{{$post}}">
@@ -133,7 +140,8 @@
                         <button data-post-id="{{ $post->id }}"
                             class="load-comments bg-blue-700 text-white p-2.5 rounded">Load Comments</button>
                     </div>
-                    <div data-post-id="{{ $post->id }}" class="comments-container max-h-[350px] rounded overflow-y-auto"></div>
+                    <div data-post-id="{{ $post->id }}"
+                        class="comments-container max-h-[350px] rounded overflow-y-auto"></div>
                     @endif
                 </div>
             </div>
@@ -152,34 +160,34 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-    document.querySelectorAll('.btnlike').forEach(button => {
-        button.addEventListener('click', function () {
-            const postId = this.getAttribute('data-post-id');
-            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        document.querySelectorAll('.btnlike').forEach(button => {
+            button.addEventListener('click', function () {
+                const postId = this.getAttribute('data-post-id');
+                const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-            fetch('{{ route("like.toggle") }}', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': csrfToken
-                },
-                body: JSON.stringify({ post_id: postId })
-            })
-            .then(response => response.json())
-            .then(data => {
-                const likeButton = document.querySelector(`.btnlike[data-post-id="${postId}"] i`);
-                const likesCount = document.querySelector(`.likeButton[data-post-id="${postId}"] .likes-count`);
-                if (data.liked) {
-                    likeButton.classList.add('text-red-500'); // Change la couleur du cœur en rouge
-                } else {
-                    likeButton.classList.remove('text-red-500'); // Retire la couleur rouge du cœur
-                }
-                likesCount.textContent = data.likesCount;
-            })
-            .catch(error => console.error('Error:', error));
+                fetch('{{ route("like.toggle") }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': csrfToken
+                    },
+                    body: JSON.stringify({ post_id: postId })
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        const likeButton = document.querySelector(`.btnlike[data-post-id="${postId}"] i`);
+                        const likesCount = document.querySelector(`.likeButton[data-post-id="${postId}"] .likes-count`);
+                        if (data.liked) {
+                            likeButton.classList.add('text-red-500'); // Change la couleur du cœur en rouge
+                        } else {
+                            likeButton.classList.remove('text-red-500'); // Retire la couleur rouge du cœur
+                        }
+                        likesCount.textContent = data.likesCount;
+                    })
+                    .catch(error => console.error('Error:', error));
+            });
         });
     });
-});
 
 </script>
 
