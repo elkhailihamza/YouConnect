@@ -78,7 +78,6 @@
     </div>
    
     @vite('resources/js/app.js')
-    @vite('resources/js/like.js')
     @vite('resources/js/comment.js')
     @vite('resources/js/ThemeChange.js')
 </body>
