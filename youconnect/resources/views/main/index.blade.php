@@ -3,30 +3,62 @@
 
 @section('content')
 
-
-{{--Content a centre de page : les publication --}}
-<div class="mt-28 "></div>
-
-<div id="publication" class="mt-28  max-h-screen container-xl dark:text-white">
+<div id="publication" class="mt-16 max-h-screen container-xl dark:text-white">
     @if (session('success'))
     <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
         <strong class="font-bold">Success!</strong>
         <span class="block sm:inline">{{ session('success') }}</span>
         <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
-            <svg class="fill-current h-6 w-6 text-green-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 14.849a1 1 0 0 1-1.415 1.414l-2.829-2.828-2.828 2.828a1 1 0 1 1-1.414-1.414l2.828-2.829-2.828-2.828a1 1 0 0 1 1.414-1.414l2.828 2.828 2.829-2.828a1 1 0 0 1 1.415 1.414l-2.828 2.828 2.828 2.829z"/></svg>
+            <svg class="fill-current h-6 w-6 text-green-500" role="button" xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20">
+                <title>Close</title>
+                <path
+                    d="M14.348 14.849a1 1 0 0 1-1.415 1.414l-2.829-2.828-2.828 2.828a1 1 0 1 1-1.414-1.414l2.828-2.829-2.828-2.828a1 1 0 0 1 1.414-1.414l2.828 2.828 2.829-2.828a1 1 0 0 1 1.415 1.414l-2.828 2.828 2.828 2.829z" />
+            </svg>
         </span>
     </div>
-@endif
+    @endif
     <div class="space-y-1">
-        
+        <div class="container mx-auto">
+            <div class="w-[680px] mx-auto my-10 bg-white dark:bg-gray-800 p-5 rounded-lg shadow-md">
+                <h1 class="text-2xl font-semibold mb-5 dark:text-gray-300 text-blue-700 text-center">Create Post</h1>
+                <form action="{{ route('main.posts.store', ['user_id' => Auth::user()->id]) }}" method="post"
+                    enctype="multipart/form-data">
+                    @csrf
+                    @method('post')
+                    <div class="mb-4">
+                        <textarea style="resize: none; height: 175px;" placeholder="What's on your mind, {{Auth::user()->name}}?" minlength="1"
+                            maxlength="300"
+                            class="mt-1 p-2.5 block w-full rounded-md border border-blue-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-100 dark:bg-gray-700 dark:text-gray-100"
+                            name="content"></textarea>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                            for="file_input">Upload
+                            file</label>
+                        <input name="cover"
+                            class="block p-2.5 w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                            id="file_input" type="file">
+                    </div>
+                    <div class="flex items-center justify-center">
+                        <button type="submit"
+                            class="bg-indigo-500 text-white px-4 py-2 rounded-md hover:bg-indigo-600 focus:outline-none focus:bg-indigo-600">Create</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
         @if (isset($posts) && $posts->isNotEmpty())
         @foreach ($posts as $post)
         <div class="rounded shadow-md lg:w-[680px] bg-[#FFFFFF] dark:bg-[#242526]">
             <div class="p-4 flex justify-between">
                 <div>
                     <div class="flex self-start justify-self-start w-40">
-                        <img src="https://via.placeholder.com/50" alt="User"
-                            class="w-[40px] h-[40px] rounded-full mr-2">
+                        @if (!empty($user->avatar))
+                        <img src="{{ asset('storage/' . $user->avatar) }}" alt="User" class="w-8 h-8 rounded-full mr-2">
+                        @else
+                        <img src="https://via.placeholder.com/50" alt="User" class="w-8 h-8 rounded-full mr-2">
+                        @endif
                         <div class="grid">
                             <div><span class="dark:text-white text-[15px] font-medium">{{
                                     $post->user->name }}</span></div>
@@ -35,9 +67,9 @@
                     </div>
                     <div class="flex justify-between ms-3 mt-2">
                         @php
-            $description = $post->content;
-            $description = preg_replace('/#(\w+)/', '<span class="blue-tag">#$1</span>', $description);
-        @endphp
+                        $description = $post->content;
+                        $description = preg_replace('/#(\w+)/', '<span class="blue-tag">#$1</span>', $description);
+                        @endphp
                         <h2 class="text-[13px]"><span>{!! $description !!}</span></h2>
                     </div>
                 </div>
@@ -83,9 +115,7 @@
             </div>
             @if ($post->cover != null)
             <div class="w-full border-t flex items-center justify-center bg-white dark:bg-[#242526]">
-
                 <img src="{{ asset('storage/' . $post->cover) }}" alt="Post" class="w-96 h-auto">
-
             </div>
             @endif
             <div class="h-16 dark:bg-[#242526] border-t rounded-b">
@@ -189,9 +219,9 @@
                         const likeButton = document.querySelector(`.btnlike[data-post-id="${postId}"] i`);
                         const likesCount = document.querySelector(`.likeButton[data-post-id="${postId}"] .likes-count`);
                         if (data.liked) {
-                            likeButton.classList.add('text-red-500'); 
+                            likeButton.classList.add('text-red-500');
                         } else {
-                            likeButton.classList.remove('text-red-500'); 
+                            likeButton.classList.remove('text-red-500');
                         }
                         likesCount.textContent = data.likesCount;
                     })

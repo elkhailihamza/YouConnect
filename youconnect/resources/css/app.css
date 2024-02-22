@@ -21,6 +21,11 @@
     border-radius: 4px;
 }
 
+.blue-tag {
+    color: rgb(54, 172, 245);
+    font-weight: bold;
+}
+
 @media (max-width: 1200px) {
 
     #left-sidebar,
@@ -28,11 +33,6 @@
         display: none;
         width: 100%;
 
-    }
-
-    .blue-tag {
-        color: rgb(54, 54, 245);
-        font-weight: bold;
     }
 
     #toggle-right-sidebar,

@@ -21,9 +21,6 @@ class PostController extends Controller
         $posts = $user->posts()->orderByDesc('created_at')->get();
         return view('profiles.Myposts', compact('posts', 'user'));
     }
-    
-
-
 
     public function view(Post $post)
     {
