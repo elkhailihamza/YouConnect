@@ -3,10 +3,9 @@ $(document).ready(function () {
     $('.load-comments').on('click', loadComments);
 });
 
-let nextPageUrl = '{{ $comments->nextPageUrl() }}';
-let isLoading = false;
+var nextPageUrl = '{{ $comments->nextPageUrl() }}';
+var isLoading = false;
 var scrollTimer;
-
 
 $('.comments-container').scroll(function () {
     if ($('.comments-container').scrollTop() == $(document).height() - $('.comments-container').height()) {
@@ -49,7 +48,6 @@ $('.comments-container').scroll(function () {
     }
 });
 
-
 function submitComment() {
     var postId = $(this).data('post-id');
     var content = $('.comment-content').val();
@@ -68,29 +66,35 @@ function submitComment() {
         },
         success: function (data) {
             $('.comment-content').val('');
+            appendComments(data.comment);
             $('.comment-count[data-post-id="' + postId + '"]').html(data.count);
         },
         error: function (error) {
             console.error('Error:', error);
-            // Handle error if needed
+            // Display an error message to the user
         }
     });
 }
 
 function loadComments() {
     var postId = $(this).data('post-id');
-    $('.load-comments[data-post-id="' + postId + '"]').addClass('hidden');
 
     $.ajax({
         url: '/posts/' + postId + '/comments',
         type: 'GET',
+        beforeSend: function () {
+            // Show loading indicator here
+        },
         success: function (data) {
             appendComments(data.comments.data);
-            nextPageUrl = getNextPageUrl(data);
+            // nextPageUrl = getNextPageUrl(data);
         },
         error: function (error) {
             console.error('Error:', error);
-            // Handle error if needed
+            // Display an error message to the user
+        },
+        complete: function () {
+            // Hide loading indicator here
         }
     });
 }
@@ -98,9 +102,8 @@ function loadComments() {
 function appendComments(comments) {
     if (comments.length > 0) {
         var commentsContainer = $('.comments-container[data-post-id="' + comments[0].post_id + '"]');
-        comments.forEach(function (comment) {
-            commentsContainer.append(generateCommentHtml(comment));
-        });
+        var commentsHtml = comments.map(generateCommentHtml).join('');
+        commentsContainer.append(commentsHtml);
     }
 }
 
@@ -108,7 +111,7 @@ function generateCommentHtml(comment) {
     var date = new Date(comment.created_at);
     var formattedDate = date.toLocaleString();
     var commentHtml = `
-        <div class="comment p-3 bg-gray-800">
+        <div class="comment p-3">
             <div class="flex self-start justify-self-start w-40">
                 <img src="https://via.placeholder.com/50" alt="User" class="w-[40px] h-[40px] rounded-full mr-2">
                 <div class="grid">
@@ -120,13 +123,8 @@ function generateCommentHtml(comment) {
                 <h2 class="text-[13px] ms-5 break-all w-full">${comment.content}</h2>
             </div>
         </div>
-        <hr>`;
+        <div class="flex justify-center">
+            <hr class="w-96">
+        </div>`;
     return commentHtml;
-}
-
-function getNextPageUrl(data) {
-    let parser = new DOMParser();
-    let doc = parser.parseFromString(data, 'text/html');
-    let nextPageUrlElement = doc.querySelector('a[rel="next"]');
-    return nextPageUrlElement ? nextPageUrlElement.getAttribute('href') : null;
 }

@@ -8,17 +8,14 @@ use Illuminate\Http\Request;
 
 class CommentController extends Controller
 {
-    public function index(Post $post)
+    public function index(POST $post)
     {
-        $comments = Comment::select('users.username', 'comments.post_id', 'comments.content', 'comments.created_at')
+        $comments = Comment::select('users.name', 'comments.post_id', 'comments.content', 'comments.created_at')
             ->join('users', 'comments.user_id', '=', 'users.id')
             ->where('post_id', $post->id)
             ->orderBy('comments.created_at', 'DESC')
             ->paginate(10);
-        return response()->json([
-            'comments' => $comments,
-            'nextPageUrl' => $comments->nextPageUrl(),
-        ]);
+        return response()->json(['comments' => $comments]);
     }
     public function store(Request $request, $postId)
     {
@@ -33,9 +30,11 @@ class CommentController extends Controller
                 'content' => $request->input('content'),
             ]);
 
-            $comments = Comment::where('post_id', $postId)->count();
+            $comments = Comment::where('post_id', $postId);
+            $comment = Comment::select('users.name', 'comments.post_id', 'comments.content', 'comments.created_at')
+            ->join('users', 'comments.user_id', '=', 'users.id')->latest()->first();
 
-            return response()->json(['message' => 'success', 'count' => $comments]);
+            return response()->json(['message' => 'success', 'comment' => $comment, 'count' => $comments->count()]);
         } catch (\Exception $e) {
             return response()->json(['message' => 'error', 'error' => $e->getMessage()], 500);
         }

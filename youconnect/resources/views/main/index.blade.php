@@ -100,8 +100,8 @@
                     </div>
 
                     <div>
-                        <a class="flex gap-2  cursor-pointer" data-modal-target="default-modal-{{$post}}"
-                            data-modal-toggle="default-modal-{{$post}}">
+                        <a class="flex gap-2 load-comments cursor-pointer" data-post-id="{{ $post->id }}"
+                            data-modal-target="comments-{{$post->id}}" data-modal-toggle="comments-{{$post->id}}">
                             <span>{{ $post->comments->count() }}</span>
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -114,8 +114,6 @@
                 </div>
             </div>
         </div>
-        @endforeach
-        @foreach ($posts as $post)
         @auth
         <div id="comments-{{$post->id}}" tabindex="-1" aria-hidden="true"
             class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
@@ -143,7 +141,7 @@
                     </div>
                     <!-- Modal body -->
                     <div class="p-1 ms-5 mt-2 flex">
-                        <h2 class="text-xl"><span class="underline">Comments:</span> <span class="comment-count"
+                        <h2 class="text-xl"><span>Comments:</span> <span class="comment-count"
                                 data-post-id="{{ $post->id }}">{{ $post->comments->count() }}</span></h2>
                     </div>
                     @if ($post->comments->count() == 0)
@@ -151,9 +149,8 @@
                         <span>Be The first one to Comment!</span>
                     </div>
                     @else
-                    <div class="p-4 md:px-5 flex justify-center">
-                        <button data-post-id="{{ $post->id }}"
-                            class="load-comments bg-blue-700 text-white p-2.5 rounded">Load Comments</button>
+                    <div data-post-id="{{ $post->id }}"
+                        class="comments-container max-h-[350px] rounded overflow-y-auto">
                     </div>
                     <div data-post-id="{{ $post->id }}"
                         class="comments-container max-h-[350px] rounded overflow-y-auto"></div>
@@ -171,7 +168,6 @@
         @endif
     </div>
 </div>
-
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -205,6 +201,5 @@
     });
 
 </script>
-
 
 @endsection
