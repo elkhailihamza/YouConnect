@@ -5,7 +5,7 @@
 
 <div id="publication" class="mt-16 max-h-screen container-xl dark:text-white">
     @if (session('success'))
-    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+    <div id="success-alert" class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
         <strong class="font-bold">Success!</strong>
         <span class="block sm:inline">{{ session('success') }}</span>
         <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
@@ -182,8 +182,6 @@
                     <div data-post-id="{{ $post->id }}"
                         class="comments-container max-h-[350px] rounded overflow-y-auto">
                     </div>
-                    <div data-post-id="{{ $post->id }}"
-                        class="comments-container max-h-[350px] rounded overflow-y-auto"></div>
                     @endif
                 </div>
             </div>
@@ -229,6 +227,9 @@
             });
         });
     });
+
+
+    
 
 </script>
 
