@@ -53,6 +53,7 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/profile/{user}', 'updateuser')->name('profiles.update');
         Route::get('/posts/create', 'createPost')->name('main.posts');
         Route::post('/posts/create/store', 'store')->name('main.posts.store');
+        Route::get('/user/{user}/posts', 'showUserPosts')->name('profiles.Myposts');
     });
     Route::controller(LikeController::class)->group(function () {
         Route::post('/like/toggle', 'toggleLike')->name('like.toggle');

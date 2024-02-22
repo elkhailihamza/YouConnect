@@ -66,7 +66,9 @@ function submitComment() {
         },
         success: function (data) {
             $('.comment-content').val('');
-            appendComments(data.comment);
+            var commentsContainer = $('.comments-container[data-post-id="' + postId + '"]');
+            var commentsHtml = data.comment.reverse().map(generateCommentHtml).join('');
+            commentsContainer.prepend(commentsHtml);
             $('.comment-count[data-post-id="' + postId + '"]').html(data.count);
         },
         error: function (error) {
@@ -76,8 +78,14 @@ function submitComment() {
     });
 }
 
+var fetchedPosts = new Map;
+
 function loadComments() {
     var postId = $(this).data('post-id');
+
+    if (fetchedPosts.has(postId)) {
+        return;
+    }
 
     $.ajax({
         url: '/posts/' + postId + '/comments',
@@ -86,8 +94,8 @@ function loadComments() {
             // Show loading indicator here
         },
         success: function (data) {
+            fetchedPosts.set(postId, true);
             appendComments(data.comments.data);
-            // nextPageUrl = getNextPageUrl(data);
         },
         error: function (error) {
             console.error('Error:', error);
