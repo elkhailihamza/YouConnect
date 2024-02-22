@@ -51,7 +51,6 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/profile/{user}', 'showuser')->name('profiles.profile');
         Route::get('/profile/edit', 'edituser')->name('profiles.edit');
         Route::put('/profile/{user}', 'updateuser')->name('profiles.update');
-        Route::get('/posts/create', 'createPost')->name('main.posts');
         Route::get('/user/{user}/posts', 'showUserPosts')->name('profiles.Myposts');
     });
     Route::controller(PostController::class)->group(function () {

@@ -2,75 +2,99 @@
 
 @section('content')
 
-<div id="profile" class="mt-28 mb-12 max-h-screen container-xl dark:text-white">
-    @if (session('success'))
-    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
-        <strong class="font-bold">Success!</strong>
-        <span class="block sm:inline">{{ session('success') }}</span>
-        <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
-            <svg class="fill-current h-6 w-6 text-green-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 14.849a1 1 0 0 1-1.415 1.414l-2.829-2.828-2.828 2.828a1 1 0 1 1-1.414-1.414l2.828-2.829-2.828-2.828a1 1 0 0 1 1.414-1.414l2.828 2.828 2.829-2.828a1 1 0 0 1 1.415 1.414l-2.828 2.828 2.828 2.829z"/></svg>
-        </span>
-    </div>
-@endif
+<div id="profile" class="mt-20 mb-12 max-h-screen container-xl dark:text-white">
 
-    <h1 class="text-2xl md:w-[680px] w-[400px] font-semibold mb-5 dark:text-gray-300 text-blue-700 ">Profile details</h1>
+    <h1 class="text-2xl md:w-[680px] w-[400px] font-semibold mb-5 dark:text-gray-300 text-blue-700 ">Profile details
+    </h1>
 
     <div class="rounded shadow-md bg-[#FFFFFF] dark:bg-[#242526]">
-        
+
         <div class="p-4">
             <div class="flex items-center justify-between">
                 <div class="flex items-center">
-                    <img src="{{ Auth::user()->avatar ? asset('storage/' . Auth::user()->avatar) : 'https://via.placeholder.com/50' }}" alt="User" class="w-8 h-8 rounded-full mr-2">
-                    <span class="text-[15px] font-medium">{{ $user->name }}</span>
+                    <img src="{{ Auth::user()->avatar ? asset('storage/' . Auth::user()->avatar) : 'https://via.placeholder.com/50' }}"
+                        alt="User" class="w-8 h-8 rounded-full mr-2">
+                    <div class="grid">
+                        <span class="text-[15px] font-medium">{{ $user->name }}</span>
+                        <span class="text-[13px] text-stone-600">Created: {{ $user->created_at }}</span>
+                    </div>
                 </div>
                 <span class="text-[13px] text-stone-100"><i class="fa-solid fa-envelope"></i> {{ $user->email }}</span>
             </div>
-            <div class="mt-2">
-                <h2 class="text-[13px]">{{ $user->bio }}</h2>
+            <div class="mt-5 ms-3">
+                <span>User Bio:</span>
+                <h2 class="text-[13px] ms-5">{{ $user->bio ?? 'No Bio!'}}</h2>
             </div>
         </div>
-        <div class="h-16 border-t rounded-b flex text-center items-center justify-between bg-white dark:bg-[#242526]">
-            <div class="flex items-center text-center  gap-2 cursor-pointer">
-                <span class="likes-count text-center ">{{ $user->posts->count() }} Posts</span>
+        <div
+            class="h-16 border-t select-none rounded-b flex text-center items-center justify-around bg-white dark:bg-[#242526]">
+            <div class="gap-2">
+                <span class="likes-count items-center justify-center flex gap-2"><svg xmlns="http://www.w3.org/2000/svg"
+                        width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round" class="feather feather-crop">
+                        <path d="M6.13 1L6 16a2 2 0 0 0 2 2h15"></path>
+                        <path d="M1 6.13L16 6a2 2 0 0 1 2 2v15"></path>
+                    </svg>{{ $user->posts->count() }} Posts</span>
+            </div>
+            <div>
+                <span class="likes-count items-center justify-center flex gap-2"><svg xmlns="http://www.w3.org/2000/svg"
+                        width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round" class="feather feather-message-circle">
+                        <path
+                            d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z">
+                        </path>
+                    </svg>{{ $user->comments->count() }} Comments</span>
             </div>
         </div>
     </div>
 
     <div class="mt-2 mb-18 max-h-screen w-full container-xl dark:text-white">
         <h1 class="text-2xl font-semibold mb-5 dark:text-gray-300 text-blue-700">Edit Profile</h1>
-        <form class="rounded shadow-md w-full bg-white dark:bg-[#242526]  dark:text-white p-8 " method="POST" action="{{ route('profiles.update', ['user' => $user]) }}" enctype="multipart/form-data">
+        <form class="rounded shadow-md w-full bg-white dark:bg-[#242526]  dark:text-white p-8 " method="POST"
+            action="{{ route('profiles.update', ['user' => $user]) }}" enctype="multipart/form-data">
             @csrf
             @method('PUT')
-    
+
             <div class="mb-4 w-full">
                 <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Name</label>
-                <input id="name" type="text" class="form-input dark:text-gray-900 text-lg w-full border border-gray-600 rounded" name="name" value="{{ $user->name }}" required autofocus>
+                <input id="name" type="text"
+                    class="form-input dark:text-gray-900 text-lg w-full border border-gray-600 rounded" name="name"
+                    value="{{ $user->name }}" required autofocus>
             </div>
-    
+
             <div class="mb-4 w-full">
                 <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Email</label>
-                <input id="email" type="email" class="form-input dark:text-gray-900 text-lg w-full border border-gray-600 rounded" name="email" value="{{ $user->email }}" required>
+                <input id="email" type="email"
+                    class="form-input dark:text-gray-900 text-lg w-full border border-gray-600 rounded" name="email"
+                    value="{{ $user->email }}" required>
             </div>
-    
+
             <div class="mb-4 w-full">
-                <label for="password" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Password</label>
-                <input id="password" type="password" class="form-input dark:text-gray-900 text-lg w-full border border-gray-600 rounded" name="password" >
+                <label for="password"
+                    class="block text-sm font-medium text-gray-700 dark:text-gray-300">Password</label>
+                <input id="password" type="password"
+                    class="form-input dark:text-gray-900 text-lg w-full border border-gray-600 rounded" name="password">
             </div>
-    
+
             <div class="mb-4 w-full">
                 <label for="bio" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Bio</label>
-                <textarea id="bio" class="form-textarea dark:text-gray-900 text-lg w-full border border-gray-600 rounded" name="bio">{{ $user->bio }}</textarea>
+                <textarea id="bio"
+                    class="form-textarea dark:text-gray-900 text-lg w-full border border-gray-600 rounded"
+                    name="bio">{{ $user->bio }}</textarea>
             </div>
-    
+
             <div class="mb-4 w-full">
                 <label for="avatar" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Avatar</label>
-                <input id="avatar" type="file" class="form-input dark:text-white w-full border border-gray-600 rounded" name="avatar">
+                <input id="avatar" type="file" class="form-input dark:text-white w-full border border-gray-600 rounded"
+                    name="avatar">
             </div>
-    
+
             <div class="flex items-center justify-center mt-6">
-                <button type="submit" class="px-4 py-2 mb-18 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">Save Changes</button>
+                <button type="submit"
+                    class="px-4 py-2 mb-18 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">Save
+                    Changes</button>
             </div>
         </form>
     </div>
-    
-@endsection
+
+    @endsection

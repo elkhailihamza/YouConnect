@@ -21,10 +21,6 @@ class PostController extends Controller
     {
         return view('main.view', compact('post','users'));
     }
-    public function createPost()
-    {
-        return view('main.create');
-    }
 
     public function store(Request $request)
     {
