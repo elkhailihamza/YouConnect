@@ -3,19 +3,30 @@
 
 @section('content')
 
-
+<style>
+    .blue-tag {
+        color: rgb(54, 54, 245);
+        font-weight: bold;
+    }
+</style>
 {{--Content a centre de page : les publication --}}
 <div class="mt-28 "></div>
 
 <div id="publication" class="mt-28  max-h-screen container-xl dark:text-white">
     @if (session('success'))
-    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+    <div id="success-alert" class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
         <strong class="font-bold">Success!</strong>
         <span class="block sm:inline">{{ session('success') }}</span>
         <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
             <svg class="fill-current h-6 w-6 text-green-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 14.849a1 1 0 0 1-1.415 1.414l-2.829-2.828-2.828 2.828a1 1 0 1 1-1.414-1.414l2.828-2.829-2.828-2.828a1 1 0 0 1 1.414-1.414l2.828 2.828 2.829-2.828a1 1 0 0 1 1.415 1.414l-2.828 2.828 2.828 2.829z"/></svg>
         </span>
     </div>
+    <script>
+        setTimeout(function() {
+            var element = document.getElementById("success-alert");
+            element.parentNode.removeChild(element);
+        }, 2000); // 3 secondes
+    </script>
 @endif
     <div class="space-y-1">
         
@@ -152,8 +163,6 @@
                     <div data-post-id="{{ $post->id }}"
                         class="comments-container max-h-[350px] rounded overflow-y-auto">
                     </div>
-                    <div data-post-id="{{ $post->id }}"
-                        class="comments-container max-h-[350px] rounded overflow-y-auto"></div>
                     @endif
                 </div>
             </div>
@@ -199,6 +208,9 @@
             });
         });
     });
+
+
+    
 
 </script>
 
