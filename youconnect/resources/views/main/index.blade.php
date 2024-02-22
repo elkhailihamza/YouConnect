@@ -20,21 +20,19 @@
     </div>
     @endif
     <div class="space-y-1">
+        @auth
         <div class="container mx-auto">
-            <div class="w-[680px] mx-auto my-10 p-5 bg-[#FFFFFF] dark:bg-[#242526] rounded-lg shadow-md">
+            <div class="max-w-[680px] mx-auto my-10 p-5 bg-[#FFFFFF] dark:bg-[#242526] rounded-lg shadow-md">
                 <h1 class="text-2xl font-semibold mb-5 dark:text-gray-300 text-blue-700 text-center">Create Post</h1>
                 <form action="{{ route('main.posts.store', ['user_id' => Auth::user()->id]) }}" method="post"
                     enctype="multipart/form-data">
                     @csrf
                     @method('post')
                     <div class="mb-4">
-                        <textarea style="resize: none; height: 175px;"
-                            placeholder="What's on your mind, {{Auth::user()->name}}?" minlength="1" maxlength="300"
-                            class="mt-1 p-2.5 block w-full rounded-md shadow-sm dark:bg-[#242526] dark:text-gray-100"
-                            name="content"></textarea>
-                    </div>
-                    <div>
-                        
+                        <textarea style="resize: none; height: 175px;" name="content"
+                            placeholder="What's on your mind, {{Auth::user()->name}}?" required minlength="1"
+                            maxlength="300"
+                            class="mt-1 p-2.5 block w-full rounded-md shadow-sm dark:bg-[#242526] dark:text-gray-100"></textarea>
                     </div>
                     <div id="post-image">
                         <div class="mb-4">
@@ -53,15 +51,16 @@
                 </form>
             </div>
         </div>
-
+        @endauth
         @if (isset($posts) && $posts->isNotEmpty())
         @foreach ($posts as $post)
         <div class="rounded shadow-md lg:w-[680px] bg-[#FFFFFF] dark:bg-[#242526]">
             <div class="p-4 flex justify-between">
                 <div>
                     <div class="flex self-start justify-self-start w-40">
-                        @if (!empty($user->avatar))
-                        <img src="{{ asset('storage/' . $user->avatar) }}" alt="User" class="w-8 h-8 rounded-full mr-2">
+                        @if (!empty($post->user->avatar))
+                        <img src="{{ asset('storage/' . $post->user->avatar) }}" alt="User"
+                            class="w-8 h-8 rounded-full mr-2">
                         @else
                         <img src="https://via.placeholder.com/50" alt="User" class="w-8 h-8 rounded-full mr-2">
                         @endif
@@ -138,7 +137,8 @@
                     <div>
                         <a class="flex gap-2 load-comments cursor-pointer" data-post-id="{{ $post->id }}"
                             data-modal-target="comments-{{$post->id}}" data-modal-toggle="comments-{{$post->id}}">
-                            <span data-post-id="{{ $post->id }}" class="comment-count">{{ $post->comments->count() }}</span>
+                            <span data-post-id="{{ $post->id }}" class="comment-count">{{ $post->comments->count()
+                                }}</span>
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                 stroke-linejoin="round" class="feather feather-message-square">
@@ -150,12 +150,12 @@
                 </div>
             </div>
         </div>
-        @auth
         <div id="comments-{{$post->id}}" tabindex="-1" aria-hidden="true"
             class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
             <div class="relative p-4 w-full max-w-2xl max-h-full">
                 <!-- Modal content -->
                 <div class="relative w-full bg-white rounded-lg shadow dark:bg-gray-700">
+                    @auth
                     <!-- Modal header -->
                     <div
                         class="flex items-center w-full justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
@@ -165,8 +165,8 @@
                             <div class="grid w-full">
                                 <div><span class="dark:text-white text-[15px] font-medium">{{ auth()->user()->name
                                         }}</span></div>
-                                <textarea name="content" minlength="1" maxlength="255" required
-                                    class="comment-content block p-2.5 h-[105px] resize-none w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-white dark:border-gray-600 dark:placeholder-gray-400 dark:text-dark dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                <textarea data-post-id="{{ $post->id }}" minlength="1" maxlength="255" required
+                                    class="block p-2.5 h-[105px] comment-content resize-none w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-white dark:border-gray-600 dark:placeholder-gray-400 dark:text-dark dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     placeholder="Write your thoughts here..."></textarea>
                                 <div class="flex justify-end mt-2">
                                     <button type="button" data-post-id="{{ $post->id }}"
@@ -175,24 +175,23 @@
                             </div>
                         </div>
                     </div>
+                    @endauth
+                    @guest
+                    <div class="text-center p-3">
+                        <span>Log in to use this Feature!</span>
+                    </div>
+                    @endguest
                     <!-- Modal body -->
                     <div class="p-1 ms-5 mt-2 flex">
                         <h2 class="text-xl"><span>Comments:</span> <span class="comment-count"
                                 data-post-id="{{ $post->id }}">{{ $post->comments->count() }}</span></h2>
                     </div>
-                    @if ($post->comments->count() == 0)
-                    <div class="text-center p-3">
-                        <span>Be The first one to Comment!</span>
-                    </div>
-                    @else
                     <div data-post-id="{{ $post->id }}"
                         class="comments-container max-h-[350px] rounded overflow-y-auto">
                     </div>
-                    @endif
                 </div>
             </div>
         </div>
-        @endauth
         <div class="h-3"></div>
         @endforeach
         @else
@@ -233,10 +232,6 @@
             });
         });
     });
-
-
-    
-
 </script>
 
 @endsection
