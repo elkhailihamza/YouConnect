@@ -43,7 +43,8 @@
     #left-sidebar.open,
     #right-sidebar.open {
         display: block;
-        width: 408px;
+        margin-top: 50px;
+        width: 300px;
         transition: transform 0.3s;
     }
 

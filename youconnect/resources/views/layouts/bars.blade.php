@@ -1,8 +1,8 @@
 @if(!in_array(Route::currentRouteName(), ['login', 'register', 'main.posts']))
 <div class=" shadow-md container-xl flex justify-between ">
-    <div class="fixed inset-0 mt-[70px] w-60">
+    <div class="fixed inset-0 w-60">
         {{--left-sidebar--}}
-        <div id="left-sidebar" class="lg:w-60 select-none md:w-full h-full left-0 mr-4 hidden md:block dark:border-white ">
+        <div id="left-sidebar" class="lg:w-60 mt-[65px] select-none md:w-full h-full left-0 mr-4 hidden md:block dark:border-white ">
             <div class="h-full px-3 py-2 pb-4 overflow-y-auto bg-[#F0F2F5] dark:bg-[#18191A]">
                 <ul class="space-y-2 font-medium">
                     <div class="text-center w-full mb-5 mt-2">

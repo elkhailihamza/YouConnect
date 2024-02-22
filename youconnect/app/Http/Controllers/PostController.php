@@ -10,11 +10,6 @@ use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
-    public function index()
-    {
-        return view('index', compact('posts'));
-    }
-
 
     public function showUserPosts(User $user)
     {
@@ -56,7 +51,6 @@ class PostController extends Controller
     public function update(Request $request, Post $post)
     {
         $data = $request->validate([
-            'title' => 'required',
             'content' => 'required',
             'cover' => 'nullable|mimes:jpeg,png,jpg,gif|file|max:2048',
         ]);

@@ -3,7 +3,7 @@
 
 @section('content')
 
-<div id="publication" class="mt-16 max-h-screen container-xl dark:text-white">
+<div id="publication" class="mt-16 w-[680px] max-h-screen container-xl dark:text-white">
     @if (session('success'))
     <div id="success-alert" class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative"
         role="alert">

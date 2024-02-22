@@ -7,8 +7,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LikeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
-
-
+use App\Models\Post;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,11 +22,12 @@ use App\Http\Controllers\ProfileController;
 
 Route::get('/', [HomeController::class, 'index'])->name('index');
 Route::get('/home', [HomeController::class, 'index'])->name('index');
+Route::post('/posts/load', [HomeController::class, 'loadPosts']);
 
 Route::controller(CommentController::class)->group(function () {
     Route::get('/posts/{post}/comments', 'index');
     Route::get('/posts/{post}/comments/count', 'count');
-    Route::post('/posts/{post}/comments/store', 'store')->middleware(['auth'])->name('logout');
+    Route::post('/posts/{post}/comments/store', 'store')->middleware(['auth']);
 });
 
 Route::group(['prefix' => 'auth'], function () {
@@ -52,8 +52,10 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/profile/edit', 'edituser')->name('profiles.edit');
         Route::put('/profile/{user}', 'updateuser')->name('profiles.update');
         Route::get('/posts/create', 'createPost')->name('main.posts');
-        Route::post('/posts/create/store', 'store')->name('main.posts.store');
         Route::get('/user/{user}/posts', 'showUserPosts')->name('profiles.Myposts');
+    });
+    Route::controller(PostController::class)->group(function () {
+        Route::post('/posts/create/store', 'store')->name('main.posts.store');
     });
     Route::controller(LikeController::class)->group(function () {
         Route::post('/like/toggle', 'toggleLike')->name('like.toggle');
