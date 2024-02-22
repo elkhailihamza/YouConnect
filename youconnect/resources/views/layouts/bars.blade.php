@@ -1,9 +1,8 @@
 @if(!in_array(Route::currentRouteName(), ['login', 'register', 'main.posts']))
 <div class=" shadow-md container-xl flex justify-between ">
-    <div class="fixed inset-0 w-60">
         {{--left-sidebar--}}
-        <div id="left-sidebar" class="lg:w-60 mt-[65px] select-none md:w-full h-full left-0 mr-4 hidden md:block dark:border-white ">
-            <div class="h-full px-3 py-2 pb-4 overflow-y-auto bg-[#F0F2F5] dark:bg-[#18191A]">
+        <div id="left-sidebar" class="fixed mt-[65px] select-none h-full left-0 mr-4 hidden md:block dark:border-white ">
+            <div class="h-full lg:w-60 px-3 py-2 pb-4 overflow-y-auto bg-[#F0F2F5] dark:bg-[#18191A]">
                 <ul class="space-y-2 font-medium">
                     <div class="text-center w-full mb-5 mt-2">
                         <h1 class="font-[600] text-[17px] text-[#65676B] dark:text-[#B0B3B8]">Actions</h1>
@@ -30,7 +29,6 @@
                 </ul>
             </div>
         </div>
-    </div>
     {{--right-sidebar--}}
     <div id="right-sidebar"
         class="fixed select-none justify-self-end h-full right-0 mt-[65px] bg-[#F0F2F5] dark:bg-[#18191A] hidden md:block overflow-y-scroll dark:text-white border-gray-600 dark:border-white">

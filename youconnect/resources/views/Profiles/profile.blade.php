@@ -13,14 +13,14 @@
     </div>
 @endif
 
-    <h1 class="text-2xl font-semibold mb-5 dark:text-gray-300 text-blue-700 ">Profile details</h1>
+    <h1 class="text-2xl md:w-[680px] w-[400px] font-semibold mb-5 dark:text-gray-300 text-blue-700 ">Profile details</h1>
 
-    <div class="rounded shadow-md lg:w-[680px] bg-[#FFFFFF] dark:bg-[#242526]">
+    <div class="rounded shadow-md bg-[#FFFFFF] dark:bg-[#242526]">
         
         <div class="p-4">
             <div class="flex items-center justify-between">
                 <div class="flex items-center">
-                    <img src="https://via.placeholder.com/50" alt="User" class="w-8 h-8 rounded-full mr-2">
+                    <img src="{{ Auth::user()->avatar ? asset('storage/' . Auth::user()->avatar) : 'https://via.placeholder.com/50' }}" alt="User" class="w-8 h-8 rounded-full mr-2">
                     <span class="text-[15px] font-medium">{{ $user->name }}</span>
                 </div>
                 <span class="text-[13px] text-stone-100"><i class="fa-solid fa-envelope"></i> {{ $user->email }}</span>

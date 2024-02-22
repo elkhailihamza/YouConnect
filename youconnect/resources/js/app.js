@@ -25,8 +25,10 @@ toggleRightSidebar.addEventListener('click', () => {
 
 function openModal(modalId) {
     document.getElementById(modalId).classList.remove('hidden');
+    document.getElementById(modalId).classList.remove('m-0');
 }
 
 function closeModal(modalId) {
     document.getElementById(modalId).classList.add('hidden');
+    document.getElementById(modalId).classList.add('m-0');
 }

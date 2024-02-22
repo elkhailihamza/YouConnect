@@ -3,7 +3,7 @@
 
 @section('content')
 
-<div id="publication" class="mt-16 w-[680px] max-h-screen container-xl dark:text-white">
+<div id="publication" class="mt-16  md:w-[680px] w-[450px] max-h-screen container-xl dark:text-white">
     @if (session('success'))
     <div id="success-alert" class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative"
         role="alert">
@@ -158,10 +158,14 @@
                     @auth
                     <!-- Modal header -->
                     <div
-                        class="flex items-center w-full justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+                        class="flex items-center h-[300px] w-full justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
                         <div class="flex w-full">
-                            <img src="https://via.placeholder.com/50" alt="User"
-                                class="w-[40px] h-[40px] rounded-full mr-2">
+                            @if (!empty(Auth::user()->avatar))
+                            <img src="{{ asset('storage/' . Auth::user()->avatar) }}" alt="User"
+                                class="w-8 h-8 rounded-full mr-2">
+                            @else
+                            <img src="https://via.placeholder.com/50" alt="User" class="w-8 h-8 rounded-full mr-2">
+                            @endif
                             <div class="grid w-full">
                                 <div><span class="dark:text-white text-[15px] font-medium">{{ auth()->user()->name
                                         }}</span></div>
@@ -187,7 +191,7 @@
                                 data-post-id="{{ $post->id }}">{{ $post->comments->count() }}</span></h2>
                     </div>
                     <div data-post-id="{{ $post->id }}"
-                        class="comments-container max-h-[350px] rounded overflow-y-auto">
+                        class="comments-container max-h-[300px] rounded overflow-y-auto">
                     </div>
                 </div>
             </div>
