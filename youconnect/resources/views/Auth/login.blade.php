@@ -5,7 +5,15 @@
 
 <div class="container mx-auto mt-5">
     <div class="max-w-lg mx-auto my-10 bg-white dark:bg-gray-800 p-5 rounded-lg shadow-md mt-24">
-        
+        @if (session('error'))
+    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+        <strong class="font-bold">Success!</strong>
+        <span class="block sm:inline">{{ session('error') }}</span>
+        <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
+            <svg class="fill-current h-6 w-6 text-green-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 14.849a1 1 0 0 1-1.415 1.414l-2.829-2.828-2.828 2.828a1 1 0 1 1-1.414-1.414l2.828-2.829-2.828-2.828a1 1 0 0 1 1.414-1.414l2.828 2.828 2.829-2.828a1 1 0 0 1 1.415 1.414l-2.828 2.828 2.828 2.829z"/></svg>
+        </span>
+    </div>
+@endif
         
         <h1 class="text-2xl font-semibold mb-5 text-center dark:text-white-700 text-blue-700">Login</h1>
         <form class="p-5" action="{{ route('login') }}" method="POST">

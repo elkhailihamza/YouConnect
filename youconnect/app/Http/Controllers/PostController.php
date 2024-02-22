@@ -37,7 +37,6 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'title' => 'required',
             'content' => 'required',
             'cover' => 'nullable|mimes:jpeg,png,jpg,gif|file|max:2048',
         ]);
@@ -82,4 +81,6 @@ class PostController extends Controller
         $post->delete();
         return redirect(route('main.posts'))->withSuccess('Deleted successfully!');
     }
+
+    
 }

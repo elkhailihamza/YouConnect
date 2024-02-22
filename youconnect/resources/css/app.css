@@ -30,6 +30,11 @@
 
     }
 
+    .blue-tag {
+        color: rgb(54, 54, 245);
+        font-weight: bold;
+    }
+
     #toggle-right-sidebar,
     #toggle-left-sidebar {
         display: block;

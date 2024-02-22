@@ -2,6 +2,7 @@
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\FriendshipController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LikeController;
 use Illuminate\Support\Facades\Route;
@@ -34,6 +35,11 @@ Route::get('/explore', function () {
 })->name('explore');
 
 Route::middleware(['auth'])->group(function () {
+    Route::get('/send-request/{friend}', [FriendshipController::class, 'sendRequest'])->name('sendRequest');
+    Route::put('/friendship/{friendship}/accept', [FriendshipController::class, 'acceptRequest'])->name('friendship.acceptRequest');
+    Route::put('/friendship/{friendship}/reject', [FriendshipController::class, 'rejectRequest'])->name('friendship.rejectRequest');
+    Route::delete('/cancel-request/{friendship}', [FriendshipController::class, 'cancelRequest'])->name('cancelRequest');
+
     Route::controller(ProfileController::class)->group(function () {
         Route::get('/profile/{user}', 'show')->name('profiles.profile');
         Route::get('/profile/edit', 'edit')->name('profiles.edit');

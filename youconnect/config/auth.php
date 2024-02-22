@@ -18,6 +18,11 @@ return [
         'passwords' => 'users',
     ],
 
+
+    'notifications' => [
+        'mail',
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Authentication Guards
