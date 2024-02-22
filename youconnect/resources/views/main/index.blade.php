@@ -6,18 +6,39 @@
 
 {{--Content a centre de page : les publication --}}
 <div class="mt-28 "></div>
+
 <div id="publication" class="mt-28  max-h-screen container-xl dark:text-white">
+    @if (session('success'))
+    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+        <strong class="font-bold">Success!</strong>
+        <span class="block sm:inline">{{ session('success') }}</span>
+        <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
+            <svg class="fill-current h-6 w-6 text-green-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 14.849a1 1 0 0 1-1.415 1.414l-2.829-2.828-2.828 2.828a1 1 0 1 1-1.414-1.414l2.828-2.829-2.828-2.828a1 1 0 0 1 1.414-1.414l2.828 2.828 2.829-2.828a1 1 0 0 1 1.415 1.414l-2.828 2.828 2.828 2.829z"/></svg>
+        </span>
+    </div>
+@endif
     <div class="space-y-1">
+        
         @if (isset($posts) && $posts->isNotEmpty())
         @foreach ($posts as $post)
         <div class="rounded shadow-md lg:w-[680px] bg-[#FFFFFF] dark:bg-[#242526]">
-            <div class="p-4">
-                <div class="flex self-start justify-self-start w-40">
-                    <img src="https://via.placeholder.com/50" alt="User" class="w-[40px] h-[40px] rounded-full mr-2">
-                    <div class="grid">
-                        <div><span class="dark:text-white text-[15px] font-medium">{{
-                                $post->user->name }}</span></div>
-                        <span class="text-[13px] w-44 text-stone-500">{{ $post->created_at }}</span>
+            <div class="p-4 flex justify-between">
+                <div>
+                    <div class="flex self-start justify-self-start w-40">
+                        <img src="https://via.placeholder.com/50" alt="User"
+                            class="w-[40px] h-[40px] rounded-full mr-2">
+                        <div class="grid">
+                            <div><span class="dark:text-white text-[15px] font-medium">{{
+                                    $post->user->name }}</span></div>
+                            <span class="text-[13px] w-44 text-stone-500">{{ $post->created_at->diffForHumans()}}</span>
+                        </div>
+                    </div>
+                    <div class="flex justify-between ms-3 mt-2">
+                        @php
+            $description = $post->content;
+            $description = preg_replace('/#(\w+)/', '<span class="blue-tag">#$1</span>', $description);
+        @endphp
+                        <h2 class="text-[13px]"><span>{!! $description !!}</span></h2>
                     </div>
                 </div>
                 <div>
@@ -62,21 +83,22 @@
             </div>
             @if ($post->cover != null)
             <div class="w-full border-t flex items-center justify-center bg-white dark:bg-[#242526]">
-               
+
                 <img src="{{ asset('storage/' . $post->cover) }}" alt="Post" class="w-96 h-auto">
-                
+
             </div>
             @endif
             <div class="h-16 dark:bg-[#242526] border-t rounded-b">
-                    <div data-post-id="{{ $post->id }}" class="flex justify-around items-center w-full h-full likeButton">
-                        <div>
-                            <div class="flex gap-2  cursor-pointer">
-                                <span class="likes-count">{{ $post->likes->count() }}</span>
-                                {{--button de like--}}
-                                <button type="button" class="like-button btnlike" data-post-id="{{$post->id }}"><i class="fa-solid fa-heart fa-lg"></i></button>
-                            </div>
+                <div data-post-id="{{ $post->id }}" class="flex justify-around items-center w-full h-full likeButton">
+                    <div>
+                        <div class="flex gap-2  cursor-pointer">
+                            <span class="likes-count">{{ $post->likes->count() }}</span>
+                            {{--button de like--}}
+                            <button type="button" class="like-button btnlike" data-post-id="{{$post->id }}"><i
+                                    class="fa-solid fa-heart fa-lg"></i></button>
                         </div>
-                    
+                    </div>
+
                     <div>
                         <a class="flex gap-2  cursor-pointer" data-modal-target="default-modal-{{$post}}"
                             data-modal-toggle="default-modal-{{$post}}">
@@ -133,7 +155,8 @@
                         <button data-post-id="{{ $post->id }}"
                             class="load-comments bg-blue-700 text-white p-2.5 rounded">Load Comments</button>
                     </div>
-                    <div data-post-id="{{ $post->id }}" class="comments-container max-h-[350px] rounded overflow-y-auto"></div>
+                    <div data-post-id="{{ $post->id }}"
+                        class="comments-container max-h-[350px] rounded overflow-y-auto"></div>
                     @endif
                 </div>
             </div>
@@ -152,34 +175,34 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-    document.querySelectorAll('.btnlike').forEach(button => {
-        button.addEventListener('click', function () {
-            const postId = this.getAttribute('data-post-id');
-            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        document.querySelectorAll('.btnlike').forEach(button => {
+            button.addEventListener('click', function () {
+                const postId = this.getAttribute('data-post-id');
+                const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-            fetch('{{ route("like.toggle") }}', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': csrfToken
-                },
-                body: JSON.stringify({ post_id: postId })
-            })
-            .then(response => response.json())
-            .then(data => {
-                const likeButton = document.querySelector(`.btnlike[data-post-id="${postId}"] i`);
-                const likesCount = document.querySelector(`.likeButton[data-post-id="${postId}"] .likes-count`);
-                if (data.liked) {
-                    likeButton.classList.add('text-red-500'); // Change la couleur du cœur en rouge
-                } else {
-                    likeButton.classList.remove('text-red-500'); // Retire la couleur rouge du cœur
-                }
-                likesCount.textContent = data.likesCount;
-            })
-            .catch(error => console.error('Error:', error));
+                fetch('{{ route("like.toggle") }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': csrfToken
+                    },
+                    body: JSON.stringify({ post_id: postId })
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        const likeButton = document.querySelector(`.btnlike[data-post-id="${postId}"] i`);
+                        const likesCount = document.querySelector(`.likeButton[data-post-id="${postId}"] .likes-count`);
+                        if (data.liked) {
+                            likeButton.classList.add('text-red-500'); 
+                        } else {
+                            likeButton.classList.remove('text-red-500'); 
+                        }
+                        likesCount.textContent = data.likesCount;
+                    })
+                    .catch(error => console.error('Error:', error));
+            });
         });
     });
-});
 
 </script>
 

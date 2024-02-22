@@ -17,11 +17,15 @@
                     <div class="grid">
                         <div><span class="dark:text-white text-[15px] font-medium">{{
                                 $post->user->name }}</span></div>
-                        <span class="text-[13px] w-44 text-stone-500">{{ $post->created_at }}</span>
+                        <span class="text-[13px] w-44 text-stone-500">{{ $post->created_at->diffForHumans() }}</span>
                     </div>
                 </div>
-                <div class="flex justify-between ms-2 mt-1">
-                    <h2 class="text-[13px]">{{ $post->content }}</h2>
+                <div class="flex justify-between ms-3 mt-2">
+                    @php
+        $description = $post->content;
+        $description = preg_replace('/([#@]\w+)/', '<span class="blue-tag">$1</span>', $description);
+    @endphp
+                    <h2 class="text-[13px]"><span>{!! $description !!}</span></h2>
                 </div>
             </div>
             @if ($post->cover != null)

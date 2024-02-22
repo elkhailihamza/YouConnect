@@ -67,9 +67,13 @@
                             class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
                             <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
                                 aria-labelledby="dropdown">
+                                @auth
                                 <li>
-                                    <a href="#"
-                                        class="block flex gap-1 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"><svg
+                                    {{-- @unless(auth()->user()->isFriendWith($user) || auth()->user()->hasSentFriendRequestTo($user))
+
+                              <form action="{{ route('friendship.sendRequest', $user) }}" method="post">
+                                @csrf --}}
+                                    <a href="{{ route('sendRequest', ['friend' => $user->id]) }}" class="block flex gap-1 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"><svg
                                             xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                                             viewBox="0 0 24 24" fill="none" stroke="#00b1ff" stroke-width="1.5"
                                             stroke-linecap="round" stroke-linejoin="round">
@@ -78,7 +82,11 @@
                                             <line x1="20" y1="8" x2="20" y2="14"></line>
                                             <line x1="23" y1="11" x2="17" y2="11"></line>
                                         </svg> Befriend</a>
+                                    {{-- </form>
+
+                                    @endunless --}}
                                 </li>
+                                @endauth
                                 <li>
                                     <a href="#"
                                         class="block flex gap-1 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"><svg
