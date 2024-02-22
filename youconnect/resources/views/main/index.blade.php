@@ -124,7 +124,7 @@
                     </div>
                     <!-- Modal body -->
                     <div class="p-1 ms-5 mt-2 flex">
-                        <h2 class="text-xl"><span class="underline">Comments:</span> <span class="comment-count"
+                        <h2 class="text-xl"><span>Comments:</span> <span class="comment-count"
                                 data-post-id="{{ $post->id }}">{{ $post->comments->count() }}</span></h2>
                     </div>
                     @if ($post->comments->count() == 0)
@@ -133,7 +133,8 @@
                     </div>
                     @else
                     <div data-post-id="{{ $post->id }}"
-                        class="comments-container max-h-[350px] rounded overflow-y-auto"></div>
+                        class="comments-container max-h-[350px] rounded overflow-y-auto">
+                    </div>
                     @endif
                 </div>
             </div>
