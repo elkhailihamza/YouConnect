@@ -3,41 +3,67 @@
 
 @section('content')
 
-<style>
-    .blue-tag {
-        color: rgb(54, 54, 245);
-        font-weight: bold;
-    }
-</style>
-{{--Content a centre de page : les publication --}}
-<div class="mt-28 "></div>
-
-<div id="publication" class="mt-28  max-h-screen container-xl dark:text-white">
+<div id="publication" class="mt-16 w-[680px] max-h-screen container-xl dark:text-white">
     @if (session('success'))
-    <div id="success-alert" class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+    <div id="success-alert" class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative"
+        role="alert">
         <strong class="font-bold">Success!</strong>
         <span class="block sm:inline">{{ session('success') }}</span>
         <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
-            <svg class="fill-current h-6 w-6 text-green-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 14.849a1 1 0 0 1-1.415 1.414l-2.829-2.828-2.828 2.828a1 1 0 1 1-1.414-1.414l2.828-2.829-2.828-2.828a1 1 0 0 1 1.414-1.414l2.828 2.828 2.829-2.828a1 1 0 0 1 1.415 1.414l-2.828 2.828 2.828 2.829z"/></svg>
+            <svg class="fill-current h-6 w-6 text-green-500" role="button" xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20">
+                <title>Close</title>
+                <path
+                    d="M14.348 14.849a1 1 0 0 1-1.415 1.414l-2.829-2.828-2.828 2.828a1 1 0 1 1-1.414-1.414l2.828-2.829-2.828-2.828a1 1 0 0 1 1.414-1.414l2.828 2.828 2.829-2.828a1 1 0 0 1 1.415 1.414l-2.828 2.828 2.828 2.829z" />
+            </svg>
         </span>
     </div>
-    <script>
-        setTimeout(function() {
-            var element = document.getElementById("success-alert");
-            element.parentNode.removeChild(element);
-        }, 2000); // 3 secondes
-    </script>
-@endif
+    @endif
     <div class="space-y-1">
-        
+        @auth
+        <div class="container mx-auto">
+            <div class="max-w-[680px] mx-auto my-10 p-5 bg-[#FFFFFF] dark:bg-[#242526] rounded-lg shadow-md">
+                <h1 class="text-2xl font-semibold mb-5 dark:text-gray-300 text-blue-700 text-center">Create Post</h1>
+                <form action="{{ route('main.posts.store', ['user_id' => Auth::user()->id]) }}" method="post"
+                    enctype="multipart/form-data">
+                    @csrf
+                    @method('post')
+                    <div class="mb-4">
+                        <textarea style="resize: none; height: 175px;" name="content"
+                            placeholder="What's on your mind, {{Auth::user()->name}}?" required minlength="1"
+                            maxlength="300"
+                            class="mt-1 p-2.5 block w-full rounded-md shadow-sm dark:bg-[#242526] dark:text-gray-100"></textarea>
+                    </div>
+                    <div id="post-image">
+                        <div class="mb-4">
+                            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                for="file_input">Upload
+                                image</label>
+                            <input name="cover"
+                                class="block p-2.5 w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-[#242526] dark:border-gray-600 dark:placeholder-gray-400"
+                                id="file_input" type="file">
+                        </div>
+                        <div class="flex items-center justify-center">
+                            <button type="submit"
+                                class="bg-indigo-500 text-white px-4 py-2 rounded-md hover:bg-indigo-600 focus:outline-none focus:bg-indigo-600">Create</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        @endauth
         @if (isset($posts) && $posts->isNotEmpty())
         @foreach ($posts as $post)
         <div class="rounded shadow-md lg:w-[680px] bg-[#FFFFFF] dark:bg-[#242526]">
             <div class="p-4 flex justify-between">
                 <div>
                     <div class="flex self-start justify-self-start w-40">
-                        <img src="https://via.placeholder.com/50" alt="User"
-                            class="w-[40px] h-[40px] rounded-full mr-2">
+                        @if (!empty($post->user->avatar))
+                        <img src="{{ asset('storage/' . $post->user->avatar) }}" alt="User"
+                            class="w-8 h-8 rounded-full mr-2">
+                        @else
+                        <img src="https://via.placeholder.com/50" alt="User" class="w-8 h-8 rounded-full mr-2">
+                        @endif
                         <div class="grid">
                             <div><span class="dark:text-white text-[15px] font-medium">{{
                                     $post->user->name }}</span></div>
@@ -46,9 +72,9 @@
                     </div>
                     <div class="flex justify-between ms-3 mt-2">
                         @php
-            $description = $post->content;
-            $description = preg_replace('/#(\w+)/', '<span class="blue-tag">#$1</span>', $description);
-        @endphp
+                        $description = $post->content;
+                        $description = preg_replace('/#(\w+)/', '<span class="blue-tag">#$1</span>', $description);
+                        @endphp
                         <h2 class="text-[13px]"><span>{!! $description !!}</span></h2>
                     </div>
                 </div>
@@ -94,9 +120,7 @@
             </div>
             @if ($post->cover != null)
             <div class="w-full border-t flex items-center justify-center bg-white dark:bg-[#242526]">
-
                 <img src="{{ asset('storage/' . $post->cover) }}" alt="Post" class="w-96 h-auto">
-
             </div>
             @endif
             <div class="h-16 dark:bg-[#242526] border-t rounded-b">
@@ -113,7 +137,8 @@
                     <div>
                         <a class="flex gap-2 load-comments cursor-pointer" data-post-id="{{ $post->id }}"
                             data-modal-target="comments-{{$post->id}}" data-modal-toggle="comments-{{$post->id}}">
-                            <span>{{ $post->comments->count() }}</span>
+                            <span data-post-id="{{ $post->id }}" class="comment-count">{{ $post->comments->count()
+                                }}</span>
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                 stroke-linejoin="round" class="feather feather-message-square">
@@ -125,12 +150,12 @@
                 </div>
             </div>
         </div>
-        @auth
         <div id="comments-{{$post->id}}" tabindex="-1" aria-hidden="true"
             class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
             <div class="relative p-4 w-full max-w-2xl max-h-full">
                 <!-- Modal content -->
                 <div class="relative w-full bg-white rounded-lg shadow dark:bg-gray-700">
+                    @auth
                     <!-- Modal header -->
                     <div
                         class="flex items-center w-full justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
@@ -140,8 +165,8 @@
                             <div class="grid w-full">
                                 <div><span class="dark:text-white text-[15px] font-medium">{{ auth()->user()->name
                                         }}</span></div>
-                                <textarea name="content" minlength="1" maxlength="255" required
-                                    class="comment-content block p-2.5 h-[105px] resize-none w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-white dark:border-gray-600 dark:placeholder-gray-400 dark:text-dark dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                <textarea data-post-id="{{ $post->id }}" minlength="1" maxlength="255" required
+                                    class="block p-2.5 h-[105px] comment-content resize-none w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-white dark:border-gray-600 dark:placeholder-gray-400 dark:text-dark dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     placeholder="Write your thoughts here..."></textarea>
                                 <div class="flex justify-end mt-2">
                                     <button type="button" data-post-id="{{ $post->id }}"
@@ -150,24 +175,23 @@
                             </div>
                         </div>
                     </div>
+                    @endauth
+                    @guest
+                    <div class="text-center p-3">
+                        <span>Log in to use this Feature!</span>
+                    </div>
+                    @endguest
                     <!-- Modal body -->
                     <div class="p-1 ms-5 mt-2 flex">
                         <h2 class="text-xl"><span>Comments:</span> <span class="comment-count"
                                 data-post-id="{{ $post->id }}">{{ $post->comments->count() }}</span></h2>
                     </div>
-                    @if ($post->comments->count() == 0)
-                    <div class="text-center p-3">
-                        <span>Be The first one to Comment!</span>
-                    </div>
-                    @else
                     <div data-post-id="{{ $post->id }}"
                         class="comments-container max-h-[350px] rounded overflow-y-auto">
                     </div>
-                    @endif
                 </div>
             </div>
         </div>
-        @endauth
         <div class="h-3"></div>
         @endforeach
         @else
@@ -198,9 +222,9 @@
                         const likeButton = document.querySelector(`.btnlike[data-post-id="${postId}"] i`);
                         const likesCount = document.querySelector(`.likeButton[data-post-id="${postId}"] .likes-count`);
                         if (data.liked) {
-                            likeButton.classList.add('text-red-500'); 
+                            likeButton.classList.add('text-red-500');
                         } else {
-                            likeButton.classList.remove('text-red-500'); 
+                            likeButton.classList.remove('text-red-500');
                         }
                         likesCount.textContent = data.likesCount;
                     })
@@ -208,10 +232,6 @@
             });
         });
     });
-
-
-    
-
 </script>
 
 @endsection
