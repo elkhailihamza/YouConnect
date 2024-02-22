@@ -18,6 +18,12 @@
     .red{
         color: red;
     }
+
+    .blue-tag {
+    color: rgb(54, 54, 245);
+    font-weight: bold;
+}
+
     ::-webkit-scrollbar {
     display: none;  
     }
@@ -74,9 +80,11 @@
     @include('layouts.nav')
     @include('layouts.bars')
     <div class="container-xl flex justify-center">
+        
         @yield('content')
     </div>
-   
+
+    
     @vite('resources/js/app.js')
     @vite('resources/js/like.js')
     @vite('resources/js/comment.js')

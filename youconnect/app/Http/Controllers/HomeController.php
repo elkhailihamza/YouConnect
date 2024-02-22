@@ -12,7 +12,7 @@ class HomeController extends Controller
     public function index()
     {
         $user_id = Auth::id();
-        $posts = Post::all()->sortByDesc('created_at');
+        $posts = Post::inRandomOrder()->get();
         return view('main.index', compact(['posts']));
     }
 }

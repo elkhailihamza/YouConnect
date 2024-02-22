@@ -1,53 +1,29 @@
 document.addEventListener('DOMContentLoaded', function () {
-    document.querySelectorAll('.likeButton').forEach(function (likeButton) {
-        likeButton.addEventListener('click', function () {
-            var post_id = this.getAttribute('data-post-id');
-            var likeButtonElement = this;
+    document.querySelectorAll('.btnlike').forEach(button => {
+        button.addEventListener('click', function () {
+            const postId = this.getAttribute('data-post-id');
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-            // Check if the user has already liked the post
-            axios.post('/posts/check-like/' + post_id)
-                .then(function (response) {
-                    if (response.data.hasLiked) {
-                        likeButtonElement.classList.add('liked');
-                    } else {
-                        if (likeButtonElement.classList.contains('liked')) {
-                            // Unlike the post
-                            axios.post('/posts/unlike', { post_id: post_id })
-                                .then(function (response) {
-                                    if (response.data.status === 'unliked') {
-                                        likeButtonElement.classList.remove('liked');
-                                        var likesCountElement = likeButtonElement.querySelector('.likes-count');
-                                        var likesCount = parseInt(likesCountElement.textContent);
-                                        likesCountElement.textContent = likesCount - 1;
-                                    } else {
-                                        console.log('Error unliking post');
-                                    }
-                                })
-                                .catch(function (error) {
-                                    console.log(error);
-                                });
-                        } else {
-                            // Like the post
-                            axios.post('/posts/like', { post_id: post_id })
-                                .then(function (response) {
-                                    if (response.data.status === 'liked') {
-                                        likeButtonElement.classList.add('liked');
-                                        var likesCountElement = likeButtonElement.querySelector('.likes-count');
-                                        var likesCount = parseInt(likesCountElement.textContent);
-                                        likesCountElement.textContent = likesCount + 1;
-                                    } else {
-                                        console.log('Error liking post');
-                                    }
-                                })
-                                .catch(function (error) {
-                                    console.log(error);
-                                });
-                        }
-                    }
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
+            fetch('{{ route("like.toggle") }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken
+                },
+                body: JSON.stringify({ post_id: postId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                const likeButton = document.querySelector(`.btnlike[data-post-id="${postId}"] i`);
+                const likesCount = document.querySelector(`.likeButton[data-post-id="${postId}"] .likes-count`);
+                if (data.liked) {
+                    likeButton.classList.add('text-red-500'); // Change la couleur du cœur en rouge
+                } else {
+                    likeButton.classList.remove('text-red-500'); // Retire la couleur rouge du cœur
+                }
+                likesCount.textContent = data.likesCount;
+            })
+            .catch(error => console.error('Error:', error));
         });
     });
 });

@@ -19,7 +19,7 @@ class AppServiceProvider extends ServiceProvider
         // Share users data with the sidebar view
         View::composer('layouts.app', function ($view) {
             $user_id = Auth::id();
-            $users = User::inRandomOrder()->paginate(10)->whereNotIn('id', [$user_id]);
+            $users = User::inRandomOrder()->paginate(15)->whereNotIn('id', [$user_id]);
             $view->with('users', $users);
         });
     }

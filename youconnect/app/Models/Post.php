@@ -19,7 +19,6 @@ class Post extends Model
         return $this->hasMany(Like::class);
     }
     protected $fillable = [
-        'title',
         'content',
         'cover',
         'user_id'
