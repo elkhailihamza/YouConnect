@@ -89,8 +89,10 @@ function loadComments() {
         url: '/posts/' + postId + '/comments',
         type: 'GET',
         success: function (data) {
-            fetchedPosts.set(postId, true);
-            appendComments(data.comments.data);
+            if (data.comments.data.length > 0) {
+                fetchedPosts.set(postId, true);
+                appendComments(data.comments.data);
+            }
         },
         error: function (error) {
             console.error('Error:', error);
@@ -99,31 +101,32 @@ function loadComments() {
 }
 
 function appendComments(comments) {
-    if (comments.length > 0) {
-        var commentsContainer = $('.comments-container[data-post-id="' + comments[0].post_id + '"]');
-        var commentsHtml = comments.map(generateCommentHtml).join('');
-        commentsContainer.append(commentsHtml);
-    }
+    var commentsContainer = $('.comments-container[data-post-id="' + comments[0].post_id + '"]');
+    var commentsHtml = comments.map(generateCommentHtml).join('');
+    commentsContainer.append(commentsHtml);
 }
 
 function generateCommentHtml(comment) {
     var date = new Date(comment.created_at);
     var formattedDate = date.toLocaleString();
+    var baseUrl = "{{ url('/') }}";
     var commentHtml = `
-        <div class="comment p-3">
-            <div class="flex self-start justify-self-start w-40">
-                <img src="https://via.placeholder.com/50" alt="User" class="w-[40px] h-[40px] rounded-full mr-2">
-                <div class="grid">
-                    <div><span class="dark:text-white text-[15px] font-medium">${comment.name}</span></div>
-                    <span class="text-[13px] w-44 text-stone-500">${formattedDate}</span>
-                </div>
-            </div>
-            <div class="flex justify-between mt-1">
-                <h2 class="text-[13px] ms-5 break-all w-full">${comment.content}</h2>
+    <div class="comment p-3">
+        <div class="flex self-start justify-self-start w-40">
+            <img src="${!comment.avatar ? 'https://via.placeholder.com/50' : 'storage/'+comment.avatar}" alt="User"
+                class="w-8 h-8 rounded-full mr-2">
+            <div class="grid">
+                <div><span class="dark:text-white text-[15px] font-medium">${comment.name}</span></div>
+                <span class="text-[13px] w-44 text-stone-500">${formattedDate}</span>
             </div>
         </div>
-        <div class="flex justify-center">
-            <hr class="w-96">
-        </div>`;
+        <div class="flex justify-between mt-1">
+            <h2 class="text-[13px] ms-5 break-all w-full">${comment.content}</h2>
+        </div>
+    </div>
+    <div class="flex justify-center">
+        <hr class="w-96">
+    </div>`;
+
     return commentHtml;
 }

@@ -10,7 +10,7 @@ class CommentController extends Controller
 {
     public function index(POST $post)
     {
-        $comments = Comment::select('users.name', 'comments.post_id', 'comments.content', 'comments.created_at')
+        $comments = Comment::select('users.name', 'users.avatar', 'comments.post_id', 'comments.content', 'comments.created_at')
             ->join('users', 'comments.user_id', '=', 'users.id')
             ->where('post_id', $post->id)
             ->orderBy('comments.created_at', 'DESC')
@@ -31,7 +31,7 @@ class CommentController extends Controller
             ]);
 
             $comments = Comment::where('post_id', $postId);
-            $comment = Comment::select('users.name', 'comments.post_id', 'comments.content', 'comments.created_at')
+            $comment = Comment::select('users.name', 'users.avatar', 'comments.post_id', 'comments.content', 'comments.created_at')
             ->join('users', 'comments.user_id', '=', 'users.id')->latest()->first();
 
             return response()->json(['message' => 'success', 'comment' => $comment, 'count' => $comments->count()]);
