@@ -41,9 +41,9 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/cancel-request/{friendship}', [FriendshipController::class, 'cancelRequest'])->name('cancelRequest');
 
     Route::controller(ProfileController::class)->group(function () {
-        Route::get('/profile/{user}', 'show')->name('profiles.profile');
-        Route::get('/profile/edit', 'edit')->name('profiles.edit');
-        Route::put('/profile/{user}', 'update')->name('profiles.update');
+        Route::get('/profile/{user}', 'showuser')->name('profiles.profile');
+        Route::get('/profile/edit', 'edituser')->name('profiles.edit');
+        Route::put('/profile/{user}', 'updateuser')->name('profiles.update');
         Route::get('/posts/create', 'createPost')->name('main.posts');
         Route::post('/posts/create/store', 'store')->name('main.posts.store');
         Route::get('/user/{user}/posts', 'showUserPosts')->name('profiles.Myposts');
