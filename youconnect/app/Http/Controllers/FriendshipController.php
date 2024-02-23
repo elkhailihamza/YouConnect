@@ -6,15 +6,22 @@ use App\Models\Friendship;
 use App\Models\User;
 use App\Notifications\FriendRequestNotification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class FriendshipController extends Controller
 {
     public function sendRequest(User $friend)
     {
-        auth()->user()->sendRequest($friend);
+        $found = Friendship::where('sender_id', Auth::user()->id)
+            ->where('receiver_id', $friend->id)
+            ->first();
 
-    
-        return redirect()->back()->with('success', 'Demande d\'ami envoyée avec succès');
+        if (!$found) {
+            auth()->user()->sendRequest($friend);
+            return response()->json(['success' => 'Demande d\'ami envoyée avec succès']);
+        } else {
+            return response()->json(['error' => 'User already sent a friend request!']);
+        }
     }
 
     public function acceptRequest(Friendship $friendship)
@@ -33,18 +40,18 @@ class FriendshipController extends Controller
 
 
     public function sentRequests()
-{
-    $sentRequests = auth()->user()->sentFriendRequests()->where('status', 'pending')->get();
+    {
+        $sentRequests = auth()->user()->sentFriendRequests()->where('status', 'pending')->get();
 
-    return view('friendships.sent_requests', compact('sentRequests'));
-}
+        return view('friendships.sent_requests', compact('sentRequests'));
+    }
 
 
-public function cancelRequest(Friendship $friendship)
-{
-    $friendship->delete();
+    public function cancelRequest(Friendship $friendship)
+    {
+        $friendship->delete();
 
-    return redirect()->back()->with('success', 'Demande d\'ami annulée avec succès');
-}
+        return redirect()->back()->with('success', 'Demande d\'ami annulée avec succès');
+    }
 
 }

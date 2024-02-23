@@ -15,9 +15,16 @@ class HomeController extends Controller
         return view('main.index', ['posts' => $posts]);
     }
 
-    public function getUsers()
+    public function getUsers(Request $request)
     {
-        $users = User::inRandomOrder()->paginate(10);
-        return response()->json(['users' => $users]);
+        $search = $request->input('search');
+        $users = User::where('name', 'LIKE', "%{$search}%")->paginate(20);
+        if (Auth::check()) {
+            $currentUser = Auth::user();
+            return response()->json(['users' => $users, 'mainUserId' => $currentUser->id, 'search' => $search]);
+        } else {
+            return response()->json(['users' => $users, 'search' => $search]);
+        }
+
     }
 }

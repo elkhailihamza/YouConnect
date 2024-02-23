@@ -16,7 +16,7 @@
                         alt="User" class="w-8 h-8 rounded-full mr-2">
                     <div class="grid">
                         <span class="text-[15px] font-medium">{{ $user->name }}</span>
-                        <span class="text-[13px] text-stone-600">Created: {{ $user->created_at }}</span>
+                        <span class="text-[13px] text-stone-500">Created: {{ $user->created_at->diffForHumans() }}</span>
                     </div>
                 </div>
                 <span class="text-[13px] text-stone-100"><i class="fa-solid fa-envelope"></i> {{ $user->email }}</span>

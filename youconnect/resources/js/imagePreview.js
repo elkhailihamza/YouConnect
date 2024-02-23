@@ -14,6 +14,7 @@ function displayPreview(file) {
         var previewContainer = $('#preview-container');
         var preview = $('#preview');
         preview.prop('src', reader.result);
+        console.log(reader);
         previewContainer.removeClass('hidden'); 
     };
 }

@@ -3,9 +3,9 @@ $(document).ready(function () {
     $('.load-comments').on('click', loadComments);
 });
 
-var nextPageUrl = '{{ $comments->nextPageUrl() }}';
-var isLoading = false;
-var scrollTimer;
+// var nextPageUrl = '{{ $comments->nextPageUrl() }}';
+// var isLoading = false;
+// var scrollTimer;
 
 // $('.comments-container').scroll(function () {
 //     if ($('.comments-container').scrollTop() == $(document).height() - $('.comments-container').height()) {
