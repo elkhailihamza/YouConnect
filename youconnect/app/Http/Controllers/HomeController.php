@@ -14,4 +14,10 @@ class HomeController extends Controller
         $posts = Post::inRandomOrder()->paginate(10);
         return view('main.index', ['posts' => $posts]);
     }
+
+    public function getUsers()
+    {
+        $users = User::inRandomOrder()->paginate(10);
+        return response()->json(['users' => $users]);
+    }
 }
