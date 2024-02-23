@@ -3,9 +3,9 @@ $(document).ready(function () {
     $('.load-comments').on('click', loadComments);
 });
 
-var nextPageUrl = '{{ $comments->nextPageUrl() }}';
-var isLoading = false;
-var scrollTimer;
+// var nextPageUrl = '{{ $comments->nextPageUrl() }}';
+// var isLoading = false;
+// var scrollTimer;
 
 // $('.comments-container').scroll(function () {
 //     if ($('.comments-container').scrollTop() == $(document).height() - $('.comments-container').height()) {
@@ -101,19 +101,20 @@ function loadComments() {
 }
 
 function appendComments(comments) {
-    var commentsContainer = $('.comments-container[data-post-id="' + comments[0].post_id + '"]');
-    var commentsHtml = comments.map(generateCommentHtml).join('');
-    commentsContainer.append(commentsHtml);
+    if (comments.length > 0) {
+        var commentsContainer = $('.comments-container[data-post-id="' + comments[0].post_id + '"]');
+        var commentsHtml = comments.map(generateCommentHtml).join('');
+        commentsContainer.append(commentsHtml);
+    }
 }
 
 function generateCommentHtml(comment) {
     var date = new Date(comment.created_at);
     var formattedDate = date.toLocaleString();
-    var baseUrl = "{{ url('/') }}";
     var commentHtml = `
     <div class="comment p-3">
         <div class="flex self-start justify-self-start w-40">
-            <img src="${!comment.avatar ? 'https://via.placeholder.com/50' : 'storage/'+comment.avatar}" alt="User"
+            <img src="${!comment.avatar ? 'https://via.placeholder.com/50' : 'storage/' + comment.avatar}" alt="User"
                 class="w-8 h-8 rounded-full mr-2">
             <div class="grid">
                 <div><span class="dark:text-white text-[15px] font-medium">${comment.name}</span></div>

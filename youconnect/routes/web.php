@@ -8,6 +8,7 @@ use App\Http\Controllers\LikeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Models\Post;
+use Symfony\Component\HttpFoundation\RequestMatcher\HostRequestMatcher;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,9 +21,11 @@ use App\Models\Post;
 |
 */
 
-Route::get('/', [HomeController::class, 'index'])->name('index');
-Route::get('/home', [HomeController::class, 'index'])->name('index');
-Route::post('/posts/load', [HomeController::class, 'loadPosts']);
+Route::controller(HomeController::class)->group(function () {
+    Route::get('/', 'index')->name('index');
+    Route::get('/home', 'index')->name('index');
+    Route::get('/users/get', 'getUsers');
+});
 
 Route::controller(CommentController::class)->group(function () {
     Route::get('/posts/{post}/comments', 'index');
@@ -41,11 +44,6 @@ Route::group(['prefix' => 'auth'], function () {
 });
 
 Route::middleware(['auth'])->group(function () {
-
-        
-
-
-
     Route::get('/sendrequest/{friend}', [FriendshipController::class, 'sendRequest'])->name('sendRequest');
     Route::get('/received-requests', [FriendshipController::class, 'receivedRequests'])->name('received-requests');
     Route::post('/accept-request/{friendship}', [FriendshipController::class, 'acceptRequest'])->name('accept-request');
