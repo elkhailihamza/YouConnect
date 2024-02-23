@@ -41,12 +41,17 @@ Route::group(['prefix' => 'auth'], function () {
 });
 
 Route::middleware(['auth'])->group(function () {
-    Route::controller(FriendshipController::class)->group(function () {
-        Route::get('/send-request/{friend}', 'sendRequest')->name('sendRequest');
-        Route::put('/friendship/{friendship}/accept', 'acceptRequest')->name('friendship.acceptRequest');
-        Route::put('/friendship/{friendship}/reject', 'rejectRequest')->name('friendship.rejectRequest');
-        Route::delete('/cancel-request/{friendship}', 'cancelRequest')->name('cancelRequest');
-    });
+
+        
+
+
+
+    Route::get('/sendrequest/{friend}', [FriendshipController::class, 'sendRequest'])->name('sendRequest');
+    Route::get('/received-requests', [FriendshipController::class, 'receivedRequests'])->name('received-requests');
+    Route::post('/accept-request/{friendship}', [FriendshipController::class, 'acceptRequest'])->name('accept-request');
+    Route::post('/reject-request/{friendship}', [FriendshipController::class, 'rejectRequest'])->name('reject-request');
+    Route::delete('/cancel-request/{friendship}', [FriendshipController::class, 'cancelRequest'])->name('cancelRequest');
+    
     Route::controller(ProfileController::class)->group(function () {
         Route::get('/profile/{user}', 'showuser')->name('profiles.profile');
         Route::get('/profile/edit', 'edituser')->name('profiles.edit');
@@ -55,6 +60,10 @@ Route::middleware(['auth'])->group(function () {
     });
     Route::controller(PostController::class)->group(function () {
         Route::post('/posts/create/store', 'store')->name('main.posts.store');
+        Route::get('/posts/{post}/edit', 'updatePost')->name('posts.update');
+        Route::put('/posts/{post}', 'update')->name('posts.storeUpdate');
+        Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
+
     });
     Route::controller(LikeController::class)->group(function () {
         Route::post('/like/toggle', 'toggleLike')->name('like.toggle');
