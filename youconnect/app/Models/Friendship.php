@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Models;
 
@@ -8,6 +8,10 @@ class Friendship extends Model
 {
     protected $fillable = ['sender_id', 'receiver_id', 'status_id'];
 
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'sender_id');
+    }
     public function sender()
     {
         return $this->belongsTo(User::class, 'sender_id');
