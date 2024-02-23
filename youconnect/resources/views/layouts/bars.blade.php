@@ -1,24 +1,22 @@
 @if(!in_array(Route::currentRouteName(), ['login', 'register', 'main.posts']))
 <div class=" shadow-md container-xl flex justify-between ">
-    <div class="fixed inset-0 mt-[70px] w-60">
         {{--left-sidebar--}}
-        <div id="left-sidebar" class="lg:w-60 md:w-full h-full left-0 mr-4 hidden md:block dark:border-white ">
-            <div class="h-full px-3 py-2 pb-4 overflow-y-auto bg-white dark:bg-[#242526]">
+        <div id="left-sidebar" class="fixed mt-[65px] select-none h-full left-0 mr-4 hidden md:block dark:border-white ">
+            <div class="h-full lg:w-60 px-3 py-2 pb-4 overflow-y-auto bg-[#F0F2F5] dark:bg-[#18191A]">
                 <ul class="space-y-2 font-medium">
-                    <div class="text-center w-full p-1">
-                        <h1 class="text-gray-800 dark:text-white">actions</h1>
+                    <div class="text-center w-full mb-5 mt-2">
+                        <h1 class="font-[600] text-[17px] text-[#65676B] dark:text-[#B0B3B8]">Actions</h1>
                     </div>
-                    <hr>
                     @auth
                     <li>
                         <a href="{{ route('profiles.profile', Auth::user()) }}"
-                            class="flex mx-1 items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                            <i class="fa-solid fa-gear"></i><span class="mx-7">MY PROFILE</span>
+                            class="flex mx-1 items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-[#E4E6E9] dark:hover:bg-[#303031] group">
+                            <i class="fa-solid fa-user"></i><span class="mx-7">MY PROFILE</span>
                         </a>
                     </li>
                     <li>
                         <a href="{{ route('profiles.Myposts', ['user' => Auth::user()]) }}"
-                            class="flex  items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-[#E4E6E9] dark:hover:bg-[#303031] group">
                             <i class="fa-brands fa-medium"></i><span class="mx-7">MY POSTS</span>
                         </a>
                     </li>
@@ -41,21 +39,23 @@
                         </a>
                     </li>
                     @endauth
-
+                    @guest
+                    <li class="text-center">
+                        <span class="text-dark dark:text-white">Log in to view profile!</span>
+                    </li>
+                    @endguest
                 </ul>
             </div>
         </div>
-    </div>
     {{--right-sidebar--}}
     <div id="right-sidebar"
-        class="shadow-md dark:bg-[#242526] fixed justify-self-end h-full right-0 mt-[65px] bg-white hidden md:block overflow-y-scroll dark:text-white border-gray-600 dark:border-white">
-        <div class="rounded lg:w-60 md:w-full p-4 mb-4 text-center dark:bg-[#242526]">
-            <h2 class="font-bold mb-2">Suggested for you</h2>
-            <hr>
+        class="fixed select-none justify-self-end h-full right-0 mt-[65px] bg-[#F0F2F5] dark:bg-[#18191A] hidden md:block overflow-y-scroll dark:text-white border-gray-600 dark:border-white">
+        <div class="rounded lg:w-60 md:w-full p-4 mb-5 mt-2 text-center">
+            <h2 class="font-[600] text-[17px] text-[#65676B] dark:text-[#B0B3B8] mb-2">Suggested for you</h2>
             <ul>
                 @foreach ($users as $user)
                 <li
-                    class="mb-2 flex justify-between items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group ">
+                    class="mb-2 flex justify-between items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-[#E4E6E9] dark:hover:bg-[#303031] group ">
                     <div class="flex self-start justify-self-start w-40">
                         @if (!empty($user->avatar))
                         <img src="{{ asset('storage/' . $user->avatar) }}" alt="User" class="w-8 h-8 rounded-full mr-2">

@@ -10,29 +10,16 @@ use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
-    public function index()
-    {
-        return view('index', compact('posts'));
-    }
-
 
     public function showUserPosts(User $user)
     {
         $posts = $user->posts()->orderByDesc('created_at')->get();
         return view('profiles.Myposts', compact('posts', 'user'));
     }
-    
-
-
 
     public function view(Post $post)
     {
-        $user = User::all(); 
-        $posts = Post::all();
-        return view('profiles.profile', compact('posts', 'user'));    }
-    public function createPost()
-    {
-        return view('main.create');
+        return view('main.view', compact('post','users'));
     }
 
     public function store(Request $request)
@@ -60,7 +47,6 @@ class PostController extends Controller
     public function update(Request $request, Post $post)
     {
         $data = $request->validate([
-            'title' => 'required',
             'content' => 'required',
             'cover' => 'nullable|mimes:jpeg,png,jpg,gif|file|max:2048',
         ]);

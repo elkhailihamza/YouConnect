@@ -5,7 +5,6 @@ const leftSidebar = document.getElementById('left-sidebar');
 const rightSidebar = document.getElementById('right-sidebar');
 const toggleLeftSidebar = document.getElementById('toggle-left-sidebar');
 const toggleRightSidebar = document.getElementById('toggle-right-sidebar');
-const toggllepublication = document.getElementById('publication');
 
 toggleLeftSidebar.addEventListener('click', () => {
     leftSidebar.classList.toggle('open');
@@ -25,8 +24,10 @@ toggleRightSidebar.addEventListener('click', () => {
 
 function openModal(modalId) {
     document.getElementById(modalId).classList.remove('hidden');
+    document.getElementById(modalId).classList.remove('m-0');
 }
 
 function closeModal(modalId) {
     document.getElementById(modalId).classList.add('hidden');
+    document.getElementById(modalId).classList.add('m-0');
 }

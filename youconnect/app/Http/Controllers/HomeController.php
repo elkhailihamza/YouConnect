@@ -11,8 +11,7 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $user = User::all();
-        $posts = Post::inRandomOrder()->get();
-        return view('main.index', compact(['posts'],'user'));
+        $posts = Post::inRandomOrder()->paginate(10);
+        return view('main.index', ['posts' => $posts]);
     }
 }
