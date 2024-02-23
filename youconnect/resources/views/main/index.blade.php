@@ -10,13 +10,13 @@
         @auth
         <div class="container mx-auto">
             <div class="max-w-[680px] mx-auto my-10 p-5 bg-[#FFFFFF] dark:bg-[#242526] rounded-lg shadow-md">
-                <h1 class="text-2xl font-semibold mb-5 dark:text-gray-300 text-blue-700 text-center">Create Post</h1>
+                <h6 class="text-2xl font-semibold mb-5 dark:text-gray-300 text-blue-700 text-start">Create Post</h6>
                 <form action="{{ route('main.posts.store', ['user_id' => Auth::user()->id]) }}" method="post"
                     enctype="multipart/form-data">
                     @csrf
                     @method('post')
                     <div class="mb-4">
-                        <textarea style="resize: none; height: 175px;" name="content"
+                        <textarea style="resize: none; " name="content"
                             placeholder="What's on your mind, {{Auth::user()->name}}?" required minlength="1"
                             maxlength="300"
                             class="mt-1 p-2.5 block w-full rounded-md shadow-sm dark:bg-[#242526] dark:text-gray-100"></textarea>
@@ -38,6 +38,7 @@
                 </form>
             </div>
         </div>
+
         @endauth
         @if (isset($posts) && $posts->isNotEmpty())
         @foreach ($posts as $post)
@@ -66,6 +67,7 @@
                     </div>
                 </div>
                 <div>
+                    
                     <button id="dropdown" data-dropdown-toggle="post-{{$post->id.'-'.$post->user->name}}"
                         class="inline-flex w-full justify-center gap-x-1.5 rounded-md text-sm font-semibold text-gray-900"
                         type="button"><svg fill="#000000" class="dark:fill-white" xmlns="http://www.w3.org/2000/svg"
@@ -74,35 +76,39 @@
                                 d="M480-160q-33 0-56.5-23.5T400-240q0-33 23.5-56.5T480-320q33 0 56.5 23.5T560-240q0 33-23.5 56.5T480-160Zm0-240q-33 0-56.5-23.5T400-480q0-33 23.5-56.5T480-560q33 0 56.5 23.5T560-480q0 33-23.5 56.5T480-400Zm0-240q-33 0-56.5-23.5T400-720q0-33 23.5-56.5T480-800q33 0 56.5 23.5T560-720q0 33-23.5 56.5T480-640Z" />
                         </svg>
                     </button>
+                    
 
                     <!-- Dropdown menu -->
+                    
                     <div id="post-{{$post->id.'-'.$post->user->name}}"
-                        class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+                        class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44  dark:bg-[#242520]">
                         <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdown">
+                            @if(isset(Auth::user()->id))
+                            @if($post->user->id == Auth::user()->id)
                             <li>
-                                <a href="#"
-                                    class="block flex gap-1 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"><svg
-                                        xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
-                                        fill="none" stroke="#008B00" stroke-width="1.5" stroke-linecap="round"
-                                        stroke-linejoin="round">
-                                        <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                                        <circle cx="8.5" cy="7" r="4"></circle>
-                                        <line x1="20" y1="8" x2="20" y2="14"></line>
-                                        <line x1="23" y1="11" x2="17" y2="11"></line>
-                                    </svg> Edit</a>
-                            </li>
+                                <a class="w-full block flex gap-1 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" href="{{ route('posts.update',$post->id) }}"><i class="fa-solid fa-pencil"></i>Update Poste</a></li>
+                            @endif
+                            @endif
+                            @if(isset(Auth::user()->id) )
+                            @if($post->user->id == Auth::user()->id)
                             <li>
-                                <a href="#"
-                                    class="block flex gap-1 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"><svg
-                                        xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
-                                        fill="none" stroke="#FF0000" stroke-width="1.5" stroke-linecap="round"
-                                        stroke-linejoin="round">
-                                        <circle cx="12" cy="12" r="10"></circle>
-                                        <line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line>
-                                    </svg>Delete</a>
-                            </li>
+
+                                <form action="{{ route('posts.destroy', $post->id) }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="w-full block flex gap-1 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"><i class="fa-solid fa-trash-can"></i> Delete Post</button>
+                                </form>
+                                </li>
+                                @endif
+                                @endif
+                            
+                                <li>
+                                    <button type="submit" class="block w-full flex gap-1 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"><i class="fa-solid fa-clipboard"></i> Copie le lien</button>
+
+                                </li>
                         </ul>
                     </div>
+                    
                 </div>
             </div>
             @if ($post->cover != null)
@@ -274,6 +280,14 @@
             });
         });
     });
+
+
+
+   
+
+
+    
+
 </script>
 
 @endsection
