@@ -26,14 +26,14 @@ class FriendshipController extends Controller
 
     public function acceptRequest(Friendship $friendship)
     {
-        $friendship->update(['status' => 'accepted']);
+        $friendship->update(['status_id' => '2']);
 
         return redirect()->back()->with('success', 'Friend request accepted');
     }
 
     public function rejectRequest(Friendship $friendship)
     {
-        $friendship->update(['status' => 'rejected']);
+        $friendship->update(['status_id' => '3']);
 
         return redirect()->back()->with('success', 'Friend request rejected');
     }
@@ -41,7 +41,7 @@ class FriendshipController extends Controller
 
     public function sentRequests()
 {
-    $sentRequests = auth()->user()->sentFriendRequests()->where('status', '1')->get();
+    $sentRequests = auth()->user()->sentFriendRequests()->where('status_id', '1')->get();
 
     return view('profiles.friendrequest', compact('sentRequests'));
 }
