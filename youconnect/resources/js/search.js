@@ -10,12 +10,12 @@ $(document).ready(function () {
         loadUsers();
         fetchedUsers = true;
     });
-    $('#searchBar').on('keydown', function () {
+    $('#searchBar').on('keyup', function () {
         clearTimeout(timeout);
 
         timeout = setTimeout(function () {
             loadUsers();
-        }, 500);
+        }, 250);
     });
 });
 
@@ -27,9 +27,8 @@ $(document).on('click', '.addFriend', function () {
 function sendFriendRequest(btn) {
     var friendId = btn.getAttribute('data-friend-id');
 
-    axios.get('/send-request/' + friendId)
+    axios.get('/sendrequest/' + friendId)
         .then(function (response) {
-            console.log('friend request sent!');
             $(btn).prop('hidden', true).after('<span class="dark:text-white">sent!</span>');
         })
         .catch(function (error) {
@@ -81,7 +80,9 @@ function generateUserHtml(user, mainId) {
             </div>
         </div>
         <div>
-        ${renderFriendButton(user, mainId)}
+            <button data-friend-id="${user.id}" class="addFriend bg-blue-700 p-2 rounded">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg>
+            </button>
         </div>
     </div>
     <div class="flex justify-center">
@@ -89,7 +90,4 @@ function generateUserHtml(user, mainId) {
     </div>`;
 
     return userHtml;
-}
-
-function renderFriendButton(user, mainId) {
 }
