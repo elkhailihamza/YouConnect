@@ -18,13 +18,16 @@ class HomeController extends Controller
     public function getUsers(Request $request)
     {
         $search = $request->input('search');
-        $users = User::where('name', 'LIKE', "%{$search}%")->paginate(20);
-        if (Auth::check()) {
-            $currentUser = Auth::user();
-            return response()->json(['users' => $users, 'mainUserId' => $currentUser->id, 'search' => $search]);
-        } else {
-            return response()->json(['users' => $users, 'search' => $search]);
-        }
+        $mainUserId = Auth::id();
+        $users = User::where('name', 'LIKE', "%{$search}%")
+            ->whereNotIn('friendships', function ($query) use ($mainUserId) {
+                $query->where(function ($q) use ($mainUserId) {
+                    $q->where('sender_id', $mainUserId)
+                        ->orWhere('receiver_id', $mainUserId);
+                });
+            })
+            ->paginate(20);
 
+        return response()->json(['users' => $users]);
     }
 }
