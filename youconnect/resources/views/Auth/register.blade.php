@@ -1,15 +1,15 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container mx-auto mt-14">
+<div class="container mx-auto mt-14e">
     <div class="max-w-lg mx-auto my-10 bg-white dark:bg-gray-800 p-5 rounded-lg shadow-md mt-25">
         <h1 class="text-2xl font-semibold mb-5 dark:text-gray-300 text-blue-700 text-center">Register</h1>
         <form action="{{ route('register') }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('POST')
             <div class="mb-4">
-                <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Username</label>
-                <input type="text" id="name" placeholder="Username.." name="name" class="mt-1 p-2.5 block w-full rounded-md border border-blue-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-100 dark:bg-gray-700 dark:text-gray-100" required>
+                <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">name</label>
+                <input type="text" id="name" placeholder="name.." name="name" class="mt-1 p-2.5 block w-full rounded-md border border-blue-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-100 dark:bg-gray-700 dark:text-gray-100" required>
             </div>
             <div class="mb-4">
                 <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Email</label>

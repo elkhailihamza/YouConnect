@@ -1,32 +1,30 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use App\Models\Post;
 use App\Models\User;
+use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Composer;
 use Illuminate\Support\Facades\Auth;
 
+
 class PostController extends Controller
 {
-    public function index()
+
+    public function showUserPosts(User $user)
     {
-        return view('index', compact('posts'));
+        $posts = $user->posts()->orderByDesc('created_at')->get();
+        return view('profiles.Myposts', compact('posts', 'user'));
     }
-    public function view(Post $post)
+
+    public function updatePost(Post $post)
     {
-        return view('main.view', compact('post','users'));
-    }
-    public function createPost()
-    {
-        return view('main.create');
+        return view('main.update', compact('post'));
     }
 
     public function store(Request $request)
     {
         $data = $request->validate([
-            'title' => 'required',
             'content' => 'required',
             'cover' => 'nullable|mimes:jpeg,png,jpg,gif|file|max:2048',
         ]);
@@ -42,14 +40,10 @@ class PostController extends Controller
         return redirect(route('index'))->withSuccess('Successfully made post!');
     }
 
-    public function edit(Post $post)
-    {
-        return view('main.post.edit', ['post' => $post]);
-    }
+    
     public function update(Request $request, Post $post)
     {
         $data = $request->validate([
-            'title' => 'required',
             'content' => 'required',
             'cover' => 'nullable|mimes:jpeg,png,jpg,gif|file|max:2048',
         ]);
@@ -63,12 +57,19 @@ class PostController extends Controller
         }
 
         $post->update($data);
-        return redirect(route('main.posts'))->withSuccess('Successfully updated post!');
+        return redirect(route('index'))->withSuccess('Successfully updated post!');
     }
-
+            
     public function destroy(Post $post)
-    {
+{
+    if ($post->user->id === Auth::user()->id) {
         $post->delete();
-        return redirect(route('main.posts'))->withSuccess('Deleted successfully!');
+        return redirect(route('index'))->withSuccess('Post deleted successfully!');
+    } else {
+        return redirect(route('index'))->withError('You are not authorized to delete this post!');
     }
+}
+
+
+    
 }

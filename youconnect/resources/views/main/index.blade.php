@@ -3,24 +3,126 @@
 
 @section('content')
 
-{{--Content a centre de page : les publication --}}
-<div class="mt-28 "></div>
-<div id="publication" class="mt-28  max-h-screen container-xl dark:text-white">
+
+
+<div id="publication" class="mt-16  md:w-[680px] w-[450px] max-h-screen container-xl dark:text-white">
     <div class="space-y-1">
+        @auth
+        <div class="container mx-auto">
+            <div class="max-w-[680px] mx-auto my-10 p-5 bg-[#FFFFFF] dark:bg-[#242526] rounded-lg shadow-md">
+                <h6 class="text-2xl font-semibold mb-5 dark:text-gray-300 text-blue-700 text-start">Create Post</h6>
+                <form action="{{ route('main.posts.store', ['user_id' => Auth::user()->id]) }}" method="post"
+                    enctype="multipart/form-data">
+                    @csrf
+                    @method('post')
+                    <div class="mb-4">
+                        <textarea style="resize: none; " name="content"
+                            placeholder="What's on your mind, {{Auth::user()->name}}?" required minlength="1"
+                            maxlength="300"
+                            class="mt-1 p-2.5 block w-full rounded-md shadow-sm dark:bg-[#242526] dark:text-gray-100"></textarea>
+                    </div>
+                    <div id="post-image">
+                        <div class="mb-4">
+                            <div
+                                class="border border-[#6B7280] dark:bg-[#242526] flex items-center justify-center rounded">
+                                <label
+                                    class="block text-sm flex w-full justify-between font-medium items-center gap-2 dark:text-white"
+                                    for="file_input"><span class="p-3.5 text-[#6B7280]">Upload
+                                        image</span><svg class="me-2" xmlns="http://www.w3.org/2000/svg" width="20"
+                                        height="20" viewBox="0 0 24 24" fill="none" stroke="#686868" stroke-width="1.5"
+                                        stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M14 2H6a2 2 0 0 0-2 2v16c0 1.1.9 2 2 2h12a2 2 0 0 0 2-2V8l-6-6z" />
+                                        <path d="M14 3v5h5M12 18v-6M9 15h6" />
+                                    </svg>
+                                    <input name="cover"
+                                        class="block sr-only text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-[#242526] dark:border-gray-600 dark:placeholder-gray-400"
+                                        id="file_input" type="file">
+                                </label>
+                            </div>
+                            <div class="hidden" id="preview-container">
+                                <label for="preview">Preview:</label>
+                                <img src="" class="mt-4 mx-auto max-h-40" id="preview">
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-center">
+                            <button type="submit"
+                                class="bg-indigo-500 text-white px-4 py-2 rounded-md hover:bg-indigo-600 focus:outline-none focus:bg-indigo-600">Create</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        @endauth
         @if (isset($posts) && $posts->isNotEmpty())
         @foreach ($posts as $post)
         <div class="rounded shadow-md lg:w-[680px] bg-[#FFFFFF] dark:bg-[#242526]">
-            <div class="p-4">
-                <div class="flex self-start justify-self-start w-40">
-                    <img src="https://via.placeholder.com/50" alt="User" class="w-[40px] h-[40px] rounded-full mr-2">
-                    <div class="grid">
-                        <div><span class="dark:text-white text-[15px] font-medium">{{
-                                $post->user->username }}</span></div>
-                        <span class="text-[13px] w-44 text-stone-500">{{ $post->created_at }}</span>
+            <div class="p-4 flex justify-between">
+                <div>
+                    <div class="flex self-start justify-self-start w-40">
+                        @if (!empty($post->user->avatar))
+                        <img src="{{ asset('storage/' . $post->user->avatar) }}" alt="User"
+                            class="w-8 h-8 rounded-full mr-2">
+                        @else
+                        <img src="https://via.placeholder.com/50" alt="User" class="w-8 h-8 rounded-full mr-2">
+                        @endif
+                        <div class="grid">
+                            <div><span class="dark:text-white text-[15px] font-medium">{{
+                                    $post->user->name }}</span></div>
+                            <span class="text-[13px] w-44 text-stone-500">{{ $post->created_at->diffForHumans()}}</span>
+                        </div>
+                    </div>
+                    <div class="flex justify-between ms-3 mt-2">
+                        @php
+                        $description = $post->content;
+                        $description = preg_replace('/#(\w+)/', '<span class="blue-tag">#$1</span>', $description);
+                        @endphp
+                        <h2 class="text-[13px]"><span>{!! $description !!}</span></h2>
                     </div>
                 </div>
-                <div class="flex justify-between ms-2 mt-1">
-                    <h2 class="text-[13px]">{{ $post->content }}</h2>
+                <div>
+                    
+                    <button id="dropdown" data-dropdown-toggle="post-{{$post->id.'-'.$post->user->name}}"
+                        class="inline-flex w-full justify-center gap-x-1.5 rounded-md text-sm font-semibold text-gray-900"
+                        type="button"><svg fill="#000000" class="dark:fill-white" xmlns="http://www.w3.org/2000/svg"
+                            height="24" viewBox="0 -960 960 960" width="24">
+                            <path
+                                d="M480-160q-33 0-56.5-23.5T400-240q0-33 23.5-56.5T480-320q33 0 56.5 23.5T560-240q0 33-23.5 56.5T480-160Zm0-240q-33 0-56.5-23.5T400-480q0-33 23.5-56.5T480-560q33 0 56.5 23.5T560-480q0 33-23.5 56.5T480-400Zm0-240q-33 0-56.5-23.5T400-720q0-33 23.5-56.5T480-800q33 0 56.5 23.5T560-720q0 33-23.5 56.5T480-640Z" />
+                        </svg>
+                    </button>
+                    
+
+                    <!-- Dropdown menu -->
+                    
+                    <div id="post-{{$post->id.'-'.$post->user->name}}"
+                        class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44  dark:bg-[#242520]">
+                        <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdown">
+                            @if(isset(Auth::user()->id))
+                            @if($post->user->id == Auth::user()->id)
+                            <li>
+                                <a class="w-full block flex gap-1 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" href="{{ route('posts.update',$post->id) }}"><i class="fa-solid fa-pencil"></i>Update Poste</a></li>
+                            @endif
+                            @endif
+                            @if(isset(Auth::user()->id) )
+                            @if($post->user->id == Auth::user()->id)
+                            <li>
+
+                                <form action="{{ route('posts.destroy', $post->id) }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="w-full block flex gap-1 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"><i class="fa-solid fa-trash-can"></i> Delete Post</button>
+                                </form>
+                                </li>
+                                @endif
+                                @endif
+                            
+                                <li>
+                                    <button type="submit" class="block w-full flex gap-1 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"><i class="fa-solid fa-clipboard"></i> Copie le lien</button>
+
+                                </li>
+                        </ul>
+                    </div>
+                    
                 </div>
             </div>
             @if ($post->cover != null)
@@ -31,22 +133,24 @@
             <div class="h-16 dark:bg-[#242526] border-t rounded-b">
                 <div data-post-id="{{ $post->id }}" class="flex justify-around items-center w-full h-full likeButton">
                     <div>
-                        <div class="flex gap-2 hover:underline cursor-pointer">
+                        <div class="flex gap-2  cursor-pointer">
                             <span class="likes-count">{{ $post->likes->count() }}</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" class="feather feather-heart">
-                                <path
-                                    d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
-                                </path>
-                            </svg>
-                            <span>Like</span>
+                            {{--button de like--}}
+                            @if (Auth::check() && Auth::user()->likes->contains('post_id', $post->id))
+                            <button type="button" class="like-button btnlike" data-post-id="{{$post->id }}"><i
+                                    class="fa-solid fa-heart fa-lg text-red-500"></i></button>
+                            @else
+                            <button type="button" class="like-button btnlike" data-post-id="{{$post->id }}"><i
+                                    class="fa-solid fa-heart fa-lg"></i></button>
+                            @endif
                         </div>
                     </div>
+
                     <div>
-                        <a class="flex gap-2 hover:underline cursor-pointer" data-modal-target="default-modal-{{$post}}"
-                            data-modal-toggle="default-modal-{{$post}}">
-                            <span>{{ $post->comments->count() }}</span>
+                        <a class="flex gap-2 load-comments cursor-pointer" data-post-id="{{ $post->id }}"
+                            data-modal-target="comments-{{$post->id}}" data-modal-toggle="comments-{{$post->id}}">
+                            <span data-post-id="{{ $post->id }}" class="comment-count">{{ $post->comments->count()
+                                }}</span>
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                 stroke-linejoin="round" class="feather feather-message-square">
@@ -58,49 +162,48 @@
                 </div>
             </div>
         </div>
-
-        <div id="default-modal-{{$post}}" tabindex="-1" aria-hidden="true"
+        <div id="comments-{{$post->id}}" tabindex="-1" aria-hidden="true"
             class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
             <div class="relative p-4 w-full max-w-2xl max-h-full">
                 <!-- Modal content -->
-                <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                <div class="relative w-full bg-white rounded-lg shadow dark:bg-gray-700">
+                    @auth
                     <!-- Modal header -->
-                    <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
-                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                            Terms of Service
-                        </h3>
-                        <button type="button"
-                            class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                            data-modal-hide="default-modal-{{$post}}">
-                            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                viewBox="0 0 14 14">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                    stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
-                            </svg>
-                            <span class="sr-only">Close modal</span>
-                        </button>
+                    <div
+                        class="flex items-center w-full justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+                        <div class="flex w-full">
+                            @if (!empty(Auth::user()->avatar))
+                            <img src="{{ asset('storage/' . Auth::user()->avatar) }}" alt="User"
+                                class="w-8 h-8 rounded-full mr-2">
+                            @else
+                            <img src="https://via.placeholder.com/50" alt="User" class="w-8 h-8 rounded-full mr-2">
+                            @endif
+                            <div class="grid w-full">
+                                <div><span class="dark:text-white text-[15px] font-medium">{{ auth()->user()->name
+                                        }}</span></div>
+                                <textarea data-post-id="{{ $post->id }}" minlength="1" maxlength="255" required
+                                    class="block p-2.5 h-[105px] comment-content resize-none w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-white dark:border-gray-600 dark:placeholder-gray-400 dark:text-dark dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    placeholder="Write your thoughts here..."></textarea>
+                                <div class="flex justify-end mt-2">
+                                    <button type="button" data-post-id="{{ $post->id }}"
+                                        class="submit-comment text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Submit</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                    @endauth
+                    @guest
+                    <div class="text-center p-3">
+                        <span>Log in to use this Feature!</span>
+                    </div>
+                    @endguest
                     <!-- Modal body -->
-                    <div class="p-4 md:p-5 space-y-4">
-                        <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                            With less than a month to go before the European Union enacts new consumer privacy laws for
-                            its citizens, companies around the world are updating their terms of service agreements to
-                            comply.
-                        </p>
-                        <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                            The European Union’s General Data Protection Regulation (G.D.P.R.) goes into effect on May
-                            25 and is meant to ensure a common set of data rights in the European Union. It requires
-                            organizations to notify users as soon as possible of high-risk data breaches that could
-                            personally affect them.
-                        </p>
+                    <div class="p-1 ms-5 mt-2 flex">
+                        <h2 class="text-xl"><span>Comments:</span> <span class="comment-count"
+                                data-post-id="{{ $post->id }}">{{ $post->comments->count() }}</span></h2>
                     </div>
-                    <!-- Modal footer -->
-                    <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
-                        <button data-modal-hide="default-modal-{{$post}}" type="button"
-                            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">I
-                            accept</button>
-                        <button data-modal-hide="default-modal-{{$post}}" type="button"
-                            class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Decline</button>
+                    <div data-post-id="{{ $post->id }}"
+                        class="comments-container max-h-[300px] rounded overflow-y-auto">
                     </div>
                 </div>
             </div>
@@ -115,5 +218,44 @@
     </div>
 </div>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.btnlike').forEach(button => {
+            button.addEventListener('click', function () {
+                const postId = this.getAttribute('data-post-id');
+                const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+                fetch('{{ route("like.toggle") }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': csrfToken
+                    },
+                    body: JSON.stringify({ post_id: postId })
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        const likeButton = document.querySelector(`.btnlike[data-post-id="${postId}"] i`);
+                        const likesCount = document.querySelector(`.likeButton[data-post-id="${postId}"] .likes-count`);
+                        if (data.liked) {
+                            likeButton.classList.add('text-red-500');
+                        } else {
+                            likeButton.classList.remove('text-red-500');
+                        }
+                        likesCount.textContent = data.likesCount;
+                    })
+                    .catch(error => console.error('Error:', error));
+            });
+        });
+    });
+
+
+
+   
+
+
+    
+
+</script>
 
 @endsection

@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Post extends Model
 {
     use HasFactory;
-    public function user() {
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
     public function comments() {
@@ -18,7 +19,6 @@ class Post extends Model
         return $this->hasMany(Like::class);
     }
     protected $fillable = [
-        'title',
         'content',
         'cover',
         'user_id'

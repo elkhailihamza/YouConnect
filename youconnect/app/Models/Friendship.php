@@ -2,19 +2,28 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Friendship extends Model
 {
-    use HasFactory;
-    public function users()
+    protected $fillable = ['sender_id', 'receiver_id', 'status_id'];
+
+    public function user()
     {
-        return $this->belongsToMany(User::class, 'friendships', 'sender_id', 'receiver_id')
-        ->withPivot('status')
-        ->withTimestamps();
+        return $this->belongsTo(User::class, 'sender_id');
     }
-    public function status() {
+    public function sender()
+    {
+        return $this->belongsTo(User::class, 'sender_id');
+    }
+
+    public function receiver()
+    {
+        return $this->belongsTo(User::class, 'receiver_id');
+    }
+
+    public function status()
+    {
         return $this->belongsTo(Status::class);
     }
 }
