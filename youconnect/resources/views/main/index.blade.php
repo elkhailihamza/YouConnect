@@ -36,8 +36,11 @@
             <div class="p-4 flex justify-between">
                 <div>
                     <div class="flex self-start justify-self-start w-40">
-                        <img src="https://via.placeholder.com/50" alt="User"
-                            class="w-[40px] h-[40px] rounded-full mr-2">
+                        @if (!empty($post->user->avatar))
+                        <img src="{{ asset('storage/' . $post->user->avatar) }}" alt="User" class="w-8 h-8 rounded-full mr-2">
+                        @else
+                        <img src="https://via.placeholder.com/50" alt="User" class="w-8 h-8 rounded-full mr-2">
+                        @endif
                         <div class="grid">
                             <div><span class="dark:text-white text-[15px] font-medium">{{
                                     $post->user->name }}</span></div>
@@ -135,8 +138,11 @@
                     <div
                         class="flex items-center w-full justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
                         <div class="flex w-full">
-                            <img src="https://via.placeholder.com/50" alt="User"
-                                class="w-[40px] h-[40px] rounded-full mr-2">
+                            @if (!empty($user->avatar))
+                        <img src="{{ asset('storage/' . $user->avatar) }}" alt="User" class="w-8 h-8 rounded-full mr-2">
+                        @else
+                        <img src="https://via.placeholder.com/50" alt="User" class="w-8 h-8 rounded-full mr-2">
+                        @endif
                             <div class="grid w-full">
                                 <div><span class="dark:text-white text-[15px] font-medium">{{ auth()->user()->name
                                         }}</span></div>

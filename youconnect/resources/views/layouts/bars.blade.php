@@ -13,13 +13,31 @@
                     <li>
                         <a href="{{ route('profiles.profile', Auth::user()) }}"
                             class="flex mx-1 items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                            <i class="fa-solid fa-user"></i><span class="mx-7">MY PROFILE</span>
+                            <i class="fa-solid fa-gear"></i><span class="mx-7">MY PROFILE</span>
                         </a>
                     </li>
                     <li>
                         <a href="{{ route('profiles.Myposts', ['user' => Auth::user()]) }}"
                             class="flex  items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                             <i class="fa-brands fa-medium"></i><span class="mx-7">MY POSTS</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href=""
+                            class="flex  items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                            <i class="fa-solid fa-users"></i><span class="mx-7">FRIENDS</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href=""
+                            class="flex  items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                            <i class="fa-solid fa-user-plus"></i><span class="mx-7">INVITATION</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href=""
+                            class="flex  items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                            <i class="fa-regular fa-bell"></i><span class="mx-7">NOTIFICATION</span>
                         </a>
                     </li>
                     @endauth

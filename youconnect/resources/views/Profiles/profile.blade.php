@@ -20,8 +20,11 @@
         <div class="p-4">
             <div class="flex items-center justify-between">
                 <div class="flex items-center">
+                    @if (!empty($user->avatar))
+                    <img src="{{ asset('storage/' . $user->avatar) }}" alt="User" class="w-8 h-8 rounded-full mr-2">
+                    @else
                     <img src="https://via.placeholder.com/50" alt="User" class="w-8 h-8 rounded-full mr-2">
-                    <span class="text-[15px] font-medium">{{ $user->name }}</span>
+                    @endif                    <span class="text-[15px] font-medium">{{ $user->name }}</span>
                 </div>
                 <span class="text-[13px] text-stone-100"><i class="fa-solid fa-envelope"></i> {{ $user->email }}</span>
             </div>

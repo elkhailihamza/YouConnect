@@ -11,8 +11,8 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $user_id = Auth::id();
+        $user = User::all();
         $posts = Post::inRandomOrder()->get();
-        return view('main.index', compact(['posts']));
+        return view('main.index', compact(['posts'],'user'));
     }
 }
