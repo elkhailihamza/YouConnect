@@ -22,8 +22,7 @@
                 <span class="text-[13px] text-stone-100"><i class="fa-solid fa-envelope"></i> {{ $user->email }}</span>
             </div>
             <div class="mt-5 ms-3">
-                <span>User Bio:</span>
-                <h2 class="text-[13px] ms-5">{{ $user->bio ?? 'No Bio!'}}</h2>
+                <h2 class="text-[13px] ms-5">{{ $user->bio ?? 'You Can Make Your Bio here!'}}</h2>
             </div>
         </div>
         <div
@@ -47,6 +46,8 @@
             </div>
         </div>
     </div>
+
+    
 
     <div class="mt-2 mb-18 max-h-screen w-full container-xl dark:text-white">
         <h1 class="text-2xl font-semibold mb-5 dark:text-gray-300 text-blue-700">Edit Profile</h1>
