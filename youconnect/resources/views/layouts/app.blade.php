@@ -32,6 +32,7 @@
         @yield('content')
     </div>
     @vite('resources/js/app.js')
+    @vite('resources/js/imagePreview.js')
     @vite('resources/js/comment.js')
     @vite('resources/js/ThemeChange.js')
 </body>

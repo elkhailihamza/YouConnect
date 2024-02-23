@@ -23,7 +23,8 @@
                     </div>
                     <div id="post-image">
                         <div class="mb-4">
-                            <div class="border border-[#6B7280] dark:bg-[#242526] flex items-center justify-center rounded">
+                            <div
+                                class="border border-[#6B7280] dark:bg-[#242526] flex items-center justify-center rounded">
                                 <label
                                     class="block text-sm flex w-full justify-between font-medium items-center gap-2 dark:text-white"
                                     for="file_input"><span class="p-3.5 text-[#6B7280]">Upload
@@ -32,10 +33,15 @@
                                         stroke-linecap="round" stroke-linejoin="round">
                                         <path d="M14 2H6a2 2 0 0 0-2 2v16c0 1.1.9 2 2 2h12a2 2 0 0 0 2-2V8l-6-6z" />
                                         <path d="M14 3v5h5M12 18v-6M9 15h6" />
-                                    </svg></label>
-                                <input name="cover"
-                                    class="block w-full sr-only text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-[#242526] dark:border-gray-600 dark:placeholder-gray-400"
-                                    id="file_input" type="file">
+                                    </svg>
+                                    <input name="cover"
+                                        class="block sr-only text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-[#242526] dark:border-gray-600 dark:placeholder-gray-400"
+                                        id="file_input" type="file">
+                                </label>
+                            </div>
+                            <div class="hidden" id="preview-container">
+                                <label for="preview">Preview:</label>
+                                <img src="" class="mt-4 mx-auto max-h-40" id="preview">
                             </div>
                         </div>
                         <div class="flex items-center justify-center">
