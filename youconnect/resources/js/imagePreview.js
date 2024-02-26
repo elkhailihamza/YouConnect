@@ -7,7 +7,6 @@ $(document).ready(function () {
     });
 });
 
-
 function displayPreview(file) {
     var reader = new FileReader();
     reader.readAsDataURL(file);

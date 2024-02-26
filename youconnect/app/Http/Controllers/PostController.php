@@ -11,10 +11,13 @@ use Illuminate\Support\Facades\Auth;
 class PostController extends Controller
 {
 
+    
+
+
     public function showUserPosts(User $user)
     {
         $posts = $user->posts()->orderByDesc('created_at')->get();
-        return view('profiles.Myposts', compact('posts', 'user'));
+        return view('profiles.Myposts', compact('posts', 'user','unreadRequestsCount'));
     }
 
     public function updatePost(Post $post)

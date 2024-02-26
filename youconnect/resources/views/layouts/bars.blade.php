@@ -29,15 +29,27 @@
                     <li>
                         <a href="{{ route('received-requests') }}" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                             <i class="fa-solid fa-user-plus"></i>
-                            <span class="mx-7">Invitations reçues</span>
+                            <span class="mx-7">INVITATION</span>
                         </a>
                     </li>
                     <li>
                         <a href=""
                             class="flex  items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                            <i class="fa-regular fa-bell"></i><span class="mx-7">NOTIFICATION</span>
+                            <i class="fa-regular fa-bell"></i><span class="mx-7">NOTIFICATION </span>
                         </a>
                     </li>
+
+
+                    
+
+                    <div class="notifications">
+                        @foreach(auth()->user()->unreadNotifications as $notification)
+                            <div class="notification">
+                                {{ $notification->data['message'] }}
+                            </div>
+                        @endforeach
+                    </div>
+                    
                     @endauth
                     @guest
                     <li class="text-center">

@@ -75,6 +75,6 @@
     <button id="toggle-right-sidebar" class="fixed right-0 top-16 p-4 text-gray-700 hidden dark:text-white">
         <i class="fa-solid fa-user-group"></i>
     </button>
-    <button id="toggle-left-sidebar" class="fixed left-0 top-16 p-5 text-gray-700 hidden dark:text-white">
-        <i class="fa-solid fa-arrow-right"></i></button>
+    <button id="toggle-left-sidebar" class="fixed left-0 top-15 p-5 text-gray-700 hidden dark:text-white">
+        <i class="fa-brands fa-elementor fa-lg"></i></button>
 </nav>
