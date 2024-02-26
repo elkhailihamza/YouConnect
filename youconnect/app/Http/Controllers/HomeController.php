@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Friendship;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -20,13 +21,12 @@ class HomeController extends Controller
         $search = $request->input('search');
         $mainUserId = Auth::id();
         $users = User::where('name', 'LIKE', "%{$search}%")
-            ->whereNotIn('friendships', function ($query) use ($mainUserId) {
-                $query->where(function ($q) use ($mainUserId) {
-                    $q->where('sender_id', $mainUserId)
-                        ->orWhere('receiver_id', $mainUserId);
-                });
-            })
             ->paginate(20);
+
+        $users->each(function ($user) use ($mainUserId) {
+            $user->isFriend = Friendship::areFriends($mainUserId, $user->id);
+            $user->pending = Friendship::isFriendRequestPending($mainUserId, $user->id);
+        });
 
         return response()->json(['users' => $users]);
     }

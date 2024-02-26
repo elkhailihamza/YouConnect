@@ -21,8 +21,8 @@
                 </div>
                 <span class="text-[13px] text-stone-100"><i class="fa-solid fa-envelope"></i> {{ $user->email }}</span>
             </div>
-            <div class="mt-5 ms-3">
-                <h2 class="text-[13px] ms-5">{{ $user->bio ?? 'You Can Make Your Bio here!'}}</h2>
+            <div class="mt-2 ms-10">
+                <h2 class="text-[13px] ms-5">{{ $user->bio ?? 'Add a bio here!'}}</h2>
             </div>
         </div>
         <div

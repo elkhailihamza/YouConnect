@@ -44,12 +44,13 @@ Route::group(['prefix' => 'auth'], function () {
 });
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/sendrequest/{friend}', [FriendshipController::class, 'sendRequest'])->name('sendRequest');
-    Route::get('/received-requests', [FriendshipController::class, 'receivedRequests'])->name('received-requests');
-    Route::post('/accept-request/{friendship}', [FriendshipController::class, 'acceptRequest'])->name('accept-request');
-    Route::post('/reject-request/{friendship}', [FriendshipController::class, 'rejectRequest'])->name('reject-request');
-    Route::delete('/cancel-request/{friendship}', [FriendshipController::class, 'cancelRequest'])->name('cancelRequest');
-    
+    Route::controller(FriendshipController::class)->group(function () {
+        Route::post('/sendrequest/{friend}', 'sendRequest')->name('sendRequest');
+        Route::get('/received-requests', 'receivedRequests')->name('received-requests');
+        Route::post('/accept-request/{friendship}', 'acceptRequest')->name('accept-request');
+        Route::post('/reject-request/{friendship}', 'rejectRequest')->name('reject-request');
+        Route::post('/cancel-request/{friend}', 'cancelRequest')->name('cancelRequest');
+    });
     Route::controller(ProfileController::class)->group(function () {
         Route::get('/profile/{user}', 'showuser')->name('profiles.profile');
         Route::get('/profile/edit', 'edituser')->name('profiles.edit');
