@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Comment;
+use App\Models\Notification;
 use App\Models\Post;
 use Illuminate\Http\Request;
 
@@ -29,6 +30,17 @@ class CommentController extends Controller
                 'user_id' => auth()->user()->id,
                 'content' => $request->input('content'),
             ]);
+
+        $post = Post::find($postId);
+        $username=auth()->user()->name;
+        $message = "$username commented your poste '$post->content'";
+
+        Notification::create([
+        'user_id' => $post->user_id,
+        'liker_id' => auth()->user()->id,
+        'post_id' => $postId,
+        'message' => $message,
+        ]);
 
             $comments = Comment::where('post_id', $postId);
             $comment = Comment::select('users.name', 'users.avatar', 'comments.post_id', 'comments.content', 'comments.created_at')

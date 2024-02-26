@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Friendship;
+use App\Models\Notification;
 use App\Models\User;
 use App\Notifications\FriendRequestNotification;
 use Illuminate\Http\Request;
@@ -18,6 +19,14 @@ class FriendshipController extends Controller
 
         if (!$found) {
             auth()->user()->sendRequest($friend);
+
+            $message = $friend->name . " You Have friend request from ".auth()->user()->name;
+
+        Notification::create([
+            'user_id' => $friend->id,
+            'liker_id' => auth()->user()->id,
+            'message' => $message,
+        ]);
             return response()->json(['success' => 'Demande d\'ami envoyée avec succès']);
         } else {
             return response()->json(['error' => 'User already sent a friend request!']);
@@ -66,6 +75,7 @@ class FriendshipController extends Controller
     public function receivedRequests()
     {
         $receivedRequests = auth()->user()->receivedFriendRequests()->get();
+        $unreadRequestsCount = $receivedRequests->count();
 
         return view('profiles.friendrequest', compact('receivedRequests'));
     }

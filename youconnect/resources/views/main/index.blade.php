@@ -27,8 +27,8 @@
                             <div
                                 class="border border-[#6B7280] dark:bg-[#242526] flex items-center justify-center rounded">
                                 <label
-                                    class="block text-sm flex w-full justify-between font-medium items-center gap-2 dark:text-white"
-                                    for="file_input"><span class="p-3.5 text-[#6B7280]">Upload
+                                    class="block text-sm flex cursor-pointer w-full justify-between font-medium items-center gap-2 dark:text-white"
+                                    for="file_input"><span class="p-3.5 text-[#6B7280] ">Upload
                                         image</span><svg class="me-2" xmlns="http://www.w3.org/2000/svg" width="20"
                                         height="20" viewBox="0 0 24 24" fill="none" stroke="#686868" stroke-width="1.5"
                                         stroke-linecap="round" stroke-linejoin="round">
