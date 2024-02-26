@@ -8,32 +8,36 @@
     </h1>
 
     <div class="rounded shadow-md bg-[#FFFFFF] dark:bg-[#242526]">
-
         <div class="p-4">
             <div class="flex items-center justify-between">
                 <div class="flex items-center">
-                    <img src="{{ Auth::user()->avatar ? asset('storage/' . Auth::user()->avatar) : 'https://via.placeholder.com/50' }}"
+                    <img src="{{ $user->avatar ? asset('storage/' . $user->avatar) : 'https://via.placeholder.com/50' }}"
                         alt="User" class="w-8 h-8 rounded-full mr-2">
                     <div class="grid">
                         <span class="text-[15px] font-medium">{{ $user->name }}</span>
-                        <span class="text-[13px] text-stone-500">Created: {{ $user->created_at->diffForHumans() }}</span>
+                        <span class="text-[13px] text-stone-500">Created: {{ $user->created_at->diffForHumans()
+                            }}</span>
                     </div>
                 </div>
                 <span class="text-[13px] text-stone-100"><i class="fa-solid fa-envelope"></i> {{ $user->email }}</span>
             </div>
             <div class="mt-2 ms-10">
-                <h2 class="text-[13px] ms-5">{{ $user->bio ?? 'Add a bio here!'}}</h2>
+                @if ($user->id === Auth::id())
+                    <h2 class="text-[13px] ms-5">{{ $user->bio ?? 'Add a bio here!'}}</h2>
+                @else
+                    <h2 class="text-[13px] ms-5">{{ $user->bio ?? 'No Bio here!'}}</h2>
+                @endif
             </div>
         </div>
         <div
             class="h-16 border-t select-none rounded-b flex text-center items-center justify-around bg-white dark:bg-[#242526]">
             <div class="gap-2">
-                <span class="likes-count items-center justify-center flex gap-2"><svg xmlns="http://www.w3.org/2000/svg"
+                <a href="{{route('profiles.Myposts', $user->id)}}" class="likes-count items-center justify-center flex gap-2"><svg xmlns="http://www.w3.org/2000/svg"
                         width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                         stroke-linecap="round" stroke-linejoin="round" class="feather feather-crop">
                         <path d="M6.13 1L6 16a2 2 0 0 0 2 2h15"></path>
                         <path d="M1 6.13L16 6a2 2 0 0 1 2 2v15"></path>
-                    </svg>{{ $user->posts->count() }} Posts</span>
+                    </svg>{{ $user->posts->count() }} Posts</a>
             </div>
             <div>
                 <span class="likes-count items-center justify-center flex gap-2"><svg xmlns="http://www.w3.org/2000/svg"
@@ -47,8 +51,7 @@
         </div>
     </div>
 
-    
-
+    @if ($user->id === Auth::id())
     <div class="mt-2 mb-18 max-h-screen w-full container-xl dark:text-white">
         <h1 class="text-2xl font-semibold mb-5 dark:text-gray-300 text-blue-700">Edit Profile</h1>
         <form class="rounded shadow-md w-full bg-white dark:bg-[#242526]  dark:text-white p-8 " method="POST"
@@ -97,5 +100,6 @@
             </div>
         </form>
     </div>
+    @endif
 
     @endsection

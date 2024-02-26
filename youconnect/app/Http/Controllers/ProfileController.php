@@ -12,9 +12,8 @@ class ProfileController extends Controller
 {
     public function showuser(User $user)
     {
-        $user = auth()->user(); 
-        $posts = Post::all();
-        return view('profiles.profile', compact('posts', 'user'));
+        $user = User::where('id', $user->id)->first();
+        return view('profiles.profile', compact('user'));
     }
 
     public function edituser()
@@ -54,7 +53,7 @@ public function updateuser(Request $request, User $user)
     public function showUserPosts(User $user)
     {
         $posts = $user->posts()->orderByDesc('created_at')->get();
-        return view('profiles.Myposts', compact('posts', 'user'));
+        return view('main.index', ['posts' => $posts, 'userId' => $user->id]);
     }
     
 }

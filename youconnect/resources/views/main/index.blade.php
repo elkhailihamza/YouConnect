@@ -8,6 +8,7 @@
 <div id="publication" class="mt-16  md:w-[680px] w-[450px] max-h-screen container-xl dark:text-white">
     <div class="space-y-1">
         @auth
+        @if ($userId === Auth::id())
         <div class="container mx-auto">
             <div class="max-w-[680px] mx-auto my-10 p-5 bg-[#FFFFFF] dark:bg-[#242526] rounded-lg shadow-md">
                 <h6 class="text-2xl font-semibold mb-5 dark:text-gray-300 text-blue-700 text-start">Create Post</h6>
@@ -52,7 +53,7 @@
                 </form>
             </div>
         </div>
-
+        @endif
         @endauth
         @if (isset($posts) && $posts->isNotEmpty())
         @foreach ($posts as $post)
@@ -67,8 +68,9 @@
                         <img src="https://via.placeholder.com/50" alt="User" class="w-8 h-8 rounded-full mr-2">
                         @endif
                         <div class="grid">
-                            <div><span class="dark:text-white text-[15px] font-medium">{{
-                                    $post->user->name }}</span></div>
+                            <div><a href="{{route('profiles.profile', $post->user->id)}}"
+                                    class="dark:text-white text-[15px] font-medium">{{
+                                    $post->user->name }}</a></div>
                             <span class="text-[13px] w-44 text-stone-500">{{ $post->created_at->diffForHumans()}}</span>
                         </div>
                     </div>
@@ -81,7 +83,7 @@
                     </div>
                 </div>
                 <div>
-                    
+
                     <button id="dropdown" data-dropdown-toggle="post-{{$post->id.'-'.$post->user->name}}"
                         class="inline-flex w-full justify-center gap-x-1.5 rounded-md text-sm font-semibold text-gray-900"
                         type="button"><svg fill="#000000" class="dark:fill-white" xmlns="http://www.w3.org/2000/svg"
@@ -90,39 +92,42 @@
                                 d="M480-160q-33 0-56.5-23.5T400-240q0-33 23.5-56.5T480-320q33 0 56.5 23.5T560-240q0 33-23.5 56.5T480-160Zm0-240q-33 0-56.5-23.5T400-480q0-33 23.5-56.5T480-560q33 0 56.5 23.5T560-480q0 33-23.5 56.5T480-400Zm0-240q-33 0-56.5-23.5T400-720q0-33 23.5-56.5T480-800q33 0 56.5 23.5T560-720q0 33-23.5 56.5T480-640Z" />
                         </svg>
                     </button>
-                    
-
                     <!-- Dropdown menu -->
-                    
                     <div id="post-{{$post->id.'-'.$post->user->name}}"
                         class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44  dark:bg-[#242520]">
                         <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdown">
                             @if(isset(Auth::user()->id))
                             @if($post->user->id == Auth::user()->id)
                             <li>
-                                <a class="w-full block flex gap-1 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" href="{{ route('posts.update',$post->id) }}"><i class="fa-solid fa-pencil"></i>Update Poste</a></li>
+                                <a class="w-full block flex gap-1 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                                    href="{{ route('posts.update',$post->id) }}"><i
+                                        class="fa-solid fa-pencil"></i>Update Poste</a>
+                            </li>
                             @endif
                             @endif
                             @if(isset(Auth::user()->id) )
                             @if($post->user->id == Auth::user()->id)
                             <li>
-
                                 <form action="{{ route('posts.destroy', $post->id) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="w-full block flex gap-1 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"><i class="fa-solid fa-trash-can"></i> Delete Post</button>
+                                    <button type="submit"
+                                        class="w-full block flex gap-1 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"><i
+                                            class="fa-solid fa-trash-can"></i> Delete Post</button>
                                 </form>
-                                </li>
-                                @endif
-                                @endif
-                            
-                                <li>
-                                    <button type="submit" class="block w-full flex gap-1 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"><i class="fa-solid fa-clipboard"></i> Copie le lien</button>
+                            </li>
+                            @endif
+                            @endif
 
-                                </li>
+                            <li>
+                                <a data-post-id="{{$post->id}}"
+                                    class="block w-full cursor-pointer flex gap-1 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"><i
+                                        class="fa-solid fa-clipboard"></i> Copie le lien</a>
+
+                            </li>
                         </ul>
                     </div>
-                    
+
                 </div>
             </div>
             @if ($post->cover != null)
@@ -133,22 +138,22 @@
             <div class="h-16 dark:bg-[#242526] border-t rounded-b">
                 <div data-post-id="{{ $post->id }}" class="flex justify-around items-center w-full h-full likeButton">
                     <div>
-                        <div class="flex gap-2 hover:bg-[#292929] rounded px-5 py-3 like-button btnlike cursor-pointer" data-post-id="{{$post->id }}">
+                        <div class="flex gap-2 hover:bg-[#292929] rounded px-5 py-3 like-button btnlike cursor-pointer"
+                            data-post-id="{{$post->id }}">
                             <span class="likes-count">{{ $post->likes->count() }}</span>
                             {{--button de like--}}
                             @if (Auth::check() && Auth::user()->likes->contains('post_id', $post->id))
-                            <button type="button"><i
-                                    class="fa-solid fa-heart fa-lg text-red-500"></i></button>
+                            <button type="button"><i class="fa-solid fa-heart fa-lg text-red-500"></i></button>
                             @else
-                            <button type="button"><i
-                                    class="fa-solid fa-heart fa-lg"></i></button>
+                            <button type="button"><i class="fa-solid fa-heart fa-lg"></i></button>
                             @endif
                         </div>
                     </div>
 
                     <div>
-                        <a class="flex gap-2 load-comments hover:bg-[#292929] rounded px-5 py-3 cursor-pointer" data-post-id="{{ $post->id }}"
-                            data-modal-target="comments-{{$post->id}}" data-modal-toggle="comments-{{$post->id}}">
+                        <a class="flex gap-2 load-comments hover:bg-[#292929] rounded px-5 py-3 cursor-pointer"
+                            data-post-id="{{ $post->id }}" data-modal-target="comments-{{$post->id}}"
+                            data-modal-toggle="comments-{{$post->id}}">
                             <span data-post-id="{{ $post->id }}" class="comment-count">{{ $post->comments->count()
                                 }}</span>
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
@@ -251,10 +256,7 @@
 
 
 
-   
 
-
-    
 
 </script>
 

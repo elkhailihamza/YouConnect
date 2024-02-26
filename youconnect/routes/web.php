@@ -42,7 +42,6 @@ Route::group(['prefix' => 'auth'], function () {
         Route::post('/logout', 'logout')->middleware(['auth'])->name('logout');
     });
 });
-
 Route::middleware(['auth'])->group(function () {
     Route::controller(FriendshipController::class)->group(function () {
         Route::post('/sendrequest/{friend}', 'sendRequest')->name('sendRequest');
@@ -58,11 +57,11 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/user/{user}/posts', 'showUserPosts')->name('profiles.Myposts');
     });
     Route::controller(PostController::class)->group(function () {
-        Route::post('/posts/create/store', 'store')->name('main.posts.store');
+        Route::get('/posts/{post}/view', 'viewPost')->name('posts.view');
         Route::get('/posts/{post}/edit', 'updatePost')->name('posts.update');
+        Route::post('/posts/create/store', 'store')->name('main.posts.store');
         Route::put('/posts/{post}', 'update')->name('posts.storeUpdate');
-        Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
-
+        Route::delete('/posts/{post}', 'destroy')->name('posts.destroy');
     });
     Route::controller(LikeController::class)->group(function () {
         Route::post('/like/toggle', 'toggleLike')->name('like.toggle');

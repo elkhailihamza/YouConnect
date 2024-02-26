@@ -123,7 +123,7 @@ function generateUserHtml(user, mainId) {
             <div class="flex self-start justify-self-start w-40">
                 <img src="${avatarSrc}" alt="User" class="w-8 h-8 rounded-full mr-2">
                 <div class="w-full">
-                    <div class=" w-40"><span class="dark:text-white text-[15px] w-40 font-medium">${user.name}</span></div>
+                    <div class=" w-40"><a href="/profile/${user.id}" class="dark:text-white text-[15px] w-40 font-medium">${user.name}</a></div>
                     <h2 class="text-[13px] text-stone-500 ms-2 break-all w-full">${bioText}</h2>
                 </div>
             </div>
