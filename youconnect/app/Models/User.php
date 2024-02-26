@@ -61,6 +61,12 @@ class User extends Authenticatable
     {
         return $this->sentFriendRequests()->where('receiver_id', $user->id)->exists();
     }
+
+
+    public function notifications()
+{
+    return $this->hasMany(Notification::class);
+}
     
     
     

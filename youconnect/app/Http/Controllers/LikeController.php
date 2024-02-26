@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\models\Like;
+use App\Models\Notification;
 use App\Models\Post;
 use App\Models\User;
 use App\Notifications\PostLiked;
@@ -16,6 +17,7 @@ class LikeController extends Controller
 {
     $postId = $request->input('post_id');
     $userId = auth()->user()->id;
+    $userName = auth()->user()->name;
 
     $like = Like::where('post_id', $postId)
                 ->where('user_id', $userId)
@@ -29,6 +31,16 @@ class LikeController extends Controller
             'user_id' => $userId,
             'post_id' => $postId
         ]);
+
+        $post = Post::find($postId);
+        $message = "{$userName} a aimé votre poste '$post->content'";
+
+    Notification::create([
+    'user_id' => $post->user_id,
+    'liker_id' => $userId,
+    'post_id' => $postId,
+    'message' => $message,
+    ]);
         $liked = true;
 
        
