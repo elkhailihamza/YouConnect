@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\User;
 use App\Models\Post;
 use Illuminate\Http\Request;
@@ -10,14 +11,14 @@ use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
+    public function viewPost()
+    {
 
-    
-
-
+    }
     public function showUserPosts(User $user)
     {
         $posts = $user->posts()->orderByDesc('created_at')->get();
-        return view('profiles.Myposts', compact('posts', 'user','unreadRequestsCount'));
+        return view('profiles.Myposts', compact('posts', 'user'));
     }
 
     public function updatePost(Post $post)
@@ -42,8 +43,6 @@ class PostController extends Controller
         Post::create($data);
         return redirect(route('index'))->withSuccess('Successfully made post!');
     }
-
-    
     public function update(Request $request, Post $post)
     {
         $data = $request->validate([
@@ -62,17 +61,14 @@ class PostController extends Controller
         $post->update($data);
         return redirect(route('index'))->withSuccess('Successfully updated post!');
     }
-            
+
     public function destroy(Post $post)
-{
-    if ($post->user->id === Auth::user()->id) {
-        $post->delete();
-        return redirect(route('index'))->withSuccess('Post deleted successfully!');
-    } else {
-        return redirect(route('index'))->withError('You are not authorized to delete this post!');
+    {
+        if ($post->user->id === Auth::user()->id) {
+            $post->delete();
+            return redirect(route('index'))->withSuccess('Post deleted successfully!');
+        } else {
+            return redirect(route('index'))->withError('You are not authorized to delete this post!');
+        }
     }
-}
-
-
-    
 }
