@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\models\Like;
+use App\Models\Post;
 use App\Models\User;
+use App\Notifications\PostLiked;
 use Illuminate\Support\Composer;
 use Illuminate\Support\Facades\Auth;
 
@@ -28,6 +30,8 @@ class LikeController extends Controller
             'post_id' => $postId
         ]);
         $liked = true;
+
+       
     }
 
     $likesCount = Like::where('post_id', $postId)->count();

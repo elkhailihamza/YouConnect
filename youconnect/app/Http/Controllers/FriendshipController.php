@@ -66,6 +66,7 @@ class FriendshipController extends Controller
     public function receivedRequests()
     {
         $receivedRequests = auth()->user()->receivedFriendRequests()->get();
+        $unreadRequestsCount = $receivedRequests->count();
 
         return view('profiles.friendrequest', compact('receivedRequests'));
     }
