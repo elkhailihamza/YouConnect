@@ -21,6 +21,8 @@ use Symfony\Component\HttpFoundation\RequestMatcher\HostRequestMatcher;
 |
 */
 
+
+
 Route::controller(HomeController::class)->group(function () {
     Route::get('/', 'index')->name('index');
     Route::get('/home', 'index')->name('index');
@@ -43,6 +45,8 @@ Route::group(['prefix' => 'auth'], function () {
     });
 });
 Route::middleware(['auth'])->group(function () {
+
+
     Route::controller(FriendshipController::class)->group(function () {
         Route::post('/sendrequest/{friend}', 'sendRequest')->name('sendRequest');
         Route::get('/received-requests', 'receivedRequests')->name('received-requests');
