@@ -92,10 +92,7 @@
                                 d="M480-160q-33 0-56.5-23.5T400-240q0-33 23.5-56.5T480-320q33 0 56.5 23.5T560-240q0 33-23.5 56.5T480-160Zm0-240q-33 0-56.5-23.5T400-480q0-33 23.5-56.5T480-560q33 0 56.5 23.5T560-480q0 33-23.5 56.5T480-400Zm0-240q-33 0-56.5-23.5T400-720q0-33 23.5-56.5T480-800q33 0 56.5 23.5T560-720q0 33-23.5 56.5T480-640Z" />
                         </svg>
                     </button>
-
-
                     <!-- Dropdown menu -->
-
                     <div id="post-{{$post->id.'-'.$post->user->name}}"
                         class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44  dark:bg-[#242520]">
                         <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdown">
@@ -111,7 +108,6 @@
                             @if(isset(Auth::user()->id) )
                             @if($post->user->id == Auth::user()->id)
                             <li>
-
                                 <form action="{{ route('posts.destroy', $post->id) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
@@ -124,9 +120,9 @@
                             @endif
 
                             <li>
-                                <button type="submit"
-                                    class="block w-full flex gap-1 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"><i
-                                        class="fa-solid fa-clipboard"></i> Copie le lien</button>
+                                <a data-post-id="{{$post->id}}"
+                                    class="block w-full cursor-pointer flex gap-1 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"><i
+                                        class="fa-solid fa-clipboard"></i> Copie le lien</a>
 
                             </li>
                         </ul>
@@ -257,9 +253,6 @@
             });
         });
     });
-
-
-
 
 
 
