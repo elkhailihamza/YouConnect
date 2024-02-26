@@ -42,7 +42,6 @@ Route::group(['prefix' => 'auth'], function () {
         Route::post('/logout', 'logout')->middleware(['auth'])->name('logout');
     });
 });
-
 Route::middleware(['auth'])->group(function () {
     Route::controller(FriendshipController::class)->group(function () {
         Route::post('/sendrequest/{friend}', 'sendRequest')->name('sendRequest');
@@ -62,7 +61,6 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/posts/{post}/edit', 'updatePost')->name('posts.update');
         Route::put('/posts/{post}', 'update')->name('posts.storeUpdate');
         Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
-
     });
     Route::controller(LikeController::class)->group(function () {
         Route::post('/like/toggle', 'toggleLike')->name('like.toggle');
