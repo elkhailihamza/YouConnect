@@ -133,21 +133,21 @@
             <div class="h-16 dark:bg-[#242526] border-t rounded-b">
                 <div data-post-id="{{ $post->id }}" class="flex justify-around items-center w-full h-full likeButton">
                     <div>
-                        <div class="flex gap-2  cursor-pointer">
+                        <div class="flex gap-2 hover:bg-[#292929] rounded px-5 py-3 like-button btnlike cursor-pointer" data-post-id="{{$post->id }}">
                             <span class="likes-count">{{ $post->likes->count() }}</span>
                             {{--button de like--}}
                             @if (Auth::check() && Auth::user()->likes->contains('post_id', $post->id))
-                            <button type="button" class="like-button btnlike" data-post-id="{{$post->id }}"><i
+                            <button type="button"><i
                                     class="fa-solid fa-heart fa-lg text-red-500"></i></button>
                             @else
-                            <button type="button" class="like-button btnlike" data-post-id="{{$post->id }}"><i
+                            <button type="button"><i
                                     class="fa-solid fa-heart fa-lg"></i></button>
                             @endif
                         </div>
                     </div>
 
                     <div>
-                        <a class="flex gap-2 load-comments cursor-pointer" data-post-id="{{ $post->id }}"
+                        <a class="flex gap-2 load-comments hover:bg-[#292929] rounded px-5 py-3 cursor-pointer" data-post-id="{{ $post->id }}"
                             data-modal-target="comments-{{$post->id}}" data-modal-toggle="comments-{{$post->id}}">
                             <span data-post-id="{{ $post->id }}" class="comment-count">{{ $post->comments->count()
                                 }}</span>

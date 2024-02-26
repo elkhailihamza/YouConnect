@@ -26,4 +26,22 @@ class Friendship extends Model
     {
         return $this->belongsTo(Status::class);
     }
+
+    public static function areFriends($userId, $friendId)
+    {
+        return static::where(function ($query) use ($userId, $friendId) {
+            $query->where('sender_id', $userId)
+                ->where('receiver_id', $friendId);
+        })->orWhere(function ($query) use ($userId, $friendId) {
+            $query->where('sender_id', $friendId)
+                ->where('receiver_id', $userId);
+        })->exists();
+    }
+    public static function isFriendRequestPending($senderId, $receiverId)
+    {
+        return static::where('sender_id', $senderId)
+            ->where('receiver_id', $receiverId)
+            ->where('status_id', 1)
+            ->exists();
+    }
 }

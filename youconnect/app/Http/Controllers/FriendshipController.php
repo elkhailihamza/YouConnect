@@ -40,27 +40,35 @@ class FriendshipController extends Controller
 
 
     public function sentRequests()
-{
-    $sentRequests = auth()->user()->sentFriendRequests()->where('status', '1')->get();
-
-    return view('profiles.friendrequest', compact('sentRequests'));
-}
-
-
-    public function cancelRequest(Friendship $friendship)
     {
-        $friendship->delete();
+        $sentRequests = auth()->user()->sentFriendRequests()->where('status', '1')->get();
 
-    return redirect()->back()->with('success', 'Demande d\'ami annulée avec succès');
-}
+        return view('profiles.friendrequest', compact('sentRequests'));
+    }
 
 
-public function receivedRequests()
-{
-    $receivedRequests = auth()->user()->receivedFriendRequests()->get();
+    public function cancelRequest(User $friend)
+    {
+        $found = Friendship::where('sender_id', Auth::user()->id)
+            ->where('receiver_id', $friend->id)
+            ->first();
 
-    return view('profiles.friendrequest', compact('receivedRequests'));
-}
+        if ($found) {
+            $found->delete();
+            return response()->json(['success' => 'Removed pending request!']);
+        } else {
+            return response()->json(['error' => 'Friend request no found!']);
+        }
+
+    }
+
+
+    public function receivedRequests()
+    {
+        $receivedRequests = auth()->user()->receivedFriendRequests()->get();
+
+        return view('profiles.friendrequest', compact('receivedRequests'));
+    }
 
 
 }
