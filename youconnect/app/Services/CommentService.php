@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Repositories\CommentRepositoryInterface;
+use Illuminate\Support\Facades\Auth;
 
 class CommentService implements CommentServiceInterface
 {
@@ -15,8 +16,14 @@ class CommentService implements CommentServiceInterface
     {
         return $this->commentRepository->getComments($post);
     }
-    public function store($data)
+    public function store($request, $postId)
     {
+        $data = $request->validate([
+            'content' => 'required|max:255',
+        ]);
+        $data['post_id'] = $postId;
+        $data['user_id'] = Auth::id();
+
         return $this->commentRepository->store($data);
     }
 }

@@ -24,13 +24,7 @@ class CommentController extends Controller
     public function store(Request $request, $postId)
     {
         try {
-            $data = $request->validate([
-                'content' => 'required|max:255',
-            ]);
-            $data['post_id'] = $postId;
-            $data['user_id'] = Auth::id();
-
-            $comment = $this->commentService->store($data);
+            $comment = $this->commentService->store($request, $postId);
 
             $post = Post::find($postId);
             $username = auth()->user()->name;
