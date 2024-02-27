@@ -2,12 +2,12 @@
 
 namespace App\Services;
 
-use App\Repositories\PostRepository;
+use App\Repositories\PostRepositoryInterface;
 
 class PostService implements PostServiceInterface
 {
     protected $postRepository;
-    public function __construct(PostRepository $postRepository)
+    public function __construct(PostRepositoryInterface $postRepository)
     {
         $this->postRepository = $postRepository;
     }

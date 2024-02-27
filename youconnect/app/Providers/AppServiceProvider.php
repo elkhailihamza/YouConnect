@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use App\Models\User;
 use App\Models\Notification;
+use App\Repositories\CommentRepository;
+use App\Repositories\CommentRepositoryInterface;
 use App\Repositories\PostRepository;
 use App\Repositories\PostRepositoryInterface;
 use Carbon\Carbon;
@@ -14,6 +16,8 @@ use App\Services\AuthService;
 use App\Services\AuthInterface;
 use App\Repositories\UserRepository;
 use App\Repositories\UserRepositoryInterface;
+use App\Services\CommentService;
+use App\Services\CommentServiceInterface;
 use App\Services\PostService;
 use App\Services\PostServiceInterface;
 
@@ -26,6 +30,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
         $this->app->bind(PostServiceInterface::class, PostService::class);
         $this->app->bind(PostRepositoryInterface::class, PostRepository::class);
+        $this->app->bind(CommentServiceInterface::class, CommentService::class);
+        $this->app->bind(CommentRepositoryInterface::class, CommentRepository::class);
     }
 
 
