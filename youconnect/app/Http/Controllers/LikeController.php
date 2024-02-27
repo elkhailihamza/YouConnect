@@ -6,9 +6,16 @@ use Illuminate\Http\Request;
 use App\models\Like;
 use App\Models\Notification;
 use App\Models\Post;
+use App\Services\NotificationService;
+use App\Services\NotificationServiceInterface;
 
 class LikeController extends Controller
 {
+    protected $notificationService;
+    public function __construct(NotificationServiceInterface $notificationService)
+    {
+        $this->notificationService = $notificationService;
+    }
     public function toggleLike(Request $request)
     {
         $postId = $request->input('post_id');
@@ -31,12 +38,13 @@ class LikeController extends Controller
             $post = Post::find($postId);
             $message = "{$userName} a aimé votre poste '$post->content'";
 
-            Notification::create([
+            $this->notificationService->store([
                 'user_id' => $post->user_id,
                 'liker_id' => $userId,
                 'post_id' => $postId,
                 'message' => $message,
             ]);
+
             $liked = true;
         }
         $likesCount = Like::where('post_id', $postId)->count();

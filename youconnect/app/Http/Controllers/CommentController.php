@@ -11,10 +11,13 @@ use Illuminate\Support\Facades\Auth;
 
 class CommentController extends Controller
 {
+    protected $notificationService;
     protected $commentService;
-    public function __construct(CommentServiceInterface $commentService)
+    public function __construct(CommentServiceInterface $commentService, NotificationServiceInterface $notificationService)
     {
         $this->commentService = $commentService;
+        $this->notificationService = $notificationService;
+
     }
     public function index(POST $post)
     {
@@ -30,7 +33,7 @@ class CommentController extends Controller
             $username = auth()->user()->name;
             $message = "$username commented on your '$post->content' post";
 
-            Notification::create([
+            $this->notificationService->store([
                 'user_id' => $post->user_id,
                 'liker_id' => auth()->user()->id,
                 'post_id' => $postId,
