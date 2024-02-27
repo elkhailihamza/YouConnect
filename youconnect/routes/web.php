@@ -45,7 +45,7 @@ Route::group(['prefix' => 'auth'], function () {
     });
 });
 Route::middleware(['auth'])->group(function () {
-
+    
 
     Route::controller(FriendshipController::class)->group(function () {
         Route::post('/sendrequest/{friend}', 'sendRequest')->name('sendRequest');
@@ -53,6 +53,10 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/accept-request/{friendship}', 'acceptRequest')->name('accept-request');
         Route::post('/reject-request/{friendship}', 'rejectRequest')->name('reject-request');
         Route::post('/cancel-request/{friend}', 'cancelRequest')->name('cancelRequest');
+        Route::get('/friends', 'showFriends')->name('friends');
+        Route::delete('/friends/{friend}', 'deleteFriend')->name('friends.delete');
+
+
     });
     Route::controller(ProfileController::class)->group(function () {
         Route::get('/profile/{user}', 'showuser')->name('profiles.profile');
