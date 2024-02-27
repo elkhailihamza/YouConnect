@@ -2,52 +2,42 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
+use App\Services\AuthInterface;
 
 class AuthController extends Controller
 {
+    protected $authService;
 
-
-    public function showRegister(){
-        return view('Auth.register');
+    public function __construct(AuthInterface $authService)
+    {
+        $this->authService = $authService;
     }
 
-
-    public function showLogin(){
-        return view('Auth.login');
+    public function showRegister()
+    {
+        return view('auth.register');
     }
 
-
+    public function showLogin()
+    {
+        return view('auth.login');
+    }
 
     public function register(Request $request)
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8',],
+            'password' => ['required', 'string', 'min:8'],
         ]);
 
-        if ($request->hasFile('avatar')) {
-            $avatarPath = $request->file('avatar')->store('avatars');
-        } else {
-            $avatarPath = null;
-        }
+        $userData = $request->only('name', 'email', 'password');
 
-        $user = User::create([
-            'name' => $request->input('name'),
-            'email' => $request->input('email'),
-            'password' => Hash::make($request->input('password')),
-            
-        ]);
-
-        Auth::login($user);
+        $this->authService->register($userData);
 
         return redirect()->route('index');
     }
-
 
     public function login(Request $request)
     {
@@ -56,7 +46,7 @@ class AuthController extends Controller
             'password' => ['required'],
         ]);
 
-        if (Auth::attempt($credentials)) {
+        if ($this->authService->login($credentials)) {
             return redirect()->intended(route('index'));
         }
 
@@ -64,10 +54,14 @@ class AuthController extends Controller
             'email' => 'The provided credentials do not match our records.',
         ]);
     }
-    public function logout(Request $request) {
-        Auth::logout();
+
+    public function logout(Request $request)
+    {
+        $this->authService->logout();
+
         $request->session()->invalidate();
         $request->session()->regenerateToken();
+
         return redirect(route('index'))->withSuccess('Successfully logged out!');
     }
 }

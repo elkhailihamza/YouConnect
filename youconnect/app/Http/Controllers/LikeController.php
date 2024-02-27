@@ -35,12 +35,12 @@ class LikeController extends Controller
         $post = Post::find($postId);
         $message = "{$userName} a aimé votre poste '$post->content'";
 
-    Notification::create([
-    'user_id' => $post->user_id,
-    'liker_id' => $userId,
-    'post_id' => $postId,
-    'message' => $message,
-    ]);
+        Notification::create([
+        'user_id' => $post->user_id,
+        'liker_id' => $userId,
+        'post_id' => $postId,
+        'message' => $message,
+        ]);
         $liked = true;
 
        
