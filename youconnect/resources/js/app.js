@@ -1,6 +1,16 @@
 import './bootstrap';
 
-
+$(document).on('click', '.copy', function () {
+    var copy = $(this).data('post-link');
+    copyElement(copy);
+    Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Copied successfully!",
+        showConfirmButton: false,
+        timer: 1500
+    });
+});
 const leftSidebar = document.getElementById('left-sidebar');
 const rightSidebar = document.getElementById('right-sidebar');
 const toggleLeftSidebar = document.getElementById('toggle-left-sidebar');
@@ -30,4 +40,9 @@ function openModal(modalId) {
 function closeModal(modalId) {
     document.getElementById(modalId).classList.add('hidden');
     document.getElementById(modalId).classList.add('m-0');
+}
+
+function copyElement(element) {
+    var copyText = element;
+    navigator.clipboard.writeText(copyText);
 }

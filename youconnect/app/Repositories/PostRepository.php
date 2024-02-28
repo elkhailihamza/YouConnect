@@ -15,6 +15,10 @@ class PostRepository implements PostRepositoryInterface
     {
         return Post::orderByDesc('created_at')->where('user_id', $id)->get();
     }
+    public function getPostById($id)
+    {
+        return Post::orderByDesc('created_at')->where('id', $id)->get();
+    }
     public function create(array $data)
     {
         return Post::create($data);

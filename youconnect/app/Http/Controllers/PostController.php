@@ -16,10 +16,10 @@ class PostController extends Controller
     {
         $this->postService = $postService;
     }
-    public function showUserPosts(User $user)
+    public function viewPost(Post $post)
     {
-        $posts = $this->postService->getPostsByUserId($user);
-        return view('profiles.Myposts', compact('posts', 'user'));
+        $posts = $this->postService->getPostById($post->id);
+        return view('main.index', ['posts' => $posts, 'userId' => $posts[0]->user_id]);
     }
 
     public function updatePost(Post $post)
