@@ -19,6 +19,10 @@ class PostService implements PostServiceInterface
     {
         return $this->postRepository->getPostsByUserId($userId);
     }
+    public function getPostById($postId)
+    {
+        return $this->postRepository->getPostById($postId);
+    }
     public function validate($post = null, $request)
     {
         $data = $request->validate([
