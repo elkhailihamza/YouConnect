@@ -113,7 +113,7 @@
                             <span class="likes-count">{{ $post->likes->count() }}</span>
                             {{--button de like--}}
                             @if (Auth::check() && Auth::user()->likes->contains('post_id', $post->id))
-                            <button type="button"><i class="fa-solid fa-heart fa-lg text-red-500"></i></button>
+                            <button type="button"><i class="fa-solid fa-heart fa-lg"></i></button>
                             @else
                             <button type="button"><i class="fa-solid fa-heart fa-lg"></i></button>
                             @endif
