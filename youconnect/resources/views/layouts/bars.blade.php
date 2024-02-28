@@ -54,8 +54,13 @@
                             <div x-show="open" @click.away="open = false" class=" top-full left-0 mt-2 w-full  bg-white dark:bg-gray-800 shadow-lg rounded-lg ring-1 ring-black ring-opacity-5 focus:outline-none z-10 overflow-y-scroll">
                                 <div class="py-1 overflow-y-scroll " style="height: 200px;">
                                     @if ($notifications->isNotEmpty())
+                                    <a class="text-blue-500 text-center item-center justify-center p-4 " href="">mark all as read</a>
                                         @foreach ($notifications as $notification)
+                                            <div class="flex">
                                             <a href="#" class="block px-4 py-2 text-sm text-gray-900 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700" role="menuitem">{{ $notification->message }}</a>
+                                            <a class="text-blue-500 item-center justify-center " href="">read</a>
+
+                                        </div>
                                             <hr>
                                         @endforeach
                                     @else
