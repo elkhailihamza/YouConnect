@@ -138,7 +138,7 @@
             <div class="h-16 dark:bg-[#242526] border-t rounded-b">
                 <div data-post-id="{{ $post->id }}" class="flex justify-around items-center w-full h-full likeButton">
                     <div>
-                        <div class="flex gap-2 dark:hover:bg-[#292929] rounded px-5 py-3 like-button btnlike cursor-pointer"
+                        <div class="flex gap-2 hover:bg-[#EEEEEE] dark:hover:bg-[#292929] rounded px-5 py-3 like-button btnlike cursor-pointer"
                             data-post-id="{{$post->id }}">
                             <span class="likes-count">{{ $post->likes->count() }}</span>
                             {{--button de like--}}
@@ -151,7 +151,7 @@
                     </div>
 
                     <div>
-                        <a class="flex gap-2 load-comments dark:hover:bg-[#292929] rounded px-5 py-3 cursor-pointer"
+                        <a class="flex gap-2 load-comments hover:bg-[#EEEEEE] dark:hover:bg-[#292929] rounded px-5 py-3 cursor-pointer"
                             data-post-id="{{ $post->id }}" data-modal-target="comments-{{$post->id}}"
                             data-modal-toggle="comments-{{$post->id}}">
                             <span data-post-id="{{ $post->id }}" class="comment-count">{{ $post->comments->count()
