@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Http\Controllers;
 
@@ -17,12 +17,12 @@ class ProfileController extends Controller
     }
 
     public function edituser()
-{
-    $user = auth()->user();
-    return view('profiles.edit', compact('user'));
-}
+    {
+        $user = auth()->user();
+        return view('profiles.edit', compact('user'));
+    }
 
-public function updateuser(Request $request, User $user)
+    public function updateuser(Request $request, User $user)
     {
         $request->validate([
             'name' => 'required|string|max:255',
@@ -55,5 +55,4 @@ public function updateuser(Request $request, User $user)
         $posts = $user->posts()->orderByDesc('created_at')->get();
         return view('main.index', ['posts' => $posts, 'userId' => $user->id]);
     }
-    
 }

@@ -55,8 +55,6 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/cancel-request/{friend}', 'cancelRequest')->name('cancelRequest');
         Route::get('/friends', 'showFriends')->name('friends');
         Route::delete('/friends/{friend}', 'deleteFriend')->name('friends.delete');
-
-
     });
     Route::controller(ProfileController::class)->group(function () {
         Route::get('/profile/{user}', 'showuser')->name('profiles.profile');
