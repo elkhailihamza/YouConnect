@@ -6,6 +6,7 @@ use App\Models\Comment;
 use App\Models\Notification;
 use App\Models\Post;
 use App\Services\CommentServiceInterface;
+use App\Services\NotificationServiceInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
