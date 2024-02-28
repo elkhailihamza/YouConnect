@@ -21,6 +21,8 @@ use Symfony\Component\HttpFoundation\RequestMatcher\HostRequestMatcher;
 |
 */
 
+
+
 Route::controller(HomeController::class)->group(function () {
     Route::get('/', 'index')->name('index');
     Route::get('/home', 'index')->name('index');
@@ -42,14 +44,20 @@ Route::group(['prefix' => 'auth'], function () {
         Route::post('/logout', 'logout')->middleware(['auth'])->name('logout');
     });
 });
-
 Route::middleware(['auth'])->group(function () {
-    Route::get('/sendrequest/{friend}', [FriendshipController::class, 'sendRequest'])->name('sendRequest');
-    Route::get('/received-requests', [FriendshipController::class, 'receivedRequests'])->name('received-requests');
-    Route::post('/accept-request/{friendship}', [FriendshipController::class, 'acceptRequest'])->name('accept-request');
-    Route::post('/reject-request/{friendship}', [FriendshipController::class, 'rejectRequest'])->name('reject-request');
-    Route::delete('/cancel-request/{friendship}', [FriendshipController::class, 'cancelRequest'])->name('cancelRequest');
     
+
+    Route::controller(FriendshipController::class)->group(function () {
+        Route::post('/sendrequest/{friend}', 'sendRequest')->name('sendRequest');
+        Route::get('/received-requests', 'receivedRequests')->name('received-requests');
+        Route::post('/accept-request/{friendship}', 'acceptRequest')->name('accept-request');
+        Route::post('/reject-request/{friendship}', 'rejectRequest')->name('reject-request');
+        Route::post('/cancel-request/{friend}', 'cancelRequest')->name('cancelRequest');
+        Route::get('/friends', 'showFriends')->name('friends');
+        Route::delete('/friends/{friend}', 'deleteFriend')->name('friends.delete');
+
+
+    });
     Route::controller(ProfileController::class)->group(function () {
         Route::get('/profile/{user}', 'showuser')->name('profiles.profile');
         Route::get('/profile/edit', 'edituser')->name('profiles.edit');
@@ -57,11 +65,11 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/user/{user}/posts', 'showUserPosts')->name('profiles.Myposts');
     });
     Route::controller(PostController::class)->group(function () {
-        Route::post('/posts/create/store', 'store')->name('main.posts.store');
+        Route::get('/posts/{post}/view', 'viewPost')->name('posts.view');
         Route::get('/posts/{post}/edit', 'updatePost')->name('posts.update');
+        Route::post('/posts/create/store', 'store')->name('main.posts.store');
         Route::put('/posts/{post}', 'update')->name('posts.storeUpdate');
-        Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
-
+        Route::delete('/posts/{post}', 'destroy')->name('posts.destroy');
     });
     Route::controller(LikeController::class)->group(function () {
         Route::post('/like/toggle', 'toggleLike')->name('like.toggle');

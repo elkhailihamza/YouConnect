@@ -28,7 +28,7 @@ class User extends Authenticatable
     Friendship::create([
         'sender_id' => $this->id,
         'receiver_id' => $friend->id,
-        'status_id' => 1, // En attente
+        'status_id' => 1, 
     ]);
 }
 
@@ -51,16 +51,24 @@ class User extends Authenticatable
 }
 
     
+
+
     public function friends()
-    {
-        return $this->belongsToMany(User::class, 'friendships', 'sender_id', 'receiver_id')
-            ->wherePivot('status_id', 2); // 2 pour statut 'accepted'
-    }
+{
+    return $this->belongsToMany(User::class, 'friendships', 'sender_id', 'receiver_id')
+        ->where('status_id', 2);
+}
 
     public function hasSentFriendRequestTo(User $user)
     {
         return $this->sentFriendRequests()->where('receiver_id', $user->id)->exists();
     }
+
+
+    public function notifications()
+{
+    return $this->hasMany(Notification::class);
+}
     
     
     
