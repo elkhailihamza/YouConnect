@@ -22,17 +22,21 @@ class HomeController extends Controller
             $notifications = [];
         }
         $posts = Post::inRandomOrder()->paginate(10);
-        return view('main.index', ['posts' => $posts, 'userId' => Auth::id(),'notifications' => $notifications
-    ]);
+        return view('main.index', [
+            'posts' => $posts,
+            'userId' => Auth::id(),
+            'notifications' => $notifications
+        ]);
 
-        
+
     }
 
     public function getUsers(Request $request)
     {
         $search = $request->input('search');
         $mainUserId = Auth::id();
-        $users = User::where('name', 'LIKE', "%{$search}%")
+        $users = User::where('id', '!=', Auth::id())
+            ->where('name', 'LIKE', "%{$search}%")
             ->paginate(20);
 
         $users->each(function ($user) use ($mainUserId) {
