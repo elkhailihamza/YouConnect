@@ -13,22 +13,11 @@ class HomeController extends Controller
 {
     public function index()
     {
-
-        if (auth()->check()) {
-            $notifications = auth()->user()->notifications()
-                ->where('created_at', '>', Carbon::now()->subHours(24))
-                ->get();
-        } else {
-            $notifications = [];
-        }
         $posts = Post::inRandomOrder()->paginate(10);
         return view('main.index', [
             'posts' => $posts,
             'userId' => Auth::id(),
-            'notifications' => $notifications
         ]);
-
-
     }
 
     public function getUsers(Request $request)

@@ -3,8 +3,6 @@
 
 @section('content')
 
-
-
 <div id="publication" class="mt-16  md:w-[680px] w-[450px] max-h-screen container-xl dark:text-white">
     <div class="space-y-1">
         @auth
