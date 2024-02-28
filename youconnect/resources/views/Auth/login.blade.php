@@ -5,7 +5,7 @@
 
 <div class="container mx-auto mt-5">
     <div class="max-w-lg mx-auto my-10 bg-white dark:bg-gray-800 p-5 rounded-lg shadow-md mt-24">
-        @if (session('success'))
+        {{-- @if (session('success'))
         <script>
             Swal.fire({
                 position: "top-end",
@@ -13,9 +13,21 @@
                 title: "{{ session('success') }}",
                 showConfirmButton: false,
                 timer: 1500
+                
             });
         </script>
        @endif
+       @if (session('error'))
+       <script>
+           Swal.fire({
+               position: "top-end",
+               icon: "error",
+               title: "{{ session('error') }}",
+               showConfirmButton: false,
+               timer: 1500
+           });
+       </script>
+      @endif --}}
         
         <h1 class="text-2xl font-semibold mb-5 text-center dark:text-white-700 text-blue-700">Login</h1>
         <form class="p-5" action="{{ route('login') }}" method="POST">

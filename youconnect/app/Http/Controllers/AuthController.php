@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Services\AuthInterface;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -19,24 +20,16 @@ class AuthController extends Controller
         return view('auth.register');
     }
 
+    public function register(Request $request)
+{
+    $user = $this->authService->register($request->all());
+    Auth::login($user);
+    return redirect()->route('index')->withSuccess('Registration successful!');
+}
+
     public function showLogin()
     {
         return view('auth.login');
-    }
-
-    public function register(Request $request)
-    {
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8'],
-        ]);
-
-        $userData = $request->only('name', 'email', 'password');
-
-        $this->authService->register($userData);
-
-        return redirect()->route('index');
     }
 
     public function login(Request $request)
@@ -47,7 +40,7 @@ class AuthController extends Controller
         ]);
 
         if ($this->authService->login($credentials)) {
-            return redirect()->intended(route('index'));
+            return redirect()->intended(route('index'))->withSuccess('Login successful!');
         }
 
         return back()->withErrors([

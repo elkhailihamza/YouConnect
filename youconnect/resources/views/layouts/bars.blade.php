@@ -32,6 +32,7 @@
                             <span class="mx-7">INVITATION</span>
                         </a>
                     </li>
+                    
                     <li>
                         <div x-data="{ open: false }" class="relative">
                             <button @click="open = !open" type="button" class="flex items-center justify-between w-full p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none group">
@@ -50,8 +51,8 @@
 
                             </button>
                     
-                            <div x-show="open" @click.away="open = false" class="absolute top-full left-0 mt-2 w-full  bg-white dark:bg-gray-800 shadow-lg rounded-lg ring-1 ring-black ring-opacity-5 focus:outline-none z-10 overflow-y-auto">
-                                <div class="py-1 overflow-y-auto">
+                            <div x-show="open" @click.away="open = false" class=" top-full left-0 mt-2 w-full  bg-white dark:bg-gray-800 shadow-lg rounded-lg ring-1 ring-black ring-opacity-5 focus:outline-none z-10 overflow-y-scroll">
+                                <div class="py-1 overflow-y-scroll " style="height: 200px;">
                                     @if ($notifications->isNotEmpty())
                                         @foreach ($notifications as $notification)
                                             <a href="#" class="block px-4 py-2 text-sm text-gray-900 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700" role="menuitem">{{ $notification->message }}</a>

@@ -4,7 +4,7 @@
 
 <div id="profile" class="mt-20 mb-12 max-h-screen container-xl dark:text-white">
 
-    <h1 class="text-2xl md:w-[680px] w-[400px] font-semibold mb-5 dark:text-gray-300 text-blue-700 ">Profile details
+    <h1 class="text-2xl text-center md:w-[680px] w-[400px] font-semibold mb-5 dark:text-gray-300 text-blue-700 ">Profile details
     </h1>
 
     <div class="rounded shadow-md bg-[#FFFFFF] dark:bg-[#242526]">
@@ -53,7 +53,7 @@
 
     @if ($user->id === Auth::id())
     <div class="mt-2 mb-18 max-h-screen w-full container-xl dark:text-white">
-        <h1 class="text-2xl font-semibold mb-5 dark:text-gray-300 text-blue-700">Edit Profile</h1>
+        <h1 class="text-2xl text-center font-semibold mb-5 dark:text-gray-300 text-blue-700">Edit Profile</h1>
         <form class="rounded shadow-md w-full bg-white dark:bg-[#242526]  dark:text-white p-8 " method="POST"
             action="{{ route('profiles.update', ['user' => $user]) }}" enctype="multipart/form-data">
             @csrf
@@ -74,8 +74,21 @@
             </div>
 
             <div class="mb-4 w-full">
+                <label for="current_password" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Current Password</label>
+                <input id="current_password" type="password"
+                    class="form-input dark:text-gray-900 text-lg w-full border border-gray-600 rounded" name="password">
+            </div>
+
+            <div class="mb-4 w-full">
                 <label for="password"
-                    class="block text-sm font-medium text-gray-700 dark:text-gray-300">Password</label>
+                    class="block text-sm font-medium text-gray-700 dark:text-gray-300">New Password</label>
+                <input id="password" type="password"
+                    class="form-input dark:text-gray-900 text-lg w-full border border-gray-600 rounded" name="password">
+            </div>
+
+            <div class="mb-4 w-full">
+                <label for="password"
+                    class="block text-sm font-medium text-gray-700 dark:text-gray-300"> verifier Password</label>
                 <input id="password" type="password"
                     class="form-input dark:text-gray-900 text-lg w-full border border-gray-600 rounded" name="password">
             </div>
