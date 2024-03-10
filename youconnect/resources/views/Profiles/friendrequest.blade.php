@@ -2,7 +2,7 @@
 
 @section('content')
 <div  class="mt-20 md:mt-25 mb-12  max-h-screen container-xl dark:text-white ">
-    <div class="rounded shadow-md  dark:bg-[#242526]">
+    <div class="rounded shadow-md mt-12 dark:bg-[#242526]">
         @if ($receivedRequests->isEmpty())
             <p>Currently, there are no friend requests received.</p>
         @else

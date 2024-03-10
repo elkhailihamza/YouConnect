@@ -1,3 +1,5 @@
+{{-- nav.blade.php --}}
+
 <nav
     class="bg-white dark:bg-[#242526] fixed w-full z-20 h-[60px] top-0 start-0 border-b border-gray-200 dark:border-gray-600">
     <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto h-full">

@@ -11,6 +11,7 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+    
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -36,7 +37,7 @@
         Swal.fire({
             position: "top-end",
             icon: "error",
-            title: "{{ session('success') }}",
+            title: "{{ session('error') }}",
             showConfirmButton: false,
             timer: 1500
         });

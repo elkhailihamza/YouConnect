@@ -43,18 +43,13 @@ class AuthController extends Controller
             return redirect()->intended(route('index'))->withSuccess('Login successful!');
         }
 
-        return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
-        ]);
+        return back()->withError('Login unsuccessful try again!');
     }
 
     public function logout(Request $request)
     {
         $this->authService->logout();
-
         $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
         return redirect(route('index'))->withSuccess('Successfully logged out!');
     }
 }

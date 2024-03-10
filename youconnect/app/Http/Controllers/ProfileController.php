@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
+
 class ProfileController extends Controller
 {
     public function showuser(User $user)
@@ -55,4 +56,24 @@ class ProfileController extends Controller
         $posts = $user->posts()->orderByDesc('created_at')->get();
         return view('main.index', ['posts' => $posts, 'userId' => $user->id]);
     }
+
+    public function delete(Request $request)
+{
+    $user = auth()->user();
+    $user->delete();
+
+    auth()->logout();
+
+    return redirect('/')->with('success', 'Your account has been deleted.');
+}
+
+
+
+
+
+
+
+
+
+
 }

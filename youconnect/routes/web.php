@@ -61,6 +61,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/profile/edit', 'edituser')->name('profiles.edit');
         Route::put('/profile/{user}', 'updateuser')->name('profiles.update');
         Route::get('/user/{user}/posts', 'showUserPosts')->name('profiles.Myposts');
+        Route::delete('/profile/delete', 'delete')->name('profile.delete');
+        Route::post('/profile/upload-story', [ProfileController::class, 'uploadStory'])->name('profile.upload-story');
     });
     Route::controller(PostController::class)->group(function () {
         Route::get('/posts/{post}/view', 'viewPost')->name('posts.view');

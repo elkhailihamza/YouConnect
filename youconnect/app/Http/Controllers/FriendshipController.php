@@ -27,9 +27,9 @@ class FriendshipController extends Controller
             'liker_id' => auth()->user()->id,
             'message' => $message,
         ]);
-            return response()->json(['success' => 'Demande d\'ami envoyée avec succès']);
+            return redirect()->back()->with('success','Demande d\'ami envoyée avec succès');
         } else {
-            return response()->json(['error' => 'User already sent a friend request!']);
+            return redirect()->back()->with('error', 'User already sent a friend request!');
         }
     }
 
@@ -84,19 +84,25 @@ class FriendshipController extends Controller
     public function showFriends()
 {
     $user = auth()->user();
-    $friends = User::where(function ($query) use ($user) {
-        $query->whereHas('friendships', function ($q) use ($user) {
-            $q->where('status_id', 2)
-              ->where('receiver_id', $user->id);
-        })
-        ->orWhereHas('friendships', function ($q) use ($user) {
-            $q->where('status_id', 2)
-              ->where('sender_id', $user->id);
-        });
-    })->where('id', '!=', $user->id)->get();
+    
+    $senderFriends = Friendship::where('status_id', 2)
+        ->where('sender_id', $user->id)
+        ->pluck('receiver_id');
+
+    $receiverFriends = Friendship::where('status_id', 2)
+        ->where('receiver_id', $user->id)
+        ->pluck('sender_id');
+
+    $friendIds = $senderFriends->merge($receiverFriends);
+
+    $friends = User::whereIn('id', $friendIds)
+        ->where('id', '!=', $user->id)
+        ->get();
 
     return view('profiles.friends', compact('friends'));
 }
+
+
     
 
 

@@ -1,3 +1,5 @@
+{{-- bars.blade.php --}}
+
 @if(!in_array(Route::currentRouteName(), ['login', 'register', 'main.posts']))
 <div class="shadow-md container-xl flex justify-between">
     {{--left-sidebar--}}
@@ -44,7 +46,7 @@
                                 <!-- Heroicon name: solid/bell -->
                         </button>
 
-                        <div x-show="open" @click.away="open = false" class="absolute top-full left-0 mt-2 w-full  bg-white dark:bg-gray-800 shadow-lg rounded-lg ring-1 ring-black ring-opacity-5 focus:outline-none z-10 overflow-y-auto">
+                        <div x-show="open" @click.away="open = false" class="absolute  h-[170px] mt-7 top-full left-0 mt-2 w-full max-h-60 bg-white dark:bg-gray-800 shadow-lg rounded-lg ring-1 ring-black ring-opacity-5 focus:outline-none z-10 overflow-y-auto">
                             <div class="py-1 overflow-y-auto">
                                 @if ($notifications->isNotEmpty())
                                 @foreach ($notifications as $notification)

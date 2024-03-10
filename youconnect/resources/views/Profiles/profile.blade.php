@@ -39,6 +39,8 @@
                         <path d="M1 6.13L16 6a2 2 0 0 1 2 2v15"></path>
                     </svg>{{ $user->posts->count() }} Posts</a>
             </div>
+            
+            
             <div>
                 <span class="likes-count items-center justify-center flex gap-2"><svg xmlns="http://www.w3.org/2000/svg"
                         width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -54,6 +56,11 @@
     @if ($user->id === Auth::id())
     <div class="mt-2 mb-18 max-h-screen w-full container-xl dark:text-white">
         <h1 class="text-2xl text-center font-semibold mb-5 dark:text-gray-300 text-blue-700">Edit Profile</h1>
+        <form action="{{ route('profile.delete') }}" method="post">
+            @csrf
+            @method('DELETE')
+            <button type="submit" onclick="return confirm('Are You sure you want delete Your account ?')" class="block text-center w-full px-4 py-2 text-sm text-left text-gray-700 dark:text-gray-300 bg-red-800 dark:bg-red-700 focus:outline-none">Delete Account</button>
+        </form>
         <form class="rounded shadow-md w-full bg-white dark:bg-[#242526]  dark:text-white p-8 " method="POST"
             action="{{ route('profiles.update', ['user' => $user]) }}" enctype="multipart/form-data">
             @csrf
@@ -105,6 +112,7 @@
                 <input id="avatar" type="file" class="form-input dark:text-white w-full border border-gray-600 rounded"
                     name="avatar">
             </div>
+            
 
             <div class="flex items-center justify-center mt-6">
                 <button type="submit"
@@ -112,6 +120,10 @@
                     Changes</button>
             </div>
         </form>
+       
+
+        
+        
     </div>
     @endif
 

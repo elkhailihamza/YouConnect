@@ -12,9 +12,9 @@ class AuthServiceTest extends TestCase
         $authService = new AuthService();
 
         $user = $authService->register([
-            'name' => 'John Doe',
-            'email' => 'john@example.com',
-            'password' => 'password123',
+            'name' => 'smiya lkniya',
+            'email' => 'wahdlemail.com',
+            'password' => 'lkod dyalk',
         ]);
 
         $this->assertNotNull($user);
